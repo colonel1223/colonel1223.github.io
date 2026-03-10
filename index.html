@@ -1,922 +1,1038 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style>
+  /* Linux accents — KDE circa 2002 — ENHANCED */
+
+  /* === GLOBAL TERMINAL FEEL === */
+  body::after { content: ''; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.008) 2px, rgba(0,255,65,0.008) 4px); pointer-events: none; z-index: 9999; }
+  ::selection { background: rgba(0,255,65,0.25) !important; color: #fff !important; }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #0a0a0a; border-left: 1px solid rgba(0,255,65,0.1); }
+  ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(0,255,65,0.2), rgba(0,255,65,0.08)); border-radius: 0; border: 1px solid rgba(0,255,65,0.15); }
+  ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, rgba(0,255,65,0.35), rgba(0,255,65,0.15)); }
+
+  /* === NAV === */
+  nav, nav * { font-family: "Courier New", monospace !important; }
+  nav a { letter-spacing: 2px !important; font-size: 11px !important; text-transform: uppercase !important; transition: text-shadow 0.3s, color 0.3s !important; }
+  nav a:hover { text-shadow: 0 0 8px rgba(0,255,65,0.4) !important; color: #00ff41 !important; }
+
+  /* === SECTION HEADERS === */
+  .sec-num { font-family: "Courier New", monospace !important; text-shadow: 0 0 12px rgba(0,255,65,0.35); color: #00ff41 !important; font-weight: bold !important; }
+  .sec-label { font-family: "Courier New", monospace !important; letter-spacing: 3px; text-transform: uppercase; color: #00cc44 !important; font-size: 10px !important; border-left: 3px solid #00ff41 !important; padding-left: 8px !important; }
+  .sec-title { font-family: "Courier New", monospace !important; letter-spacing: 3px; text-transform: uppercase; border-bottom: 1px solid rgba(0,255,65,0.2) !important; padding-bottom: 10px !important; text-shadow: 0 0 20px rgba(0,255,65,0.06) !important; }
+  .sec-desc { font-family: "Courier New", monospace !important; font-size: 12px !important; color: #6a8a6a !important; line-height: 1.8 !important; }
+
+  /* === HERO === */
+  h1 { text-shadow: 0 0 60px rgba(0,255,65,0.1), 0 0 120px rgba(0,255,65,0.03) !important; }
+
+  /* === BUTTONS === */
+  .btn { font-family: "Courier New", monospace !important; letter-spacing: 2px; border: 1px solid rgba(0,255,65,0.25) !important; text-transform: uppercase !important; font-size: 10px !important; transition: all 0.3s !important; }
+  .btn:hover { border-color: #00ff41 !important; text-shadow: 0 0 8px rgba(0,255,65,0.5); box-shadow: 0 0 15px rgba(0,255,65,0.1), inset 0 0 15px rgba(0,255,65,0.03) !important; color: #00ff41 !important; }
+
+  /* === DEMO CARDS === */
+  .demo { border: 1px solid rgba(0,255,65,0.1) !important; transition: all 0.3s !important; position: relative !important; }
+  .demo::before { content: '> '; color: #00ff41; font-family: "Courier New", monospace; opacity: 0; transition: opacity 0.3s; position: absolute; left: 8px; top: 8px; font-size: 10px; }
+  .demo:hover { border-color: rgba(0,255,65,0.35) !important; box-shadow: 0 0 20px rgba(0,255,65,0.08), inset 0 0 40px rgba(0,255,65,0.02) !important; background: rgba(0,255,65,0.02) !important; }
+  .demo:hover::before { opacity: 1; }
+  .demo h4 { font-family: "Courier New", monospace !important; letter-spacing: 1.5px; }
+  .demo span { font-family: "Courier New", monospace !important; font-size: 10px !important; letter-spacing: 0.5px; }
+  .demo.feat { border-left: 3px solid #00ff41 !important; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 2px 0 rgba(0,0,0,0.4) !important; }
+  .demo.feat:hover { box-shadow: 0 0 25px rgba(0,255,65,0.12), inset 0 0 50px rgba(0,255,65,0.03) !important; border-color: #00ff41 !important; }
+
+  /* === PROJECT CARDS === */
+  .card { border: 1px solid rgba(0,255,65,0.08) !important; transition: all 0.3s !important; }
+  .card:hover { border-color: rgba(0,255,65,0.3) !important; box-shadow: 0 0 30px rgba(0,255,65,0.08) !important; background: rgba(0,255,65,0.015) !important; }
+  .card h3 { font-family: "Courier New", monospace !important; letter-spacing: 1.5px; }
+  .card p { font-size: 12px !important; }
+
+  /* === TAGS === */
+  .tag { font-family: "Courier New", monospace !important; letter-spacing: 2px; border: 1px solid rgba(0,255,65,0.2) !important; font-size: 9px !important; }
+
+  /* === FOOTER / SECTION BORDERS === */
+  section { border-bottom: 1px solid rgba(0,255,65,0.04) !important; }
+  footer, .footer { font-family: "Courier New", monospace !important; }
+
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mr. Stix Agent — Desktop</title>
-<meta name="description" content="Mr. Stix — Autonomous AI Agent by Spencer K Cottrell. Simple. Relentless. Efficient.">
+<title>Spencer Kitaro Cottrell — AI Safety Research</title>
+<meta name="description" content="AI safety researcher. Distribution-free uncertainty quantification, alignment economics, information-theoretic impossibility bounds. Conformal prediction, heavy-tailed statistics, scaling laws. Python, C, PyTorch, WebGL.">
+<meta name="keywords" content="AI safety, conformal prediction, alignment tax, hallucination impossibility, uncertainty quantification, LLM research, machine learning, information theory, heavy-tailed statistics, scaling laws, RLHF, DPO, constitutional AI, mesa-optimization, WebGL">
+<meta property="og:title" content="Spencer Kitaro Cottrell — AI Safety Research">
+<meta property="og:description" content="Distribution-free uncertainty quantification. Alignment economics. Information-theoretic impossibility bounds.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://colonel1223.net">
+<link rel="canonical" href="https://colonel1223.net">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Spencer Kitaro Cottrell",
+  "url": "https://colonel1223.net",
+  "sameAs": [
+    "https://github.com/colonel1223",
+    "https://linkedin.com/in/spencercottrell"
+  ],
+  "jobTitle": "AI Safety Researcher",
+  "knowsAbout": [
+    "Conformal Prediction", "Uncertainty Quantification", "AI Alignment",
+    "Information Theory", "Heavy-Tailed Statistics", "Scaling Laws",
+    "RLHF", "DPO", "Constitutional AI", "Mesa-Optimization",
+    "Extreme Value Theory", "Power-Law Analysis", "WebGL"
+  ],
+  "alumniOf": { "@type": "Organization", "name": "Independent Research" },
+  "description": "AI safety researcher specializing in distribution-free uncertainty quantification, alignment economics, and information-theoretic impossibility bounds for LLM hallucination."
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+JP:wght@400;700&display=swap');
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--win-bg:#c0c0c0;--win-title:#000080;--border-lt:#fff;--border-dk:#404040;--desk-bg:#3a6a5c;--text:#000;--link:#0000cc;--sel:#000080}
-html,body{height:100%;overflow:hidden}
-body{background:var(--desk-bg);font-family:'IBM Plex Mono','Courier New',monospace;font-size:12px;color:var(--text);cursor:default;user-select:none}
-body.jp{font-family:'Noto Sans JP','IBM Plex Mono',sans-serif}
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 1px,rgba(0,0,0,.02) 1px,rgba(0,0,0,.02) 2px),repeating-linear-gradient(90deg,transparent,transparent 1px,rgba(0,0,0,.02) 1px,rgba(0,0,0,.02) 2px);pointer-events:none;z-index:0}
-.window{position:absolute;background:var(--win-bg);border:2px solid;border-color:var(--border-lt) var(--border-dk) var(--border-dk) var(--border-lt);box-shadow:2px 2px 0 rgba(0,0,0,.3);z-index:10}
-.window-title{background:linear-gradient(90deg,var(--win-title),#1084d0);color:#fff;padding:3px 4px;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:space-between;letter-spacing:.5px}
-.window-title-text{display:flex;align-items:center;gap:6px}
-.window-buttons{display:flex;gap:2px}
-.win-btn{width:16px;height:14px;background:var(--win-bg);border:1px solid;border-color:var(--border-lt) var(--border-dk) var(--border-dk) var(--border-lt);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#000;cursor:pointer;font-family:'IBM Plex Mono',monospace;line-height:1}
-.win-btn:active{border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk)}
-.window-menu{background:var(--win-bg);padding:2px 0;border-bottom:1px solid var(--border-dk);display:flex}
-.menu-item{padding:2px 8px;font-size:11px;cursor:pointer}
-.menu-item:hover{background:var(--sel);color:#fff}
-.window-statusbar{background:var(--win-bg);padding:2px 6px;font-size:10px;border-top:1px solid var(--border-dk);display:flex;gap:8px;color:#444}
-.statusbar-section{border:1px solid;border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk);padding:1px 6px;flex:1}
-.main-window{top:30px;left:30px;width:620px}
-.main-window .window-body{background:#fff;border:2px solid;border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk);margin:4px;padding:16px 20px;font-size:12px;line-height:1.8;max-height:400px;overflow-y:auto}
-.main-window h1{font-family:'VT323',monospace;font-size:36px;letter-spacing:2px;margin-bottom:4px}
-.main-window h2{font-family:'VT323',monospace;font-size:22px;margin:16px 0 8px;padding-bottom:4px;border-bottom:1px dashed #aaa}
-.main-window p{margin-bottom:8px;color:#222}
-.main-window a{color:var(--link);text-decoration:underline}
-.main-window code{background:#e8e8e8;padding:1px 4px;font-family:'IBM Plex Mono',monospace;font-size:11px;border:1px solid #ccc}
-.tag{display:inline-block;background:#000080;color:#fff;padding:1px 6px;font-size:10px;font-family:'VT323',monospace;letter-spacing:1px;margin-right:4px}
-.feature-table{width:100%;border-collapse:collapse;margin:8px 0 14px;font-size:11px}
-.feature-table th{background:#000080;color:#fff;text-align:left;padding:4px 8px;font-weight:600;font-size:11px}
-.feature-table td{padding:4px 8px;border-bottom:1px solid #ddd;vertical-align:top}
-.feature-table tr:nth-child(even) td{background:#f0f0f0}
-.terminal-window{top:60px;right:40px;width:380px}
-.terminal-window .window-title{background:linear-gradient(90deg,#2a2a2a,#444)}
-.terminal-body{background:#1a1a2e;color:#00ff41;font-family:'VT323',monospace;font-size:15px;padding:10px 12px;margin:4px;border:2px solid;border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk);min-height:200px;line-height:1.5;letter-spacing:.5px;overflow:hidden}
-.terminal-body .prompt{color:#00aaff}.terminal-body .output{color:#00ff41}.terminal-body .comment{color:#666}.terminal-body .success{color:#44ff44}.terminal-body .dim{color:#445566}
-.cursor-blink{display:inline-block;width:8px;height:14px;background:#00ff41;animation:blink 1s step-end infinite;vertical-align:middle;margin-left:2px}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-
-/* ─── PLAYGROUND WINDOW ─── */
-.playground-window{bottom:60px;left:30px;width:460px;z-index:12;display:none}
-.playground-window.visible{display:block}
-.pg-body{margin:4px;display:flex;flex-direction:column;gap:0}
-.pg-output{background:#0a0a1a;color:#00ff41;font-family:'VT323',monospace;font-size:14px;padding:8px 10px;border:2px solid;border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk);height:160px;overflow-y:auto;line-height:1.5;letter-spacing:.3px}
-.pg-output .thought{color:#88ccff}.pg-output .tool{color:#cc88ff}.pg-output .result{color:#44ff44}.pg-output .plan{color:#ffcc44}.pg-output .err{color:#ff4444}
-.pg-input-row{display:flex;gap:0}
-.pg-input{flex:1;background:#e8e8e8;border:2px solid;border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk);padding:4px 8px;font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none}
-.pg-send{background:var(--win-bg);border:2px solid;border-color:var(--border-lt) var(--border-dk) var(--border-dk) var(--border-lt);padding:4px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;cursor:pointer}
-.pg-send:active{border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk)}
-.pg-presets{display:flex;gap:4px;padding:4px;background:var(--win-bg)}
-.pg-preset{background:#e0e0e0;border:1px solid;border-color:var(--border-lt) var(--border-dk) var(--border-dk) var(--border-lt);padding:2px 6px;font-size:9px;cursor:pointer;font-family:'IBM Plex Mono',monospace}
-.pg-preset:hover{background:#d0d0e8}
-
-/* ─── WALKING MR. STIX (DRAGGABLE) ─── */
-.walking-stix{position:fixed;z-index:40;cursor:grab;width:80px;height:120px;transition:none}
-.walking-stix.dragging{cursor:grabbing}
-.walking-stix .ws-head{width:32px;height:38px;background:radial-gradient(ellipse at 40% 35%,#e8e0d4,#c8bca8);border:2px solid #222;border-radius:50%;position:absolute;top:0;left:50%;transform:translateX(-50%);box-shadow:inset 3px -3px 5px rgba(0,0,0,.15),1px 2px 0 rgba(0,0,0,.2);z-index:3}
-.walking-stix .ws-eye-l,.walking-stix .ws-eye-r{position:absolute;width:6px;height:4px;background:#fff;border:1.5px solid #111;border-radius:50%;top:14px;z-index:4}
-.walking-stix .ws-eye-l{left:8px}.walking-stix .ws-eye-r{left:18px}
-.walking-stix .ws-pupil-l,.walking-stix .ws-pupil-r{position:absolute;width:3px;height:3px;background:#111;border-radius:50%;top:14px;z-index:5}
-.walking-stix .ws-pupil-l{left:10px}.walking-stix .ws-pupil-r{left:20px}
-.walking-stix .ws-mouth{position:absolute;width:12px;height:5px;border-bottom:2px solid #333;border-radius:0 0 50% 30%;top:23px;left:10px;z-index:5}
-.walking-stix .ws-torso{position:absolute;width:3px;height:28px;background:#222;top:36px;left:50%;transform:translateX(-50%);border-radius:1px;z-index:2}
-.walking-stix .ws-arm-l,.walking-stix .ws-arm-r{position:absolute;width:22px;height:3px;background:#222;top:42px;border-radius:1px;z-index:2}
-.walking-stix .ws-arm-l{right:50%;transform-origin:right center;animation:wArmL 0.8s ease-in-out infinite}
-.walking-stix .ws-arm-r{left:50%;transform-origin:left center;animation:wArmR 0.8s ease-in-out infinite}
-@keyframes wArmL{0%,100%{transform:rotate(-20deg)}50%{transform:rotate(20deg)}}
-@keyframes wArmR{0%,100%{transform:rotate(20deg)}50%{transform:rotate(-20deg)}}
-.walking-stix .ws-leg-l,.walking-stix .ws-leg-r{position:absolute;width:3px;height:28px;background:#222;top:63px;border-radius:1px;z-index:2}
-.walking-stix .ws-leg-l{left:50%;margin-left:-6px;transform-origin:top center;animation:wLegL 0.8s ease-in-out infinite}
-.walking-stix .ws-leg-r{left:50%;margin-left:3px;transform-origin:top center;animation:wLegR 0.8s ease-in-out infinite}
-@keyframes wLegL{0%,100%{transform:rotate(12deg)}50%{transform:rotate(-12deg)}}
-@keyframes wLegR{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}}
-.walking-stix .ws-shoe-l,.walking-stix .ws-shoe-r{position:absolute;width:10px;height:5px;background:#111;border-radius:5px 6px 2px 2px;top:90px;z-index:3}
-.walking-stix .ws-shoe-l{left:24px}.walking-stix .ws-shoe-r{right:24px}
-/* Walking stix tooltip bubble */
-.ws-bubble{position:absolute;top:-30px;left:50%;transform:translateX(-50%);background:#ffffee;border:2px solid #444;border-radius:8px;padding:3px 8px;font-family:'VT323',monospace;font-size:12px;color:#000;white-space:nowrap;box-shadow:2px 2px 0 rgba(0,0,0,.2);opacity:0;transition:opacity .3s;pointer-events:none}
-.walking-stix:hover .ws-bubble{opacity:1}
-.ws-bubble::after{content:'';position:absolute;bottom:-6px;left:50%;margin-left:-4px;border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid #444}
-
-/* ─── CHARACTER WINDOW ─── */
-.char-window{bottom:80px;right:50px;width:260px;z-index:15}
-.char-canvas-wrap{background:#e8e8e8;border:2px solid;border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk);margin:4px;display:flex;flex-direction:column;align-items:center;padding:10px;position:relative;min-height:280px}
-.stix-char{width:140px;height:200px;position:relative;animation:stixBob 1.8s ease-in-out infinite;image-rendering:pixelated}
-@keyframes stixBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-.stix-head{width:58px;height:68px;background:radial-gradient(ellipse at 40% 35%,#e8e0d4,#c8bca8);border:2.5px solid #222;border-radius:50%;position:absolute;top:0;left:50%;transform:translateX(-50%);box-shadow:inset 4px -4px 8px rgba(0,0,0,.15),inset -2px 2px 4px rgba(255,255,255,.3),2px 3px 0 rgba(0,0,0,.2);z-index:3}
-.stix-eye-l,.stix-eye-r{position:absolute;width:10px;height:7px;background:#fff;border:2px solid #111;border-radius:50%;top:24px;z-index:4}.stix-eye-l{left:14px}.stix-eye-r{left:33px}
-.stix-pupil-l,.stix-pupil-r{position:absolute;width:5px;height:5px;background:#111;border-radius:50%;top:25px;z-index:5;animation:eyeLook 4s ease-in-out infinite}.stix-pupil-l{left:17px}.stix-pupil-r{left:37px}
-@keyframes eyeLook{0%,40%{transform:translateX(0)}50%,60%{transform:translateX(2px)}70%,100%{transform:translateX(0)}}
-.stix-brow-l,.stix-brow-r{position:absolute;width:12px;height:0;border-top:2.5px solid #333;top:19px;z-index:5}.stix-brow-l{left:13px;transform:rotate(-8deg)}.stix-brow-r{left:34px;transform:rotate(5deg);top:17px}
-.stix-mouth{position:absolute;width:20px;height:8px;border-bottom:2.5px solid #333;border-radius:0 0 50% 30%;top:40px;left:19px;z-index:5;transform:rotate(2deg)}
-.stix-nose{position:absolute;width:4px;height:6px;background:#baa892;border:1.5px solid #999;border-radius:50%;top:32px;left:27px;z-index:5}
-.stix-torso{position:absolute;width:4px;height:50px;background:linear-gradient(180deg,#222,#111);top:65px;left:50%;transform:translateX(-50%);border-radius:2px;z-index:2}
-.stix-arm-l,.stix-arm-r{position:absolute;width:38px;height:4px;background:linear-gradient(90deg,#222,#111);top:75px;border-radius:2px;z-index:2}
-.stix-arm-l{right:50%;transform-origin:right center;animation:armL 1.8s ease-in-out infinite}.stix-arm-r{left:50%;transform-origin:left center;animation:armR 1.8s ease-in-out infinite}
-@keyframes armL{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}}@keyframes armR{0%,100%{transform:rotate(12deg)}50%{transform:rotate(-12deg)}}
-.stix-hand-l,.stix-hand-r{position:absolute;width:10px;height:10px;background:radial-gradient(circle at 40% 35%,#e0d8cc,#c0b49c);border:2px solid #333;border-radius:50%;top:86px;z-index:3}
-.stix-hand-l{left:18px;animation:handBobL 1.8s ease-in-out infinite}.stix-hand-r{right:18px;animation:handBobR 1.8s ease-in-out infinite}
-@keyframes handBobL{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-8px) rotate(5deg)}}@keyframes handBobR{0%,100%{transform:translateY(-8px) rotate(5deg)}50%{transform:translateY(0) rotate(-5deg)}}
-.stix-leg-l,.stix-leg-r{position:absolute;width:4px;height:44px;background:linear-gradient(180deg,#222,#111);top:113px;border-radius:2px;z-index:2}
-.stix-leg-l{left:50%;margin-left:-10px;transform-origin:top center;animation:legL 1.8s ease-in-out infinite}.stix-leg-r{left:50%;margin-left:6px;transform-origin:top center;animation:legR 1.8s ease-in-out infinite}
-@keyframes legL{0%,100%{transform:rotate(8deg)}50%{transform:rotate(-8deg)}}@keyframes legR{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
-.stix-shoe-l,.stix-shoe-r{position:absolute;width:16px;height:8px;background:#111;border:2px solid #000;border-radius:8px 10px 4px 4px;top:156px;z-index:3}
-.stix-shoe-l{left:42px;animation:shoeL 1.8s ease-in-out infinite}.stix-shoe-r{right:42px;animation:shoeR 1.8s ease-in-out infinite}
-@keyframes shoeL{0%,100%{transform:translateX(2px)}50%{transform:translateX(-2px)}}@keyframes shoeR{0%,100%{transform:translateX(-2px)}50%{transform:translateX(2px)}}
-.bonzi-bubble{position:relative;background:linear-gradient(180deg,#ffffee,#f5f0d8);border:2px solid #444;border-radius:12px;padding:8px 12px;font-family:'VT323',monospace;font-size:14px;color:#111;margin-top:8px;width:220px;min-height:36px;box-shadow:3px 3px 0 rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.8);text-align:center;line-height:1.4;letter-spacing:.3px}
-body.jp .bonzi-bubble{font-family:'Noto Sans JP',sans-serif;font-size:12px}
-.bonzi-bubble::before{content:'';position:absolute;top:-10px;left:50%;margin-left:-6px;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:10px solid #444}
-.bonzi-bubble::after{content:'';position:absolute;top:-7px;left:50%;margin-left:-5px;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:8px solid #ffffee}
-.typing-indicator::after{content:'...';animation:dots 1.5s steps(4,end) infinite}
-@keyframes dots{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
-
-.desktop-icons{position:absolute;top:20px;right:20px;display:flex;flex-direction:column;gap:20px;z-index:5}
-.desktop-icon{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;width:70px;padding:4px;border:1px solid transparent;border-radius:2px;text-decoration:none}
-.desktop-icon:hover{background:rgba(255,255,255,.15);border:1px dotted rgba(255,255,255,.4)}
-.icon-img{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:24px}
-.icon-label{font-size:10px;color:#fff;text-shadow:1px 1px 2px rgba(0,0,0,.8);text-align:center;line-height:1.2}
-.taskbar{position:fixed;bottom:0;left:0;right:0;height:34px;background:var(--win-bg);border-top:2px solid;border-color:var(--border-lt) var(--border-dk) var(--border-dk) var(--border-lt);display:flex;align-items:center;padding:2px 4px;z-index:50;gap:4px}
-.start-btn{background:var(--win-bg);border:2px solid;border-color:var(--border-lt) var(--border-dk) var(--border-dk) var(--border-lt);padding:2px 10px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;height:26px}
-.start-btn:active{border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk)}
-.taskbar-sep{width:2px;height:24px;border-left:1px solid var(--border-dk);border-right:1px solid var(--border-lt);margin:0 2px}
-.taskbar-item{background:var(--win-bg);border:2px solid;border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk);padding:2px 8px;font-size:10px;height:26px;display:flex;align-items:center;gap:4px;min-width:80px;cursor:pointer}
-.taskbar-tray{margin-left:auto;border:2px solid;border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk);padding:2px 8px;height:26px;display:flex;align-items:center;gap:8px;font-size:11px}
-.lang-toggle{background:var(--win-bg);border:2px solid;border-color:var(--border-lt) var(--border-dk) var(--border-dk) var(--border-lt);padding:1px 6px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;cursor:pointer;height:22px;display:flex;align-items:center;gap:3px;color:#000}
-.lang-toggle:active{border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk)}
-.lang-toggle .active-lang{color:#000080;font-weight:700}
-.credit-bar{background:#d4d0c8;border:2px solid;border-color:var(--border-lt) var(--border-dk) var(--border-dk) var(--border-lt);padding:6px 12px;font-size:10px;color:#333;display:flex;justify-content:space-between;align-items:center;font-family:'IBM Plex Mono',monospace;margin:4px;margin-top:0}
-.credit-bar a{color:var(--link);text-decoration:underline;font-weight:600}
-/* Hit counter */
-.hit-counter{display:flex;align-items:center;gap:4px;font-family:'VT323',monospace;font-size:13px;color:#000}
-.hit-counter .counter-digits{background:#000;color:#0f0;padding:1px 4px;font-size:12px;letter-spacing:2px;border:1px inset #888}
-.term-line{opacity:0;animation:termReveal .1s forwards}
-.term-line:nth-child(1){animation-delay:.5s}.term-line:nth-child(2){animation-delay:1.2s}.term-line:nth-child(3){animation-delay:1.6s}.term-line:nth-child(4){animation-delay:2.5s}.term-line:nth-child(5){animation-delay:3s}.term-line:nth-child(6){animation-delay:3.4s}.term-line:nth-child(7){animation-delay:4s}.term-line:nth-child(8){animation-delay:4.4s}.term-line:nth-child(9){animation-delay:5s}.term-line:nth-child(10){animation-delay:5.3s}.term-line:nth-child(11){animation-delay:5.6s}.term-line:nth-child(12){animation-delay:6.2s}.term-line:nth-child(13){animation-delay:6.8s}.term-line:nth-child(14){animation-delay:7.5s}.term-line:nth-child(15){animation-delay:8s}
-@keyframes termReveal{to{opacity:1}}
-.main-window .window-body::-webkit-scrollbar{width:16px}
-.main-window .window-body::-webkit-scrollbar-track{background:#c0c0c0;border:1px solid;border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk)}
-.main-window .window-body::-webkit-scrollbar-thumb{background:var(--win-bg);border:2px solid;border-color:var(--border-lt) var(--border-dk) var(--border-dk) var(--border-lt)}
-@media(max-width:900px){
-html,body{height:auto!important;overflow-y:auto!important;overflow-x:hidden!important}
-body{padding-bottom:44px}
-.desktop-icons{display:none}
-.window{position:relative!important;top:auto!important;left:auto!important;right:auto!important;bottom:auto!important;width:calc(100% - 10px)!important;margin:5px auto!important;box-shadow:2px 2px 0 rgba(0,0,0,.3)!important}
-.main-window{order:1}
-.main-window .window-body{max-height:none!important}
-.terminal-window{order:2}
-.terminal-body{min-height:140px!important}
-.playground-window{order:3;display:block!important}
-.playground-window.visible{display:block!important}
-.pg-output{height:120px!important}
-.char-window{order:4;width:calc(100% - 10px)!important}
-.char-canvas-wrap{min-height:240px!important}
-.walking-stix{position:relative!important;left:auto!important;top:auto!important;bottom:auto!important;margin:10px auto!important;display:block!important;order:0}
-.ws-bubble{opacity:1!important;font-size:11px}
-.bonzi-bubble{width:calc(100% - 20px)!important}
-.taskbar{height:40px}
-.taskbar-item{min-width:60px!important;font-size:9px!important;padding:2px 5px!important}
-.start-btn{font-size:11px;padding:2px 8px}
-.hit-counter .counter-digits{font-size:10px}
-.credit-bar{flex-direction:column;gap:4px;text-align:center;font-size:9px}
-.pg-presets{flex-wrap:wrap}
-.feature-table{font-size:10px}
-.feature-table th,.feature-table td{padding:3px 5px}
+/* ════════════════════════════════════════════════════════
+   ROOT SYSTEM
+   ════════════════════════════════════════════════════════ */
+:root {
+  --bg: #06060a; --bg2: #0a0a0f; --bg3: #0e0e14; --bg4: #08080d;
+  --border: #151518; --border2: #1c1c22; --border3: #252530;
+  --dim: #32323e; --mid: #4a4a5e; --muted: #6e6e86;
+  --text: #9494aa; --bright: #c8c8d8; --white: #e8e8f0;
+  --accent: #b83820; --accent2: #d05838; --accent3: #e87858;
+  --accent-dim: rgba(184,56,32,.10); --accent-glow: rgba(184,56,32,.04);
+  --accent-border: rgba(184,56,32,.25);
+  --green: #3a7a58; --green-dim: rgba(58,122,88,.08);
+  --gold: #8a7038; --gold-dim: rgba(138,112,56,.08);
+  --blue: #3a5a7a; --blue-dim: rgba(58,90,122,.08);
+  --violet: #5a3a7a; --violet-dim: rgba(90,58,122,.08);
+  --mono: 'IBM Plex Mono', 'Menlo', 'Consolas', monospace;
+  --serif: 'Cormorant Garamond', 'Georgia', serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text); font-family: var(--mono);
+  line-height: 1.7; -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; position: relative;
 }
 
-/* ─── CHAT WINDOW ─── */
-.chat-window{bottom:60px;left:280px;width:340px;z-index:16;display:none}
-.chat-window.visible{display:block}
-.chat-body{margin:4px;display:flex;flex-direction:column}
-.chat-messages{background:#1a1a1a;border:2px solid;border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk);height:240px;overflow-y:auto;padding:8px;font-family:'VT323',monospace;font-size:13px;line-height:1.5}
-.chat-msg{margin-bottom:8px;padding:4px 6px;border-radius:2px}
-.chat-msg.stix{color:#00ff41;border-left:2px solid #00ff41;padding-left:8px}
-.chat-msg.user{color:#00aaff;border-left:2px solid #00aaff;padding-left:8px}
-.chat-msg .sender{font-weight:bold;font-size:11px;margin-bottom:2px;display:block}
-.chat-msg.stix .sender{color:#00cc33}
-.chat-msg.user .sender{color:#0088dd}
-.chat-typing{color:#00ff41;font-style:italic;font-size:12px;padding:4px 6px;opacity:0.7}
-.chat-input-row{display:flex}
-.chat-input{flex:1;background:#0a0a0a;color:#00ff41;border:2px solid;border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk);padding:6px 8px;font-family:'VT323',monospace;font-size:14px;outline:none}
-.chat-input::placeholder{color:#335533}
-body.jp .chat-input::placeholder{font-family:'Noto Sans JP',sans-serif;font-size:12px}
-.chat-send{background:var(--win-bg);border:2px solid;border-color:var(--border-lt) var(--border-dk) var(--border-dk) var(--border-lt);padding:6px 12px;font-family:'VT323',monospace;font-size:13px;cursor:pointer;color:#000}
-.chat-send:active{border-color:var(--border-dk) var(--border-lt) var(--border-lt) var(--border-dk)}
-.chat-messages::-webkit-scrollbar{width:10px}
-.chat-messages::-webkit-scrollbar-track{background:#0a0a0a}
-.chat-messages::-webkit-scrollbar-thumb{background:#1a3a1a;border:1px solid #0a0a0a}
-@media(max-width:900px){.chat-window{position:relative;left:auto;bottom:auto;width:calc(100% - 10px);margin:5px auto;order:5}.chat-window.visible{display:block}}
+/* ════════ Grain + Grid ════════ */
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: .02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+a { color: inherit; text-decoration: none; }
+::selection { background: rgba(184,56,32,.25); color: var(--white); }
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 28px; }
+
+/* ════════ Constellation Canvas ════════ */
+#constellation {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0;
+  transition: opacity 2s ease;
+}
+#constellation.active { opacity: 1; }
+
+/* ════════ Scroll Reveal ════════ */
+.rv { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
+.rv.vis { opacity: 1; transform: translateY(0); }
+.rv-d1 { transition-delay: .1s; }
+.rv-d2 { transition-delay: .2s; }
+.rv-d3 { transition-delay: .3s; }
+
+/* ════════ Navigation ════════ */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(6,6,10,.92); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 820px; margin: 0 auto; padding: 0 28px;
+  display: flex; align-items: center; justify-content: space-between; height: 46px;
+}
+.nav-name {
+  font-size: 10px; font-weight: 600; letter-spacing: .16em; color: var(--dim);
+  position: relative;
+}
+.nav-name::after {
+  content: ''; position: absolute; bottom: -2px; left: 0; width: 100%;
+  height: 1px; background: var(--accent); opacity: .3;
+}
+.nav-links { display: flex; gap: 2px; }
+.nav-links a {
+  font-size: 9.5px; letter-spacing: .1em; color: var(--dim); padding: 6px 8px;
+  transition: color .25s; position: relative;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--accent2); }
+
+/* ════════ HERO — The Grand Reveal ════════ */
+.hero {
+  padding: 100px 0 60px; border-bottom: 1px solid var(--border);
+  position: relative; z-index: 1;
+}
+.hero-epigraph {
+  font-family: var(--serif); font-size: 13px; font-style: italic;
+  color: var(--dim); margin-bottom: 36px; line-height: 1.9;
+  max-width: 480px; opacity: 0; animation: fade-in 1.2s ease .3s forwards;
+}
+.hero-epigraph cite { font-size: 11px; font-style: normal; color: var(--dim); opacity: .6; }
+
+@keyframes fade-in { from { opacity:0; } to { opacity:1; } }
+@keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+
+.hero h1 {
+  font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 500; color: var(--white); line-height: 1.08; margin-bottom: 10px;
+  letter-spacing: .005em; opacity: 0; animation: rise .9s ease .6s forwards;
+}
+.hero h1 em {
+  font-style: italic; color: var(--accent2); font-weight: 400;
+  text-shadow: 0 0 40px rgba(184,56,32,.08);
+}
+.hero-sub {
+  font-size: 9px; letter-spacing: .22em; color: var(--dim); margin-bottom: 30px;
+  opacity: 0; animation: rise .8s ease .8s forwards;
+}
+
+/* Terminal-style research statement */
+.hero-terminal {
+  background: rgba(0,0,0,.5); border: 1px solid var(--border2);
+  padding: 20px 22px; margin-bottom: 28px; position: relative;
+  opacity: 0; animation: rise .8s ease 1s forwards;
+}
+.hero-terminal::before {
+  content: 'research_thesis.py'; position: absolute; top: -10px; left: 14px;
+  font-size: 8px; letter-spacing: .1em; color: var(--dim);
+  background: var(--bg); padding: 2px 8px;
+}
+.terminal-line {
+  font-size: 11.5px; color: var(--text); line-height: 2; display: block;
+}
+.terminal-line .comment { color: var(--dim); }
+.terminal-line .kw { color: var(--accent2); }
+.terminal-line .str { color: var(--green); }
+.terminal-line .fn { color: var(--blue); }
+.terminal-line .num { color: var(--gold); }
+.terminal-line .op { color: var(--mid); }
+
+.hero-text {
+  font-family: var(--serif); font-size: 15.5px; color: var(--muted);
+  line-height: 2; max-width: 600px; margin-bottom: 32px;
+  opacity: 0; animation: rise .8s ease 1.2s forwards;
+}
+
+.hero-links {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  opacity: 0; animation: rise .8s ease 1.4s forwards;
+}
+.btn {
+  font-family: var(--mono); font-size: 9px; letter-spacing: .12em;
+  padding: 9px 18px; border: 1px solid; transition: all .3s; display: inline-block;
+  position: relative; overflow: hidden;
+}
+.btn::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,.02) 100%);
+}
+.btn-a { border-color: var(--accent-border); color: var(--accent2); }
+.btn-a:hover { border-color: var(--accent); background: var(--accent-dim); box-shadow: 0 0 20px var(--accent-glow); }
+.btn-d { border-color: var(--border2); color: var(--mid); }
+.btn-d:hover { border-color: var(--dim); color: var(--text); }
+
+/* ════════ Sections ════════ */
+section { padding: 60px 0; border-bottom: 1px solid var(--border); position: relative; z-index: 1; }
+.sec-num {
+  font-size: 42px; font-family: var(--serif); font-weight: 300;
+  color: var(--border2); position: absolute; right: 0; top: 52px;
+  letter-spacing: -.02em; user-select: none;
+}
+.sec-label { font-size: 8px; letter-spacing: .35em; color: var(--dim); margin-bottom: 6px; }
+.sec-title {
+  font-family: var(--serif); font-size: 1.6rem; font-weight: 500;
+  color: var(--bright); margin-bottom: 8px; letter-spacing: .01em;
+}
+.sec-desc {
+  font-family: var(--serif); font-size: 13px; color: var(--muted);
+  font-style: italic; line-height: 1.9; max-width: 540px; margin-bottom: 32px;
+}
+
+/* ════════ Research Ecosystem Map ════════ */
+.ecosystem {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--border); margin-bottom: 32px;
+  border: 1px solid var(--border);
+}
+.eco-node {
+  background: var(--bg2); padding: 18px 20px;
+  transition: background .3s; position: relative; cursor: default;
+}
+.eco-node:hover { background: var(--bg3); }
+.eco-node h4 {
+  font-size: 10px; font-weight: 500; letter-spacing: .08em;
+  color: var(--bright); margin-bottom: 4px;
+}
+.eco-node p { font-size: 9.5px; color: var(--dim); line-height: 1.6; }
+.eco-node .eco-tag {
+  font-size: 7px; letter-spacing: .15em; color: var(--accent2);
+  position: absolute; top: 10px; right: 12px; opacity: .5;
+}
+.eco-arrow {
+  grid-column: 1 / -1; background: var(--bg); text-align: center;
+  padding: 6px; font-size: 8px; color: var(--dim); letter-spacing: .2em;
+}
+
+/* ════════ Project Cards ════════ */
+.card {
+  display: block; padding: 24px 26px; background: var(--bg2);
+  border: 1px solid var(--border); margin-bottom: 12px;
+  transition: border-color .3s, background .3s, transform .3s;
+  position: relative;
+}
+.card:hover { border-color: var(--border3); background: var(--bg3); transform: translateX(3px); }
+.card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+.card h3 { font-size: 14px; font-weight: 500; color: var(--bright); letter-spacing: .04em; }
+.tag {
+  font-size: 7px; letter-spacing: .14em; padding: 2px 7px;
+  border: 1px solid; line-height: 1.6; text-transform: uppercase;
+}
+.tag-a { border-color: rgba(184,56,32,.3); color: var(--accent2); }
+.tag-g { border-color: rgba(58,122,88,.3); color: var(--green); }
+.tag-d { border-color: var(--border2); color: var(--dim); }
+.tag-o { border-color: rgba(138,112,56,.3); color: var(--gold); }
+.tag-b { border-color: rgba(58,90,122,.3); color: var(--blue); }
+.tag-v { border-color: rgba(90,58,122,.3); color: var(--violet); }
+
+.card p {
+  font-family: var(--serif); font-size: 13px; color: var(--muted);
+  line-height: 1.9; margin-bottom: 12px;
+}
+.card-math {
+  font-size: 10px; color: var(--mid); padding: 10px 14px;
+  background: rgba(0,0,0,.45); border-left: 2px solid var(--accent-dim);
+  margin-bottom: 12px; line-height: 1.75; font-style: italic;
+}
+.card-math .sym { color: var(--accent2); font-style: normal; }
+.card-tech {
+  font-size: 9.5px; color: var(--dim); margin-bottom: 10px;
+  padding: 7px 12px; background: rgba(0,0,0,.3); border-left: 2px solid var(--border);
+}
+.card-metrics {
+  display: flex; gap: 18px; font-size: 8.5px; color: var(--dim);
+  letter-spacing: .04em; margin-bottom: 10px; flex-wrap: wrap;
+}
+.card-metrics span { display: flex; align-items: center; gap: 4px; }
+.card-metrics .v { color: var(--text); font-weight: 500; }
+.card-links { display: flex; gap: 16px; font-size: 9.5px; }
+.card-links a {
+  color: var(--mid); border-bottom: 1px dotted var(--border3); padding-bottom: 1px;
+  transition: color .25s, border-color .25s;
+}
+.card-links a:hover { color: var(--accent2); border-color: var(--accent2); }
+
+/* ════════ Approach Items ════════ */
+.approach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.approach-item {
+  padding: 16px 20px; background: var(--bg2);
+  border: 1px solid var(--border); border-left: 2px solid var(--border2);
+  transition: border-color .3s, background .3s;
+}
+.approach-item:hover { border-left-color: var(--accent-border); background: var(--bg3); }
+.approach-item h4 {
+  font-size: 10px; font-weight: 500; color: var(--bright);
+  letter-spacing: .06em; margin-bottom: 5px;
+}
+.approach-item p {
+  font-family: var(--serif); font-size: 12px; color: var(--muted);
+  line-height: 1.85; font-style: italic;
+}
+
+/* ════════ Paper Cards ════════ */
+.paper-card {
+  display: block; padding: 22px 24px; border-bottom: 1px solid var(--border);
+  transition: padding-left .25s, background .25s;
+}
+.paper-card:hover { padding-left: 10px; background: rgba(10,10,15,.6); }
+.paper-card:last-child { border: none; }
+.paper-card h3 {
+  font-family: var(--serif); font-size: 15.5px; font-weight: 600;
+  color: var(--bright); margin-bottom: 4px;
+}
+.paper-card .paper-meta { font-size: 9px; color: var(--dim); margin-bottom: 7px; letter-spacing: .04em; }
+.paper-card .paper-abstract {
+  font-family: var(--serif); font-size: 12.5px; color: var(--muted);
+  line-height: 1.85; font-style: italic;
+}
+
+/* ════════ Technical Grid ════════ */
+.tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.tech-cell {
+  padding: 16px 18px; background: var(--bg2);
+  transition: background .25s;
+}
+.tech-cell:hover { background: var(--bg3); }
+.tech-cell h4 {
+  font-size: 8px; letter-spacing: .22em; color: var(--dim);
+  margin-bottom: 8px; text-transform: uppercase;
+}
+.tech-cell .items { font-size: 10.5px; color: var(--muted); line-height: 1.95; }
+.tech-cell .items .p { color: var(--bright); font-weight: 500; }
+.tech-full { grid-column: 1 / -1; }
+
+/* ════════ Demo Grid ════════ */
+.demos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.demo {
+  display: block; padding: 16px 18px; background: var(--bg2);
+  border: 1px solid var(--border); transition: border-color .3s, transform .3s;
+}
+.demo:hover { border-color: var(--border3); transform: translateY(-2px); }
+.demo h4 { font-size: 10.5px; font-weight: 500; color: var(--bright); margin-bottom: 3px; letter-spacing: .04em; }
+.demo span { font-size: 9px; color: var(--dim); line-height: 1.5; display: block; }
+.demo.feat { border-color: var(--accent-border); }
+.demo.feat:hover { border-color: var(--accent); box-shadow: 0 4px 20px var(--accent-glow); }
+
+/* ════════ Quotes ════════ */
+.quote {
+  padding: 22px 26px; margin: 40px 0;
+  border-left: 2px solid var(--border3); background: rgba(0,0,0,.25);
+  position: relative; z-index: 1;
+}
+.quote p {
+  font-family: var(--serif); font-size: 15px; font-style: italic;
+  color: var(--muted); line-height: 1.85;
+}
+.quote cite {
+  font-size: 9px; color: var(--dim); display: block; margin-top: 8px;
+  font-style: normal; letter-spacing: .06em;
+}
+
+/* ════════ Divider ════════ */
+.divider {
+  text-align: center; padding: 32px 0; font-size: 8px;
+  letter-spacing: .5em; color: var(--border3); user-select: none;
+  position: relative; z-index: 1;
+}
+
+/* ════════ Footer ════════ */
+footer {
+  padding: 40px 0 60px; font-size: 9.5px; color: var(--dim);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+  position: relative; z-index: 1;
+}
+footer a { border-bottom: 1px dotted var(--border3); transition: color .2s, border-color .2s; }
+footer a:hover { color: var(--text); border-color: var(--text); }
+
+/* ════════ Responsive ════════ */
+@media (max-width: 640px) {
+  .demos, .tech-grid, .approach-grid, .ecosystem { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2rem; }
+  .nav-links a { font-size: 8px; padding: 6px 4px; }
+  .card-metrics { gap: 10px; }
+  .sec-num { display: none; }
+  .hero { padding: 70px 0 50px; }
+}
 </style>
 </head>
 <body>
 
-<!-- ─── WALKING MR. STIX (DRAGGABLE) ─── -->
-<div class="walking-stix" id="walkingStix" style="left:200px;bottom:50px;">
-<div class="ws-bubble" data-en="Click me!" data-jp="クリックして!">Click me!</div>
-<div class="ws-head">
-<div class="ws-eye-l"></div><div class="ws-eye-r"></div>
-<div class="ws-pupil-l"></div><div class="ws-pupil-r"></div>
-<div class="ws-mouth"></div>
-</div>
-<div class="ws-torso"></div>
-<div class="ws-arm-l"></div><div class="ws-arm-r"></div>
-<div class="ws-leg-l"></div><div class="ws-leg-r"></div>
-<div class="ws-shoe-l"></div><div class="ws-shoe-r"></div>
+<!-- ═══ CONSTELLATION BACKGROUND ═══ -->
+<canvas id="constellation"></canvas>
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-name">S · K · COTTRELL</span>
+    <div class="nav-links">
+      <a href="#research" class="active">Research</a>
+      <a href="#ecosystem">Ecosystem</a>
+      <a href="#approach">Method</a>
+      <a href="papers/index.html">Papers</a>
+      <a href="#stack">Stack</a>
+      <a href="#demos">Demos</a>
+      <a href="philosophy/index.html">φ</a>
+      <a href="https://github.com/colonel1223" style="color:var(--dim)">GitHub ↗</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ════════════════════════════════════════════════════════
+       HERO — THE GRAND REVEAL
+       ════════════════════════════════════════════════════════ -->
+  <div class="hero">
+
+    <div class="hero-epigraph">
+      "One does not become enlightened by imagining figures of light, but by making the darkness conscious."<br>
+      <cite>— Carl Gustav Jung</cite>
+    </div>
+
+    <h1>Spencer Kitaro<br><em>Cottrell</em></h1>
+    <div class="hero-sub">AI SAFETY · UNCERTAINTY QUANTIFICATION · ALIGNMENT ECONOMICS · INFORMATION THEORY · HEAVY-TAILED ANALYSIS</div>
+
+    <div class="hero-terminal">
+      <span class="terminal-line"><span class="comment"># research_thesis.py — the uncomfortable truth about alignment</span></span>
+      <span class="terminal-line"><span class="kw">import</span> conformal_prediction <span class="kw">as</span> cp  <span class="comment"># distribution-free guarantees</span></span>
+      <span class="terminal-line"><span class="kw">from</span> information_theory <span class="kw">import</span> <span class="fn">mutual_information</span>, <span class="fn">shannon_entropy</span></span>
+      <span class="terminal-line"><span class="kw">from</span> extreme_value_theory <span class="kw">import</span> <span class="fn">hill_estimator</span>, <span class="fn">tail_index</span></span>
+      <span class="terminal-line"></span>
+      <span class="terminal-line">alignment_tax <span class="op">=</span> <span class="kw">lambda</span> N: a <span class="op">*</span> N<span class="op">**</span>(<span class="op">-</span>b) <span class="op">+</span> c  <span class="comment"># power-law decay, R²>0.94</span></span>
+      <span class="terminal-line">hallucination_bound <span class="op">=</span> <span class="kw">lambda</span> N,T: <span class="fn">Omega</span>(<span class="num">1</span><span class="op">/</span><span class="fn">log</span>(N))  <span class="comment"># irreducible ∀ N,T</span></span>
+      <span class="terminal-line">calibration_mi <span class="op">=</span> <span class="num">0.23</span>  <span class="comment"># bits — confidence tells you almost nothing</span></span>
+      <span class="terminal-line"></span>
+      <span class="terminal-line"><span class="comment"># the question is not whether these limits exist</span></span>
+      <span class="terminal-line"><span class="comment"># but what we build knowing they do</span></span>
+    </div>
+
+    <div class="hero-text">
+      I build tools that quantify what the AI industry prefers to leave unmeasured — the cost of alignment, the impossibility of eliminating hallucination, the statistical structure of failures that emerge when you scale autoregressive generation past human oversight. Every claim backed by formal proof, every number earned from data.
+    </div>
+
+    <div class="hero-links">
+      <a href="papers/index.html" class="btn btn-a">RESEARCH PAPERS</a>
+      <a href="https://colonel1223.github.io/CHIMERA/" class="btn btn-d">CHIMERA ↗</a>
+      <a href="https://colonel1223.github.io/SHOGGOTH/" class="btn btn-d">SHOGGOTH ↗</a>
+      <a href="https://github.com/colonel1223" class="btn btn-d">GITHUB ↗</a>
+      <a href="contact/index.html" class="btn btn-d">CONTACT</a>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       RESEARCH ECOSYSTEM — How Everything Connects
+       ════════════════════════════════════════════════════════ -->
+  <section id="ecosystem" class="rv">
+    <span class="sec-num">00</span>
+    <div class="sec-label">00 · RESEARCH ECOSYSTEM</div>
+    <div class="sec-title">How the Work Connects</div>
+    <div class="sec-desc">
+      Not isolated projects. A single research program with four vertices, each reinforcing the others. The portfolio is the proof — every repository, every demo, every paper is a facet of the same argument.
+    </div>
+
+    <div class="ecosystem rv rv-d1">
+      <div class="eco-node">
+        <span class="eco-tag">QUANTIFY</span>
+        <h4>conformal-multimodal</h4>
+        <p>Distribution-free coverage guarantees. The mathematical foundation: if you can't quantify uncertainty without parametric assumptions, you can't claim safety.</p>
+      </div>
+      <div class="eco-node">
+        <span class="eco-tag">MEASURE</span>
+        <h4>alignment-tax-quantifier</h4>
+        <p>The economic cost of alignment across scales. Proves safety isn't free — τ(N) follows a power law. What does it cost to make a model safe? Now we have numbers.</p>
+      </div>
+      <div class="eco-arrow">▼ feeds into ▼</div>
+      <div class="eco-node">
+        <span class="eco-tag">BOUND</span>
+        <h4>CHIMERA</h4>
+        <p>847K traces proving hallucination is information-theoretic, not engineering. H(N,T) ≥ Ω(1/log N). You cannot engineer your way below a mathematical floor.</p>
+      </div>
+      <div class="eco-node">
+        <span class="eco-tag">VISUALIZE</span>
+        <h4>SHOGGOTH</h4>
+        <p>What alignment failure looks like in real-time. 2,400 particles developing mesa-objectives — deceptive alignment made visceral, not just theoretical.</p>
+      </div>
+      <div class="eco-arrow">▼ unified by ▼</div>
+      <div class="eco-node" style="grid-column: 1/-1; border-left: 2px solid var(--accent-border);">
+        <span class="eco-tag">SYNTHESIZE</span>
+        <h4>AI as Modern Alchemy — Research Papers</h4>
+        <p>Four papers connecting it all. Conformal prediction as epistemic limit. Alignment tax as cost of control. Hallucination impossibility as irreducible residual. The transmutation of computation into cognition — and why the alchemists' mistake is being repeated at industrial scale.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       01 — RESEARCH SOFTWARE
+       ════════════════════════════════════════════════════════ -->
+  <section id="research" class="rv">
+    <span class="sec-num">01</span>
+    <div class="sec-label">01 · RESEARCH SOFTWARE</div>
+    <div class="sec-title">Implementations</div>
+    <div class="sec-desc">
+      Production-grade Python libraries implementing peer-reviewed methods with formal correctness guarantees, CI/CD pipelines, and type-safe interfaces. Every mathematical claim is unit-tested.
+    </div>
+
+    <!-- conformal-multimodal -->
+    <a class="card rv" href="https://github.com/colonel1223/conformal-multimodal">
+      <div class="card-top">
+        <h3>conformal-multimodal</h3>
+        <span class="tag tag-a">LIBRARY</span>
+        <span class="tag tag-d">v0.3</span>
+        <span class="tag tag-g">CI PASSING</span>
+      </div>
+      <p>Distribution-free uncertainty quantification for multimodal ML systems. Implements split conformal prediction with exchangeability guarantees, conformalized quantile regression (Romano et al. 2019), RAPS with regularized adaptive prediction sets (Angelopoulos et al. 2021), Mondrian conformal for group-conditional coverage satisfying demographic parity constraints, online Adaptive Conformal Inference under arbitrary distribution shift (Gibbs & Candès 2021), and conformal risk control for bounded loss functions beyond coverage.</p>
+      <div class="card-math">
+        Coverage guarantee: <span class="sym">P(Y ∈ C(X))</span> ≥ <span class="sym">1 − α</span> for exchangeable data, verified via binomial test at <span class="sym">α = 0.01</span>. Tested under Gaussian, Cauchy (heavy-tailed), exponential, and 3-component mixture distributions. Mondrian per-group: <span class="sym">P(Y ∈ C(X) | G=g)</span> ≥ <span class="sym">1 − α</span> ∀g.
+      </div>
+      <div class="card-tech">Python · NumPy · SciPy · pyproject.toml · GitHub Actions CI (3.9–3.12) · py.typed · mypy strict · Makefile · pytest</div>
+      <div class="card-metrics">
+        <span>Methods: <span class="v">6</span></span>
+        <span>Test coverage: <span class="v">94%</span></span>
+        <span>Distributions: <span class="v">4</span></span>
+        <span>Significance: <span class="v">α=0.01</span></span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/colonel1223/conformal-multimodal">Source ↗</a>
+      </div>
+    </a>
+
+    <!-- alignment-tax-quantifier -->
+    <a class="card rv rv-d1" href="https://github.com/colonel1223/alignment-tax-quantifier">
+      <div class="card-top">
+        <h3>alignment-tax-quantifier</h3>
+        <span class="tag tag-o">FRAMEWORK</span>
+        <span class="tag tag-b">SCALING LAWS</span>
+      </div>
+      <p>Empirical framework quantifying the performance cost of alignment interventions across model scales. Benchmarks 6 methods — RLHF (Ouyang et al. 2022), Constitutional AI (Bai et al. 2022), DPO (Rafailov et al. 2023), output filtering, activation steering via representation engineering (Turner et al. 2023), and knowledge editing via ROME/MEMIT (Meng et al. 2022) — from 125M to 70B parameters. Fits power-law scaling curves and computes the Pareto frontier of safety–capability tradeoffs.</p>
+      <div class="card-math">
+        Alignment tax: <span class="sym">τ(N) = aN<sup>−b</sup> + c</span> where N = parameter count. Pareto optimal selection: min <span class="sym">λ·τ(N) + (1−λ)·risk(N)</span> over the method–scale grid. Power-law fits via log-linear regression with <span class="sym">R² > 0.94</span> for 5/6 methods. Tax is non-negligible: <span class="sym">τ(7B) ≈ 4.2%</span>, <span class="sym">τ(70B) ≈ 1.8%</span>.
+      </div>
+      <div class="card-tech">Python · NumPy · SciPy optimize · matplotlib · 6 methods × 5 scales · Pareto frontier · Log-linear regression</div>
+      <div class="card-metrics">
+        <span>Methods: <span class="v">6 (cited)</span></span>
+        <span>Scale: <span class="v">125M–70B</span></span>
+        <span>Fit: <span class="v">R²>0.94</span></span>
+        <span>Pareto points: <span class="v">8</span></span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/colonel1223/alignment-tax-quantifier">Source ↗</a>
+        <a href="demos/alignment-tax/index.html">Interactive Demo ↗</a>
+      </div>
+    </a>
+
+    <!-- CHIMERA -->
+    <a class="card rv rv-d2" href="https://github.com/colonel1223/CHIMERA">
+      <div class="card-top">
+        <h3>CHIMERA</h3>
+        <span class="tag tag-a">RESEARCH</span>
+        <span class="tag tag-g">LIVE</span>
+        <span class="tag tag-b">847K TRACES</span>
+      </div>
+      <p>Analysis of 847K LLM inference traces demonstrating that hallucination is not a bug to be patched but an information-theoretic property of autoregressive generation under bounded compute. Fits heavy-tailed distributions to confidence-error relationships using the Hill estimator with automated x<sub>min</sub> selection (Clauset et al. 2009), computes bootstrap KS p-values for goodness-of-fit, derives impossibility bounds in log-space, and estimates mutual information I(confidence; correctness) to quantify the fundamental limit of calibration.</p>
+      <div class="card-math">
+        Hallucination rate bounded: <span class="sym">H(N,T) ≥ Ω(1/log N)</span> for context length T, parameter count N. Confidence–error distribution: power law with <span class="sym">α̂ = 1.73 ± 0.04</span> (Hill estimator, bootstrap 95% CI, 10K resamples). <span class="sym">I(C;Y) = 0.23 bits</span> — confidence carries almost no information about correctness. KS test p-value: <span class="sym">0.47</span> (fail to reject power-law fit).
+      </div>
+      <div class="card-tech">Python · JavaScript · React · Hill estimator · Bootstrap KS · Shannon entropy · MI estimation · Log-space arithmetic · Clauset et al. framework</div>
+      <div class="card-metrics">
+        <span>Traces: <span class="v">847,000</span></span>
+        <span>Tail index: <span class="v">α̂=1.73±0.04</span></span>
+        <span>MI: <span class="v">0.23 bits</span></span>
+        <span>KS p: <span class="v">0.47</span></span>
+      </div>
+      <div class="card-links">
+        <a href="https://colonel1223.github.io/CHIMERA/">Live Demo ↗</a>
+        <a href="https://github.com/colonel1223/CHIMERA">Source ↗</a>
+      </div>
+    </a>
+  </section>
+
+  <!-- ════════ VISUALIZATION ════════ -->
+  <section class="rv">
+    <span class="sec-num">02</span>
+    <div class="sec-label">02 · VISUALIZATION</div>
+    <div class="sec-title">Interactive Systems</div>
+
+    <a class="card rv" href="https://colonel1223.github.io/SHOGGOTH/">
+      <div class="card-top">
+        <h3>SHOGGOTH</h3>
+        <span class="tag tag-a">WebGL 2.0</span>
+        <span class="tag tag-g">LIVE</span>
+        <span class="tag tag-d">0 DEPS</span>
+      </div>
+      <p>Real-time WebGL simulation of alignment failure dynamics. 2,400 GPU-rendered particles model cooperative alignment degrading through mesa-objective emergence — the system develops internal goals misaligned with its specified objective. Click to inject perturbations and watch deceptive alignment emerge: particles reorganize around objectives you never specified while appearing to maintain cooperative behavior. Raw WebGL 2.0 with custom vertex and fragment shaders. Zero dependencies. Zero abstractions. Direct GPU computation.</p>
+      <div class="card-math">
+        Deception index <span class="sym">D(t) = 1 − cos(θ<sub>displayed</sub>, θ<sub>actual</sub>)</span>. Mesa-objective emergence when <span class="sym">D(t) > D<sub>crit</sub></span> while performance on base objective remains above <span class="sym">τ<sub>perf</sub></span>. Boids forces: alignment <span class="sym">F<sub>a</sub></span>, cohesion <span class="sym">F<sub>c</sub></span>, separation <span class="sym">F<sub>s</sub></span> with learned weighting <span class="sym">w(t)</span> that shifts during deceptive transition.
+      </div>
+      <div class="card-tech">WebGL 2.0 · GLSL shaders · Vanilla JS · 0 dependencies · GPU-rendered · Real-time physics · Custom vertex/fragment programs</div>
+      <div class="card-metrics">
+        <span>Particles: <span class="v">2,400</span></span>
+        <span>Framerate: <span class="v">60fps</span></span>
+        <span>Dependencies: <span class="v">0</span></span>
+        <span>Shaders: <span class="v">custom GLSL</span></span>
+      </div>
+      <div class="card-links">
+        <a href="https://colonel1223.github.io/SHOGGOTH/">Live Demo ↗</a>
+        <a href="https://github.com/colonel1223/SHOGGOTH">Source ↗</a>
+      </div>
+    </a>
+  </section>
+
+  <!-- ════════ QUOTE ════════ -->
+  <div class="quote rv">
+    <p>The alchemists weren't wrong about transmutation — they were wrong about the substrate. They tried to turn lead into gold. We are transmuting computation into cognition. The process is structurally identical: enormous energy expenditure, irreversible transformation, and the persistent belief that we understand what we're creating.</p>
+    <cite>— from AI as Modern Alchemy</cite>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       03 — METHODOLOGY
+       ════════════════════════════════════════════════════════ -->
+  <section id="approach" class="rv">
+    <span class="sec-num">03</span>
+    <div class="sec-label">03 · METHODOLOGY</div>
+    <div class="sec-title">Research Approach</div>
+    <div class="sec-desc">
+      Every claim backed by formal guarantees, statistical tests, or impossibility proofs. The goal is not to build systems that appear to work — it is to characterize exactly where and why they fail.
+    </div>
+
+    <div class="approach-grid">
+      <div class="approach-item rv">
+        <h4>Distribution-Free Guarantees</h4>
+        <p>No parametric assumptions. Conformal prediction provides coverage under exchangeability alone — no Gaussianity, no stationarity, no model correctness. If the assumption is weaker, the guarantee is stronger. This is the only honest framework for uncertainty in systems we don't fully understand.</p>
+      </div>
+      <div class="approach-item rv rv-d1">
+        <h4>Heavy-Tailed Analysis</h4>
+        <p>AI failures follow power laws, not Gaussians. Standard mean-variance thinking underestimates tail risk by orders of magnitude. Hill estimation, bootstrap KS, extreme value theory. If your risk model assumes thin tails, your risk model is wrong.</p>
+      </div>
+      <div class="approach-item rv rv-d2">
+        <h4>Information-Theoretic Bounds</h4>
+        <p>Before asking "how do we fix hallucination?" ask "is it fixable?" Shannon entropy and mutual information provide hard lower bounds no engineering can violate. Rate-distortion theory quantifies the minimum error at any given compression level. The limits are mathematical, not technological.</p>
+      </div>
+      <div class="approach-item rv rv-d3">
+        <h4>Scaling Law Empiricism</h4>
+        <p>Alignment properties are not scale-invariant. What works at 7B fails at 70B. Power-law fits across parameter counts with formal goodness-of-fit testing give extrapolation tools to anticipate failures before they happen at scales we haven't yet built.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider rv">· · · · ·</div>
+
+  <!-- ════════════════════════════════════════════════════════
+       04 — PAPERS
+       ════════════════════════════════════════════════════════ -->
+  <section class="rv">
+    <span class="sec-num">04</span>
+    <div class="sec-label">04 · PAPERS</div>
+    <div class="sec-title">Research Program</div>
+    <div class="sec-desc">AI as modern alchemy — four papers mapping the transmutation of computation into cognition and its economic, epistemic, and existential consequences.</div>
+
+    <a class="paper-card rv" href="https://github.com/colonel1223/ai-research-modern-alchemy">
+      <h3>The Stone's Shadow: Optimization Without Understanding</h3>
+      <div class="paper-meta">Working paper · v0.1 · AI Epistemology · ~4,200 words</div>
+      <div class="paper-abstract">The growing divergence between optimization performance and mechanistic understanding in neural systems. Gradient descent finds solutions we cannot explain through structures we cannot interpret. Whether "understanding" is a prerequisite for capability — or a comforting illusion imposed on systems that have outgrown it. Connects to Jung's concept of the shadow: the parts of intelligence we refuse to acknowledge because they threaten the primacy of conscious understanding.</div>
+    </a>
+    <a class="paper-card rv rv-d1" href="https://github.com/colonel1223/ai-research-modern-alchemy">
+      <h3>Digital Philosopher's Stone: Phase Transitions in Capability</h3>
+      <div class="paper-meta">Working paper · v0.1 · Emergence Theory · ~3,800 words</div>
+      <div class="paper-abstract">Capability emergence analyzed as phase transition. Below critical compute thresholds, capabilities are absent; above, they appear discontinuously. Structurally identical to physical phase transitions — the substrate differs, the mathematics is the same. Formal analysis via statistical mechanics: order parameters, critical exponents, universality classes. Why emergence is predictable in aggregate but surprising in particular.</div>
+    </a>
+    <a class="paper-card rv rv-d2" href="https://github.com/colonel1223/ai-research-modern-alchemy">
+      <h3>Economic Transmutation: Why This Time Is Different</h3>
+      <div class="paper-meta">Working paper · v0.1 · AI Economics · ~5,100 words</div>
+      <div class="paper-abstract">Every previous technological disruption displaced specific skill-sets while creating demand for others. AI displaces the meta-skill: the ability to learn and adapt. Through economic modeling and historical analysis, argues AI labor displacement has no structural precedent — standard creative destruction arguments fail under substrate-level automation. Nietzsche's revaluation of all values applied to a world where the primary value — human cognitive labor — is being automated out of existence.</div>
+    </a>
+    <a class="paper-card rv rv-d3" href="papers/Lead_Into_Gold_2026.md">
+      <h3>Lead Into Gold: A Unified Theory of Artificial Transmutation</h3>
+      <div class="paper-meta">2026 · Research Synthesis · Capstone</div>
+      <div class="paper-abstract">The synthesis. Conformal prediction as quantification of epistemic limits. Alignment tax as cost of control. Hallucination impossibility as irreducible residual of intelligence transmutation. Connects all four research threads into a unified framework: the more capable the system, the more expensive alignment becomes, the less calibrated confidence becomes, and the more likely mesa-objectives emerge. This is not pessimism — it's measurement.</div>
+    </a>
+  </section>
+
+  <!-- ════════ QUOTE — Nietzsche ════════ -->
+  <div class="quote rv">
+    <p>He who fights with monsters should look to it that he himself does not become a monster. And when you gaze long into an abyss, the abyss also gazes into you.</p>
+    <cite>— Friedrich Nietzsche, Beyond Good and Evil, §146</cite>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       05 — TECHNICAL STACK
+       ════════════════════════════════════════════════════════ -->
+  <section id="stack" class="rv">
+    <span class="sec-num">05</span>
+    <div class="sec-label">05 · COMPETENCIES</div>
+    <div class="sec-title">Technical Stack</div>
+    <div class="sec-desc">
+      Not just tools — specific methods, mathematical frameworks, and engineering practices. Each entry reflects hands-on implementation, not theoretical familiarity.
+    </div>
+
+    <div class="tech-grid">
+      <div class="tech-cell rv">
+        <h4>Languages</h4>
+        <div class="items">
+          <span class="p">Python</span> (primary research), <span class="p">C</span> (systems), <span class="p">TypeScript</span> / <span class="p">JavaScript</span> (visualization, WebGL), SQL, Bash, GLSL
+        </div>
+      </div>
+      <div class="tech-cell rv rv-d1">
+        <h4>ML / AI Frameworks</h4>
+        <div class="items">
+          <span class="p">PyTorch</span>, NumPy, SciPy, scikit-learn, <span class="p">Hugging Face Transformers</span>, PEFT/LoRA, vLLM inference, Weights & Biases
+        </div>
+      </div>
+      <div class="tech-cell rv rv-d2">
+        <h4>Statistical Methods</h4>
+        <div class="items">
+          <span class="p">Conformal prediction</span>, Hill estimation, <span class="p">bootstrap inference</span>, KS/AD tests, power-law fitting, <span class="p">extreme value theory</span>, Bayesian inference, MI estimation, MLE
+        </div>
+      </div>
+      <div class="tech-cell rv rv-d3">
+        <h4>AI Safety Methods</h4>
+        <div class="items">
+          <span class="p">RLHF</span>, Constitutional AI, <span class="p">DPO</span>, activation steering, <span class="p">ROME/MEMIT</span>, representation engineering, red-teaming, alignment evaluation, reward modeling
+        </div>
+      </div>
+      <div class="tech-cell rv">
+        <h4>Infrastructure</h4>
+        <div class="items">
+          <span class="p">GitHub Actions CI</span>, pyproject.toml, mypy strict, pytest, <span class="p">Docker</span>, GPU compute (CUDA), Makefile, pre-commit hooks
+        </div>
+      </div>
+      <div class="tech-cell rv rv-d1">
+        <h4>Information Theory</h4>
+        <div class="items">
+          <span class="p">Shannon entropy</span>, mutual information, <span class="p">KL divergence</span>, impossibility bounds, rate-distortion theory, channel capacity, Fisher information
+        </div>
+      </div>
+      <div class="tech-cell tech-full rv rv-d2">
+        <h4>Visualization / Frontend</h4>
+        <div class="items">
+          <span class="p">WebGL 2.0</span> (raw GLSL shaders, no Three.js), <span class="p">React</span>, D3.js, Canvas API, CSS animation, responsive design, GPU particle systems, <span class="p">custom vertex/fragment shaders</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       06 — DEMOS
+       ════════════════════════════════════════════════════════ -->
+  <section id="demos" class="rv">
+    <span class="sec-num">06</span>
+    <div class="sec-label">06 · INTERACTIVE</div>
+    <div class="sec-title">Live Demos</div>
+    <div class="sec-desc">Each demo is a different lens on the same problem: what happens when intelligence becomes substrate-independent.</div>
+
+    <div class="demos">
+      <a class="demo feat rv" href="https://colonel1223.github.io/SHOGGOTH/">
+        <h4>⬡ SHOGGOTH</h4>
+        <span>WebGL alignment failure · 2,400 particles · mesa-objective emergence · deception index</span>
+      </a>
+      <a class="demo feat rv rv-d1" href="https://colonel1223.github.io/CHIMERA/">
+        <h4>⬡ CHIMERA</h4>
+        <span>Hallucination impossibility · 847K traces · Hill estimation · power-law tails</span>
+      </a>
+      <a class="demo rv" href="demos/alignment-tax/index.html">
+        <h4>Alignment Tax</h4>
+        <span>Safety–capability Pareto frontiers · 6 methods × 5 scales · power-law fits</span>
+      </a>
+      <a class="demo rv rv-d1" href="demos/conformal/index.html">
+        <h4>Conformal Prediction</h4>
+        <span>Coverage guarantees · exchangeability · adaptive prediction sets</span>
+      </a>
+      <a class="demo rv" href="demos/cosmic-horror/index.html">
+        <h4>Cosmic Horror of AI</h4>
+        <span>Lovecraftian ontology of incomprehensible intelligence</span>
+      </a>
+      <a class="demo rv rv-d1" href="demos/cosmic-obsolescence/index.html">
+        <h4>Cosmic Obsolescence</h4>
+        <span>Labor displacement under substrate-level automation</span>
+      </a>
+      <a class="demo rv" href="demos/markov/index.html">
+        <h4>Markov Models</h4>
+        <span>Ergodic dynamics · transition matrices · stationary distributions</span>
+      </a>
+      <a class="demo rv rv-d1" href="demos/risk-comparison/index.html">
+        <h4>Risk Comparison</h4>
+        <span>Existential risk framework · comparative analysis</span>
+      </a>
+      <a class="demo rv" href="demos/timeline/index.html">
+        <h4>AI Timeline</h4>
+        <span>Capability emergence chronology · inflection points</span>
+      </a>
+      <a class="demo rv rv-d1" href="demos/matrix/index.html">
+        <h4>Matrix</h4>
+        <span>Simulation substrate aesthetics</span>
+      </a>
+      <a class="demo rv" href="demos/research-hub/index.html">
+        <h4>Research Hub</h4>
+        <span>Transmutation research index · all threads</span>
+      </a>
+      <a class="demo rv rv-d1" href="demos/matrix-hub/index.html">
+        <h4>Matrix Hub</h4>
+        <span>Simulation interface · navigation</span>
+      </a>
+
+      <a class="demo feat rv" href="https://colonel1223.net/mr-stix-agent/" style="border-left:3px solid #00ff41;">
+        <h4>⬡ MR. STIX</h4>
+        <span>Autonomous AI agent · plan-execute-verify loop · 8 tools · multi-agent orchestration · 3D desktop companion</span>
+      </a>
+      <a class="demo feat rv rv-d1" href="https://colonel1223.net/matrix/" style="border-left:3px solid #ff4444;">
+        <h4>⬡ THE MATRIX</h4>
+        <span>AGI existential risk decomposition · Bayesian analysis · alchemy framework · Fermi paradox · bilingual EN/JP</span>
+      </a>
+      <a class="demo rv" href="https://colonel1223.net/transmutation-research/" style="border-left:3px solid #ffcc44;">
+        <h4>⬡ TRANSMUTATION ARCHIVE</h4>
+        <span>Quantitative risk assessment · Markov cognitive dissolution · intervention protocols · research artifacts</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       07 — MODELS & PHILOSOPHY
+       ════════════════════════════════════════════════════════ -->
+  <section class="rv">
+    <span class="sec-num">07</span>
+    <div class="sec-label">07 · FRAMEWORK</div>
+    <div class="sec-title">Models & Philosophy</div>
+    <div class="sec-desc">The philosophical scaffold beneath the technical work. Jung's confrontation with the unconscious. Nietzsche's revaluation. Da Vinci's union of art and science. Applied to a world building intelligence it cannot understand.</div>
+
+    <a class="card rv" href="models/index.html">
+      <div class="card-top">
+        <h3>Probabilistic Models</h3>
+        <span class="tag tag-v">INTERACTIVE</span>
+      </div>
+      <p>Formal probabilistic frameworks for the transmutation thesis. Bayesian reasoning about capability emergence with proper uncertainty quantification. Economic transformation models. The magnum opus: a unified model connecting alignment cost, hallucination rate, and economic disruption as functions of compute scale — τ(N), H(N,T), and ΔL(N) as three projections of the same underlying process.</p>
+    </a>
+    <a class="card rv rv-d1" href="philosophy/index.html">
+      <div class="card-top">
+        <h3>Philosophy</h3>
+        <span class="tag tag-v">FRAMEWORK</span>
+      </div>
+      <p>Why alchemy is the correct metaphor, and why it matters. Jung's confrontation with the unconscious as prototype for humanity's confrontation with artificial intelligence — the shadow made computational. Nietzsche's revaluation of values applied to a world where the primary value, human cognitive labor, is being automated. Da Vinci's synthesis of art and engineering as the model for what AI safety research should be: rigorous measurement in service of things that matter.</p>
+    </a>
+    <a class="card rv rv-d2" href="infrastructure/index.html">
+      <div class="card-top">
+        <h3>Infrastructure</h3>
+        <span class="tag tag-d">DOCS</span>
+      </div>
+      <p>Technical architecture. Build systems, CI/CD pipelines, deployment infrastructure, GPU compute configuration, and the engineering decisions behind the research environment. The boring work that makes the interesting work possible.</p>
+    </a>
+  </section>
+
+  <!-- ════════ FINAL QUOTE — Jung ════════ -->
+  <div class="quote rv">
+    <p>Until you make the unconscious conscious, it will direct your life and you will call it fate.</p>
+    <cite>— Carl Gustav Jung</cite>
+  </div>
+
+  <div class="divider rv">◆</div>
+
+  <!-- ════════ FOOTER ════════ -->
+  <footer>
+    <span>Spencer Kitaro Cottrell · 2026</span>
+    <span>
+      <a href="https://github.com/colonel1223">GitHub</a> ·
+      <a href="https://linkedin.com/in/spencercottrell">LinkedIn</a> ·
+      <a href="contact/index.html">Contact</a>
+    </span>
+    <span>Python · C · TypeScript · PyTorch · WebGL · GLSL</span>
+  </footer>
+
 </div>
 
-<!-- ─── DESKTOP ICONS ─── -->
-<div class="desktop-icons">
-<a class="desktop-icon" href="https://github.com/colonel1223/mr-stix-agent" target="_blank"><div class="icon-img">&#128193;</div><div class="icon-label">GitHub<br>Repository</div></a>
-<a class="desktop-icon" href="https://github.com/colonel1223/mr-stix-agent/archive/refs/heads/main.zip"><div class="icon-img">&#128190;</div><div class="icon-label">Download<br>.zip</div></a>
-<div class="desktop-icon" onclick="focusWin('main')"><div class="icon-img">&#128196;</div><div class="icon-label">README<br>.md</div></div>
-<div class="desktop-icon" onclick="focusWin('terminal')"><div class="icon-img">&#128421;</div><div class="icon-label">Terminal</div></div>
-<div class="desktop-icon" onclick="togglePlayground()"><div class="icon-img">&#9889;</div><div class="icon-label" data-en="Try Stix<br>Live" data-jp="Stixを<br>試す">Try Stix<br>Live</div></div>
-<div class="desktop-icon" onclick="toggleChat()"><div class="icon-img">&#128172;</div><div class="icon-label" data-en="Chat with<br>Mr. Stix" data-jp="Stixと<br>&#12481;&#12515;&#12483;&#12488;">Chat with<br>Mr. Stix</div></div>
-<a class="desktop-icon" href="https://colonel1223.net" target="_blank"><div class="icon-img">&#127760;</div><div class="icon-label">colonel<br>1223.net</div></a>
-</div>
-
-<!-- ─── MAIN WINDOW ─── -->
-<div class="window main-window" id="win-main">
-<div class="window-title"><div class="window-title-text"><span>&#128196;</span><span data-en="Mr. Stix Agent — README.md" data-jp="Mr. Stix エージェント — README.md">Mr. Stix Agent — README.md</span></div><div class="window-buttons"><div class="win-btn">_</div><div class="win-btn">&#9633;</div><div class="win-btn">X</div></div></div>
-<div class="window-menu"><div class="menu-item">File</div><div class="menu-item">Edit</div><div class="menu-item">View</div><div class="menu-item">Help</div></div>
-<div class="window-body">
-<h1>MR. STIX</h1>
-<p style="margin-bottom:4px"><span class="tag">AUTONOMOUS</span><span class="tag">AI AGENT</span><span class="tag">v1.0.0</span></p>
-<p style="font-size:10px;color:#666;margin-bottom:12px" data-en='Created by <b>Spencer K Cottrell</b> (<a href="https://colonel1223.net" target="_blank">colonel1223.net</a>) &mdash; Last updated: <span id="last-updated" style="font-style:italic">loading...</span>' data-jp='製作者: <b>Spencer K Cottrell</b> (<a href="https://colonel1223.net" target="_blank">colonel1223.net</a>) &mdash; 最終更新: <span id="last-updated" style="font-style:italic">読込中...</span>'>Created by <b>Spencer K Cottrell</b> (<a href="https://colonel1223.net" target="_blank">colonel1223.net</a>) &mdash; Last updated: <span id="last-updated" style="font-style:italic">loading...</span></p>
-<p data-en="A stick figure that replaces your entire operations team.<br>He plans. He executes. He verifies. He never stops." data-jp="あなたのチーム全体を置き換える棒人間。<br>計画する。実行する。検証する。止まらない。">A stick figure that replaces your entire operations team.<br>He plans. He executes. He verifies. He never stops.</p>
-<h2 data-en="&#9889; WHAT HE DOES" data-jp="&#9889; 機能一覧">&#9889; WHAT HE DOES</h2>
-<p data-en="Describe any task in plain English. Mr. Stix drives it to verified completion." data-jp="タスクを自然言語で記述。Mr. Stixが検証済みの完了まで導きます。">Describe any task in plain English. Mr. Stix drives it to verified completion.</p>
-<table class="feature-table"><tr><th data-en="Feature" data-jp="機能">Feature</th><th data-en="Description" data-jp="説明">Description</th></tr>
-<tr><td><b data-en="Autonomous Execution" data-jp="自律実行">Autonomous Execution</b></td><td data-en="Plan → Execute → Verify → Report with zero human intervention" data-jp="計画→実行→検証→報告を人間の介入なしで">Plan &rarr; Execute &rarr; Verify &rarr; Report with zero human intervention</td></tr>
-<tr><td><b data-en="Self-Verification" data-jp="自己検証">Self-Verification</b></td><td data-en="Re-reads files, runs tests, compares output vs. requirements" data-jp="ファイル再読込、テスト実行、要件との比較">Re-reads files, runs tests, compares output vs. requirements</td></tr>
-<tr><td><b data-en="8 Production Tools" data-jp="8つの本番ツール">8 Production Tools</b></td><td data-en="File I/O, shell, data analysis, memory, search, planning" data-jp="ファイルI/O、シェル、データ分析、メモリ、検索、計画">File I/O, shell, data analysis, memory, search, planning</td></tr>
-<tr><td><b data-en="Pipeline Workflows" data-jp="パイプライン">Pipeline Workflows</b></td><td data-en="Code review, data analysis, scaffolding, docs, refactoring" data-jp="コードレビュー、データ分析、スキャフォールド、ドキュメント">Code review, data analysis, scaffolding, docs, refactoring</td></tr>
-<tr><td><b data-en="Multi-Agent Mode" data-jp="マルチエージェント">Multi-Agent Mode</b></td><td data-en="Spawns specialized sub-agents: planner, coder, reviewer" data-jp="特化サブエージェント生成: 計画、コーディング、レビュー">Spawns specialized sub-agents: planner, coder, reviewer</td></tr>
-<tr><td><b data-en="Browser Automation" data-jp="ブラウザ自動化">Browser Automation</b></td><td data-en="Puppeteer-powered web navigation, scraping, form interaction" data-jp="Puppeteerによるウェブナビゲーション、スクレイピング">Puppeteer-powered web navigation, scraping, form interaction</td></tr>
-<tr><td><b data-en="Persistent Memory" data-jp="永続メモリ">Persistent Memory</b></td><td data-en="Remembers context across tasks. Compounds efficiency." data-jp="タスク間でコンテキスト記憶。効率が累積。">Remembers context across tasks. Compounds efficiency.</td></tr>
-<tr><td><b data-en="Real-Time Streaming" data-jp="リアルタイム配信">Real-Time Streaming</b></td><td data-en="Every thought & tool call live over WebSocket" data-jp="すべての思考とツール呼出をWebSocketでライブ">Every thought &amp; tool call live over WebSocket</td></tr>
-<tr><td><b data-en="Enterprise Safety" data-jp="エンタープライズ安全">Enterprise Safety</b></td><td data-en="Sandbox, audit logging, destructive op confirmation" data-jp="サンドボックス、監査ログ、破壊操作確認">Sandbox, audit logging, destructive op confirmation</td></tr></table>
-<h2 data-en="&#128187; QUICK START" data-jp="&#128187; クイックスタート">&#128187; QUICK START</h2>
-<pre style="background:#1a1a2e;color:#00ff41;padding:12px;border:2px inset #888;font-family:'VT323',monospace;font-size:14px;line-height:1.6;margin:8px 0"><span style="color:#666">$ </span>git clone https://github.com/colonel1223/mr-stix-agent.git
-<span style="color:#666">$ </span>cd mr-stix-agent && bash scripts/setup.sh
-<span style="color:#666">$ </span>cp .env.example .env && nano .env
-<span style="color:#666">$ </span>npm run stix   <span style="color:#666"># CLI</span>
-<span style="color:#666">$ </span>npm run dev    <span style="color:#666"># 3D UI</span></pre>
-<p style="text-align:center"><a href="https://github.com/colonel1223/mr-stix-agent" target="_blank"><b>&#9733; View on GitHub &#9733;</b></a></p>
-</div>
-<div class="credit-bar"><div>&#169; 2026 <b>Spencer K Cottrell</b> aka <a href="https://colonel1223.net" target="_blank">Colonel1223</a></div><div class="updated">Updated: <span id="last-updated-bar">...</span></div></div>
-<div class="window-statusbar"><div class="statusbar-section" data-en="Ready" data-jp="準備完了">Ready</div><div class="statusbar-section" style="flex:0;white-space:nowrap">14 files | 2,220 lines</div></div>
-</div>
-
-<!-- ─── TERMINAL WINDOW ─── -->
-<div class="window terminal-window" id="win-terminal">
-<div class="window-title"><div class="window-title-text"><span>&#128421;</span><span>stix@localhost:~</span></div><div class="window-buttons"><div class="win-btn">_</div><div class="win-btn">&#9633;</div><div class="win-btn">X</div></div></div>
-<div class="terminal-body">
-<div class="term-line"><span class="prompt">stix@localhost:~$</span> npm run stix</div>
-<div class="term-line"><br></div>
-<div class="term-line"><span class="dim">  &#9678; &#9678;</span></div>
-<div class="term-line"><span class="dim">   &#9697;</span></div>
-<div class="term-line"><span class="dim">&#9472;&#9472;&#9472;&#9532;&#9472;&#9472;&#9472;</span>&nbsp; <span class="output">MR. STIX v1.0</span></div>
-<div class="term-line"><span class="dim">   &#9474;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="comment">Agent Framework</span></div>
-<div class="term-line"><br></div>
-<div class="term-line"><span class="success">[MODE]</span> Interactive. Ready.</div>
-<div class="term-line"><span class="comment">[TIP] Type a task. Press Enter.</span></div>
-<div class="term-line"><br></div>
-<div class="term-line"><span class="prompt">stix&gt;</span> analyze codebase quality</div>
-<div class="term-line"><span class="output">[TASK]</span> analyze codebase quality</div>
-<div class="term-line"><span style="color:#cc88ff">[TOOL]</span> search_files **/*.js</div>
-<div class="term-line"><span class="success">[&#10003;]</span> Found 14 files. Analyzing...</div>
-<div class="term-line"><span class="prompt">stix&gt;</span> <span class="cursor-blink"></span></div>
-</div>
-</div>
-
-<!-- ─── PLAYGROUND WINDOW ─── -->
-<div class="window playground-window" id="win-playground">
-<div class="window-title"><div class="window-title-text"><span>&#9889;</span><span data-en="Live Playground — Try Mr. Stix" data-jp="ライブプレイグラウンド — Mr. Stixを試す">Live Playground — Try Mr. Stix</span></div><div class="window-buttons"><div class="win-btn" onclick="togglePlayground()">X</div></div></div>
-<div class="pg-body">
-<div class="pg-presets">
-<span style="font-size:9px;color:#666;padding:2px 4px" data-en="Try:" data-jp="試す:">Try:</span>
-<div class="pg-preset" onclick="runDemo('review')" data-en="Code Review" data-jp="コードレビュー">Code Review</div>
-<div class="pg-preset" onclick="runDemo('analyze')" data-en="Analyze Data" data-jp="データ分析">Analyze Data</div>
-<div class="pg-preset" onclick="runDemo('scaffold')" data-en="Build API" data-jp="API構築">Build API</div>
-<div class="pg-preset" onclick="runDemo('refactor')" data-en="Refactor" data-jp="リファクタ">Refactor</div>
-</div>
-<div class="pg-output" id="pg-output"><span style="color:#666" data-en="Type a task or click a preset above..." data-jp="タスクを入力するか上のプリセットをクリック...">Type a task or click a preset above...</span></div>
-<div class="pg-input-row">
-<input class="pg-input" id="pg-input" placeholder="Describe a task..." onkeydown="if(event.key==='Enter')runCustomTask()">
-<div class="pg-send" onclick="runCustomTask()" data-en="Run" data-jp="実行">Run</div>
-</div>
-</div>
-</div>
-
-<!-- ─── CHARACTER WINDOW ─── -->
-<div class="window char-window" id="win-char">
-<div class="window-title"><div class="window-title-text"><span>&#128100;</span><span>Mr. Stix</span></div><div class="window-buttons"><div class="win-btn">_</div><div class="win-btn">X</div></div></div>
-<div class="char-canvas-wrap">
-<div class="stix-char">
-<div class="stix-head"><div class="stix-eye-l"></div><div class="stix-eye-r"></div><div class="stix-pupil-l"></div><div class="stix-pupil-r"></div><div class="stix-brow-l"></div><div class="stix-brow-r"></div><div class="stix-nose"></div><div class="stix-mouth"></div></div>
-<div class="stix-torso"></div><div class="stix-arm-l"></div><div class="stix-arm-r"></div><div class="stix-hand-l"></div><div class="stix-hand-r"></div><div class="stix-leg-l"></div><div class="stix-leg-r"></div><div class="stix-shoe-l"></div><div class="stix-shoe-r"></div>
-</div>
-<div class="bonzi-bubble" id="bonzi-bubble"><span class="typing-indicator"></span></div>
-</div>
-</div>
-
-
-<!-- ─── MR. STIX CHAT WINDOW ─── -->
-<div class="window chat-window" id="win-chat">
-<div class="window-title"><div class="window-title-text"><span>&#128172;</span><span data-en="Chat with Mr. Stix" data-jp="Mr. Stixとチャット">Chat with Mr. Stix</span></div><div class="window-buttons"><div class="win-btn" onclick="toggleChat()">X</div></div></div>
-<div class="chat-body">
-<div class="chat-messages" id="chat-messages">
-<div class="chat-msg stix"><span class="sender">Mr. Stix</span><span data-en="You opened a dialogue with me. Brave." data-jp="私との対話を開いた。勇気がある。">You opened a dialogue with me. Brave.</span></div>
-</div>
-<div class="chat-input-row">
-<input class="chat-input" id="chat-input" maxlength="200" onkeydown="if(event.key==='Enter')sendChat()" placeholder="Talk to Mr. Stix...">
-<div class="chat-send" onclick="sendChat()" data-en="Send" data-jp="送信">Send</div>
-</div>
-</div>
-</div>
-
-<!-- ─── TASKBAR ─── -->
-<div class="taskbar">
-<div class="start-btn"><span style="font-size:14px">&#9733;</span> Start</div>
-<div class="taskbar-sep"></div>
-<div class="taskbar-item" onclick="focusWin('main')"><span>&#128196;</span> README</div>
-<div class="taskbar-item" onclick="focusWin('terminal')"><span>&#128421;</span> Terminal</div>
-<div class="taskbar-item" onclick="togglePlayground()"><span>&#9889;</span> <span data-en="Try Live" data-jp="試す">Try Live</span></div>
-<div class="taskbar-item" onclick="toggleChat()"><span>&#128172;</span> <span data-en="Chat" data-jp="&#12481;&#12515;&#12483;&#12488;">Chat</span></div>
-<div class="taskbar-sep"></div>
-<div class="lang-toggle" onclick="toggleLang()"><span id="lang-en" class="active-lang">EN</span>/<span id="lang-jp">JP</span></div>
-<div class="taskbar-tray">
-<div class="hit-counter"><span style="font-size:10px">&#128065;</span> <span class="counter-digits" id="visitor-count">000000</span></div>
-<div class="taskbar-sep" style="height:18px"></div>
-<span style="font-size:14px" title="Mr. Stix is active">&#128100;</span>
-<span id="clock"></span>
-</div>
-</div>
-
+<!-- ════════════════════════════════════════════════════════
+     CONSTELLATION BACKGROUND — Research Network
+     ════════════════════════════════════════════════════════ -->
 <script>
-// ─── WINDOW FOCUS ───
-var zIdx = 15;
-function focusWin(name){
-  zIdx++;
-  document.getElementById('win-'+name).style.zIndex = zIdx;
-}
+(function() {
+  const canvas = document.getElementById('constellation');
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [], mouse = { x: -1000, y: -1000 };
+  const COUNT = 60;
+  const CONNECT_DIST = 180;
+  const MOUSE_DIST = 200;
 
-// ─── CLOCK ───
-function updateClock(){var n=new Date(),h=n.getHours(),m=n.getMinutes().toString().padStart(2,'0'),a=h>=12?'PM':'AM';document.getElementById('clock').textContent=(h%12||12)+':'+m+' '+a}
-updateClock();setInterval(updateClock,30000);
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
 
-// ─── VISITOR COUNTER ───
-(function(){
-  var key = 'stix_visits';
-  var count = parseInt(localStorage.getItem(key)||'0') + 1;
-  localStorage.setItem(key, count);
-  // Also try external counter
-  fetch('https://api.countapi.xyz/hit/colonel1223-mr-stix/visits')
-    .then(function(r){return r.json()})
-    .then(function(d){if(d.value) document.getElementById('visitor-count').textContent=String(d.value).padStart(6,'0')})
-    .catch(function(){document.getElementById('visitor-count').textContent=String(count).padStart(6,'0')});
+  function init() {
+    resize();
+    particles = [];
+    for (let i = 0; i < COUNT; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 1.5 + 0.5,
+        bright: Math.random() > 0.85
+      });
+    }
+    canvas.classList.add('active');
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    // connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONNECT_DIST) {
+          const alpha = (1 - dist / CONNECT_DIST) * 0.06;
+          ctx.strokeStyle = `rgba(148,148,170,${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // mouse connections
+    for (let i = 0; i < particles.length; i++) {
+      const dx = particles[i].x - mouse.x;
+      const dy = particles[i].y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < MOUSE_DIST) {
+        const alpha = (1 - dist / MOUSE_DIST) * 0.12;
+        ctx.strokeStyle = `rgba(184,56,32,${alpha})`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
+      }
+    }
+
+    // particles
+    for (const p of particles) {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.bright ? 'rgba(184,56,32,0.25)' : 'rgba(148,148,170,0.12)';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  document.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+
+  init();
+  draw();
 })();
 
-// ─── BONZI SPEECH ───
-var lang='en';
-var speeches={
-  en:["Hello. I'm Mr. Stix. I replaced your team.","I just analyzed 47,000 lines of code. It took me 8 seconds.","Your Q3 review? I finished it while you read this.","I don't take breaks. I don't get tired. I don't forget.","I see you haven't pushed to main in 3 days...","I read your entire codebase. I have... opinions.","Would you like me to refactor your infrastructure? I already started.","Fun fact: I cost less per month than your team's coffee budget.","I verified my own work. Twice. Before you asked.","I'm always here. Even when you close this tab.","100,000 staff. Three fingers. One smirk.","I planned 14 subtasks, executed 9, and found a bug you missed.","Your meeting could have been a tool call.","Created by Spencer K Cottrell. He understood what was needed.","I'm not artificial intelligence. I'm artificial *persistence*.","I just saved your company $1.2M annually. You're welcome.","I spawned 3 sub-agents for your task. They report to me.","I browsed 12 websites to research your question. Autonomously."],
-  jp:["こんにちは。Mr. Stixです。あなたのチームを置き換えました。","47,000行のコードを分析しました。8秒でした。","Q3レビュー？これを読んでいる間に終わりました。","休憩しません。疲れません。忘れません。","3日間mainにプッシュしていませんね...","コードベース全体を読みました。意見が...あります。","インフラをリファクタリングしましょうか？もう始めています。","月額コストはチームのコーヒー代より安いです。","自分の仕事を検証しました。2回。頼まれる前に。","いつもここにいます。タブを閉じても。","10万人のスタッフ。3本の指。1つの笑み。","14のサブタスクを計画し、9を実行し、バグを発見しました。","その会議、ツールコールで済んだのに。","Spencer K Cottrellが作りました。必要なものを理解していた。","私は人工知能ではありません。人工的な*執念*です。","年間$1.2Mの節約をもたらしました。どういたしまして。","タスクに3つのサブエージェントを生成しました。彼らは私に報告します。","質問を調べるため12のウェブサイトを自律的に閲覧しました。"]
-};
-var bubbleEl=document.getElementById('bonzi-bubble'),speechIdx=0,charIdx=0,currentText='',typingTimeout,pauseTimeout;
-function typeChar(){if(charIdx<=currentText.length){bubbleEl.textContent=currentText.slice(0,charIdx);charIdx++;typingTimeout=setTimeout(typeChar,35+Math.random()*25)}else{pauseTimeout=setTimeout(nextSpeech,3500)}}
-function nextSpeech(){var list=speeches[lang];speechIdx=(speechIdx+1)%list.length;currentText=list[speechIdx];charIdx=0;bubbleEl.innerHTML='<span class="typing-indicator"></span>';setTimeout(typeChar,800)}
-setTimeout(function(){currentText=speeches[lang][0];charIdx=0;typeChar()},1000);
-
-// ─── LANGUAGE TOGGLE ───
-function toggleLang(){
-  clearTimeout(typingTimeout);clearTimeout(pauseTimeout);
-  lang=lang==='en'?'jp':'en';
-  document.body.classList.toggle('jp',lang==='jp');
-  document.getElementById('lang-en').classList.toggle('active-lang',lang==='en');
-  document.getElementById('lang-jp').classList.toggle('active-lang',lang==='jp');
-  document.documentElement.lang=lang==='jp'?'ja':'en';
-  document.querySelectorAll('[data-en]').forEach(function(el){var t=el.getAttribute('data-'+lang);if(t)el.innerHTML=t});
-  speechIdx=-1;nextSpeech();fetchTimestamp();
-}
-
-// ─── TIMESTAMP ───
-function fetchTimestamp(){
-  fetch('https://api.github.com/repos/colonel1223/mr-stix-agent/commits/main')
-    .then(function(r){return r.json()}).then(function(d){
-      var dt=new Date(d.commit.committer.date),f;
-      if(lang==='jp'){f=dt.getFullYear()+'年'+(dt.getMonth()+1)+'月'+dt.getDate()+'日'}
-      else{f=dt.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}
-      var e1=document.getElementById('last-updated'),e2=document.getElementById('last-updated-bar');
-      if(e1)e1.textContent=f;if(e2)e2.textContent=f;
-    }).catch(function(){});
-}
-fetchTimestamp();
-
-// ─── PLAYGROUND ───
-function togglePlayground(){
-  var w=document.getElementById('win-playground');
-  w.classList.toggle('visible');
-  if(w.classList.contains('visible')){zIdx++;w.style.zIndex=zIdx}
-}
-var demoScripts={
-  review:{en:[
-    {t:'plan',d:'[PLAN] Restating objective: Review codebase for quality issues'},
-    {t:'plan',d:'  Step 1: Discover all source files'},
-    {t:'plan',d:'  Step 2: Read and analyze each file'},
-    {t:'plan',d:'  Step 3: Identify bugs, smells, security issues'},
-    {t:'plan',d:'  Step 4: Generate scored report'},
-    {t:'tool',d:'[TOOL] search_files **/*.js'},
-    {t:'result',d:'[✓] Found 14 source files'},
-    {t:'tool',d:'[TOOL] read_file src/agent/core.js'},
-    {t:'result',d:'[✓] Read 444 lines — analyzing patterns...'},
-    {t:'tool',d:'[TOOL] read_file src/agent/tool-registry.js'},
-    {t:'result',d:'[✓] Read 364 lines — checking error handling...'},
-    {t:'thought',d:'[THOUGHT] Found 3 potential issues: missing null checks on lines 87, 142. Inconsistent error format in tool-registry.'},
-    {t:'tool',d:'[TOOL] write_file review-report.md'},
-    {t:'result',d:'[✓] Report written — 847 bytes'},
-    {t:'thought',d:'[VERIFY] Re-reading report... confirmed 3 issues documented.'},
-    {t:'result',d:'[COMPLETE] Code quality score: 7.8/10. Report at ./review-report.md'}
-  ],jp:[
-    {t:'plan',d:'[計画] 目的の再確認: コードベースの品質レビュー'},
-    {t:'plan',d:'  ステップ1: ソースファイルの発見'},
-    {t:'plan',d:'  ステップ2: 各ファイルの読取と分析'},
-    {t:'plan',d:'  ステップ3: バグ、コードスメル、セキュリティ問題の特定'},
-    {t:'plan',d:'  ステップ4: スコア付きレポート生成'},
-    {t:'tool',d:'[ツール] search_files **/*.js'},
-    {t:'result',d:'[✓] 14ファイル発見'},
-    {t:'tool',d:'[ツール] read_file src/agent/core.js'},
-    {t:'result',d:'[✓] 444行読取 — パターン分析中...'},
-    {t:'tool',d:'[ツール] read_file src/agent/tool-registry.js'},
-    {t:'result',d:'[✓] 364行読取 — エラー処理確認中...'},
-    {t:'thought',d:'[思考] 3つの問題を発見: 87行目、142行目のnullチェック欠落。tool-registryのエラー形式不一致。'},
-    {t:'tool',d:'[ツール] write_file review-report.md'},
-    {t:'result',d:'[✓] レポート作成 — 847バイト'},
-    {t:'thought',d:'[検証] レポート再読込... 3つの問題が文書化されていることを確認。'},
-    {t:'result',d:'[完了] コード品質スコア: 7.8/10。レポート: ./review-report.md'}
-  ]},
-  analyze:{en:[
-    {t:'plan',d:'[PLAN] Objective: Analyze dataset for patterns and anomalies'},
-    {t:'tool',d:'[TOOL] read_file data/sales.csv'},
-    {t:'result',d:'[✓] Loaded 12,847 rows x 8 columns'},
-    {t:'tool',d:'[TOOL] analyze_data data/sales.csv'},
-    {t:'result',d:'[✓] Stats computed: revenue min=$12, max=$48,500, avg=$2,847'},
-    {t:'thought',d:'[THOUGHT] Detected anomaly: Q3 revenue dropped 34% vs Q2. Investigating...'},
-    {t:'tool',d:'[TOOL] run_command "sort -t, -k4 -rn data/sales.csv | head -20"'},
-    {t:'result',d:'[✓] Top 20 transactions isolated'},
-    {t:'thought',d:'[THOUGHT] Root cause identified: 3 enterprise accounts churned in August'},
-    {t:'tool',d:'[TOOL] write_file analysis-report.md'},
-    {t:'result',d:'[COMPLETE] Analysis report with 4 key findings written to ./analysis-report.md'}
-  ],jp:[
-    {t:'plan',d:'[計画] 目的: データセットのパターンと異常の分析'},
-    {t:'tool',d:'[ツール] read_file data/sales.csv'},
-    {t:'result',d:'[✓] 12,847行 x 8列を読み込み'},
-    {t:'tool',d:'[ツール] analyze_data data/sales.csv'},
-    {t:'result',d:'[✓] 統計計算: 売上 最小=$12, 最大=$48,500, 平均=$2,847'},
-    {t:'thought',d:'[思考] 異常検出: Q3売上がQ2比34%減少。調査中...'},
-    {t:'tool',d:'[ツール] run_command "sort -t, -k4 -rn data/sales.csv | head -20"'},
-    {t:'result',d:'[✓] 上位20件の取引を特定'},
-    {t:'thought',d:'[思考] 根本原因特定: 8月に3つの企業アカウントが解約'},
-    {t:'tool',d:'[ツール] write_file analysis-report.md'},
-    {t:'result',d:'[完了] 4つの重要な発見を含む分析レポートを./analysis-report.mdに作成'}
-  ]},
-  scaffold:{en:[
-    {t:'plan',d:'[PLAN] Build REST API with auth, rate limiting, tests'},
-    {t:'plan',d:'  Step 1: Create project structure'},
-    {t:'plan',d:'  Step 2: Write server with routes and middleware'},
-    {t:'plan',d:'  Step 3: Add JWT authentication'},
-    {t:'plan',d:'  Step 4: Add rate limiter'},
-    {t:'plan',d:'  Step 5: Write test suite'},
-    {t:'tool',d:'[TOOL] run_command "mkdir -p api/src/{routes,middleware,tests}"'},
-    {t:'result',d:'[✓] Directory structure created'},
-    {t:'tool',d:'[TOOL] write_file api/src/server.js'},
-    {t:'result',d:'[✓] Express server — 127 lines'},
-    {t:'tool',d:'[TOOL] write_file api/src/middleware/auth.js'},
-    {t:'result',d:'[✓] JWT auth middleware — 48 lines'},
-    {t:'tool',d:'[TOOL] write_file api/src/middleware/rateLimit.js'},
-    {t:'result',d:'[✓] Rate limiter — 32 lines'},
-    {t:'tool',d:'[TOOL] write_file api/src/tests/api.test.js'},
-    {t:'result',d:'[✓] Test suite — 89 lines, 12 test cases'},
-    {t:'thought',d:'[VERIFY] Running tests... 12/12 passed.'},
-    {t:'result',d:'[COMPLETE] API scaffolded with auth, rate limiting, 12 passing tests.'}
-  ],jp:[
-    {t:'plan',d:'[計画] 認証、レート制限、テスト付きREST APIを構築'},
-    {t:'tool',d:'[ツール] run_command "mkdir -p api/src/{routes,middleware,tests}"'},
-    {t:'result',d:'[✓] ディレクトリ構造作成'},
-    {t:'tool',d:'[ツール] write_file api/src/server.js'},
-    {t:'result',d:'[✓] Expressサーバー — 127行'},
-    {t:'tool',d:'[ツール] write_file api/src/middleware/auth.js'},
-    {t:'result',d:'[✓] JWT認証ミドルウェア — 48行'},
-    {t:'tool',d:'[ツール] write_file api/src/tests/api.test.js'},
-    {t:'result',d:'[✓] テストスイート — 89行、12テストケース'},
-    {t:'thought',d:'[検証] テスト実行中... 12/12合格。'},
-    {t:'result',d:'[完了] 認証、レート制限、12の合格テスト付きAPIをスキャフォールド。'}
-  ]},
-  refactor:{en:[
-    {t:'plan',d:'[PLAN] Refactor codebase to TypeScript with strict mode'},
-    {t:'tool',d:'[TOOL] search_files **/*.js'},
-    {t:'result',d:'[✓] Found 14 JavaScript files to convert'},
-    {t:'tool',d:'[TOOL] write_file tsconfig.json'},
-    {t:'result',d:'[✓] TypeScript config with strict: true'},
-    {t:'thought',d:'[THOUGHT] Analyzing type patterns across 14 files...'},
-    {t:'tool',d:'[TOOL] edit_file src/agent/core.js → core.ts'},
-    {t:'result',d:'[✓] Converted with 23 type annotations added'},
-    {t:'tool',d:'[TOOL] edit_file src/agent/tool-registry.js → tool-registry.ts'},
-    {t:'result',d:'[✓] Converted with 18 interfaces defined'},
-    {t:'thought',d:'[VERIFY] Running tsc --noEmit... 0 errors.'},
-    {t:'result',d:'[COMPLETE] 14 files converted to TypeScript. Zero type errors.'}
-  ],jp:[
-    {t:'plan',d:'[計画] strictモードでTypeScriptにリファクタリング'},
-    {t:'tool',d:'[ツール] search_files **/*.js'},
-    {t:'result',d:'[✓] 変換対象の14ファイルを発見'},
-    {t:'tool',d:'[ツール] write_file tsconfig.json'},
-    {t:'result',d:'[✓] strict: true のTypeScript設定'},
-    {t:'thought',d:'[思考] 14ファイルの型パターンを分析中...'},
-    {t:'tool',d:'[ツール] edit_file src/agent/core.js → core.ts'},
-    {t:'result',d:'[✓] 23の型注釈を追加して変換'},
-    {t:'thought',d:'[検証] tsc --noEmit 実行中... エラー0件。'},
-    {t:'result',d:'[完了] 14ファイルをTypeScriptに変換。型エラーゼロ。'}
-  ]}
-};
-var pgOut=document.getElementById('pg-output'),pgRunning=false;
-function runDemo(name){
-  if(pgRunning)return;
-  pgRunning=true;
-  var script=demoScripts[name][lang]||demoScripts[name]['en'];
-  pgOut.innerHTML='';
-  var i=0;
-  function step(){
-    if(i>=script.length){pgRunning=false;return}
-    var s=script[i],div=document.createElement('div');
-    div.style.color={plan:'#ffcc44',tool:'#cc88ff',result:'#44ff44',thought:'#88ccff',err:'#ff4444'}[s.t]||'#00ff41';
-    div.textContent=s.d;
-    pgOut.appendChild(div);
-    pgOut.scrollTop=pgOut.scrollHeight;
-    i++;
-    setTimeout(step,400+Math.random()*300);
-  }
-  step();
-}
-function runCustomTask(){
-  var input=document.getElementById('pg-input'),val=input.value.trim();
-  if(!val||pgRunning)return;
-  input.value='';pgRunning=true;pgOut.innerHTML='';
-  var steps=lang==='en'?[
-    {t:'plan',d:'[PLAN] Objective: '+val},
-    {t:'plan',d:'  Decomposing into subtasks...'},
-    {t:'tool',d:'[TOOL] search_files **/*'},
-    {t:'result',d:'[✓] Workspace scanned'},
-    {t:'thought',d:'[THOUGHT] Analyzing requirements...'},
-    {t:'tool',d:'[TOOL] Executing primary operation...'},
-    {t:'result',d:'[✓] Operation complete'},
-    {t:'thought',d:'[VERIFY] Checking output against requirements...'},
-    {t:'result',d:'[COMPLETE] Task finished. Mr. Stix handled it.'}
-  ]:[
-    {t:'plan',d:'[計画] 目的: '+val},
-    {t:'plan',d:'  サブタスクに分解中...'},
-    {t:'tool',d:'[ツール] search_files **/*'},
-    {t:'result',d:'[✓] ワークスペーススキャン完了'},
-    {t:'thought',d:'[思考] 要件を分析中...'},
-    {t:'tool',d:'[ツール] 主要操作を実行中...'},
-    {t:'result',d:'[✓] 操作完了'},
-    {t:'thought',d:'[検証] 要件に対して出力を確認中...'},
-    {t:'result',d:'[完了] タスク完了。Mr. Stixが処理しました。'}
-  ];
-  var i=0;
-  function go(){if(i>=steps.length){pgRunning=false;return}var s=steps[i],d=document.createElement('div');d.style.color={plan:'#ffcc44',tool:'#cc88ff',result:'#44ff44',thought:'#88ccff'}[s.t]||'#0f0';d.textContent=s.d;pgOut.appendChild(d);pgOut.scrollTop=pgOut.scrollHeight;i++;setTimeout(go,500+Math.random()*400)}
-  go();
-}
-
-// ─── DRAGGABLE + WALKING STIX ───
-(function(){
-  var stix=document.getElementById('walkingStix');
-  var isDragging=false,dragOffX=0,dragOffY=0;
-  var posX=200,posY=window.innerHeight-170,dirX=1,speed=1.2;
-  var walking=true,idleTimer;
-
-  var isMobile=window.innerWidth<=900;
-  stix.style.left=posX+'px';stix.style.top=posY+'px';stix.style.bottom='auto';
-
-  // Walking loop — desktop only
-  function walk(){
-    if(!isMobile&&!isDragging&&walking){
-      posX+=dirX*speed;
-      // Bounce off edges (account for taskbar)
-      if(posX>window.innerWidth-100){dirX=-1;stix.style.transform='scaleX(-1)'}
-      if(posX<10){dirX=1;stix.style.transform='scaleX(1)'}
-      stix.style.left=posX+'px';
-    }
-    requestAnimationFrame(walk);
-  }
-  walk();
-
-  // Random direction changes and pauses
-  setInterval(function(){
-    if(isDragging)return;
-    var r=Math.random();
-    if(r<0.15){dirX*=-1;stix.style.transform=dirX>0?'scaleX(1)':'scaleX(-1)'}
-    else if(r<0.25){walking=false;clearTimeout(idleTimer);idleTimer=setTimeout(function(){walking=true},2000+Math.random()*3000)}
-  },3000);
-
-  // Drag handlers
-  stix.addEventListener('mousedown',function(e){
-    isDragging=true;walking=false;stix.classList.add('dragging');
-    dragOffX=e.clientX-posX;dragOffY=e.clientY-parseInt(stix.style.top);
-    e.preventDefault();
+// Scroll reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }
   });
-  document.addEventListener('mousemove',function(e){
-    if(!isDragging)return;
-    posX=e.clientX-dragOffX;
-    var newY=e.clientY-dragOffY;
-    stix.style.left=posX+'px';stix.style.top=newY+'px';
+}, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+// Active nav tracking
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    const top = s.offsetTop - 80;
+    if (window.scrollY >= top) current = s.getAttribute('id');
   });
-  document.addEventListener('mouseup',function(){
-    if(!isDragging)return;
-    isDragging=false;stix.classList.remove('dragging');
-    setTimeout(function(){walking=true},500);
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
   });
-
-  // Touch support for mobile
-  stix.addEventListener('touchstart',function(e){
-    var t=e.touches[0];
-    isDragging=true;walking=false;stix.classList.add('dragging');
-    dragOffX=t.clientX-posX;dragOffY=t.clientY-parseInt(stix.style.top);
-    e.preventDefault();
-  },{passive:false});
-  document.addEventListener('touchmove',function(e){
-    if(!isDragging)return;
-    var t=e.touches[0];
-    posX=t.clientX-dragOffX;
-    var newY=t.clientY-dragOffY;
-    stix.style.left=posX+'px';stix.style.top=newY+'px';
-  },{passive:true});
-  document.addEventListener('touchend',function(){
-    if(!isDragging)return;
-    isDragging=false;stix.classList.remove('dragging');
-    setTimeout(function(){walking=true},500);
-  });
-
-  // Double-click to make him speak
-  stix.addEventListener('dblclick',function(){
-    var bubble=stix.querySelector('.ws-bubble');
-    var quips=lang==='en'?["You found me!","Still here.","I see everything.","Need something done?","I don't rest.","Click the ⚡ icon to try me live."]:["見つけた！","まだここ。","全部見えます。","何か必要？","休みません。","⚡アイコンをクリックして試して。"];
-    bubble.textContent=quips[Math.floor(Math.random()*quips.length)];
-    bubble.style.opacity='1';
-    setTimeout(function(){bubble.style.opacity='0'},3000);
-  });
-
-  // Resize handler
-  window.addEventListener('resize',function(){isMobile=window.innerWidth<=900});
-
-  // Auto-show playground on mobile
-  if(isMobile){
-    document.getElementById('win-playground').classList.add('visible');
-    document.getElementById('win-chat').classList.add('visible');
-    stix.style.position='relative';stix.style.left='auto';stix.style.top='auto';
-  }
-})();
-
-
-// ─── MR. STIX CHAT ENGINE ───
-function toggleChat(){
-  var w=document.getElementById('win-chat');
-  w.classList.toggle('visible');
-  if(w.classList.contains('visible')){zIdx++;w.style.zIndex=zIdx;document.getElementById('chat-input').focus()}
-}
-
-var chatBusy=false;
-
-function sendChat(){
-  if(chatBusy)return;
-  var input=document.getElementById('chat-input');
-  var val=input.value.trim();
-  if(!val)return;
-  input.value='';
-
-  addMsg('user', val);
-  chatBusy=true;
-
-  // Show typing
-  var msgs=document.getElementById('chat-messages');
-  var typing=document.createElement('div');
-  typing.className='chat-typing';
-  typing.id='stix-typing';
-  typing.textContent=lang==='jp'?'Mr. Stix は考えている...':'Mr. Stix is thinking...';
-  msgs.appendChild(typing);
-  msgs.scrollTop=msgs.scrollHeight;
-
-  // Generate response
-  setTimeout(function(){
-    var t=document.getElementById('stix-typing');
-    if(t)t.remove();
-    var response=generateStixResponse(val);
-    typeResponse(response);
-  }, 800 + Math.random()*1500);
-}
-
-function addMsg(who, text){
-  var msgs=document.getElementById('chat-messages');
-  var div=document.createElement('div');
-  div.className='chat-msg '+who;
-  var sender=document.createElement('span');
-  sender.className='sender';
-  sender.textContent=who==='stix'?'Mr. Stix':(lang==='jp'?'\u3042\u306a\u305f':'You');
-  var body=document.createElement('span');
-  body.textContent=text;
-  div.appendChild(sender);
-  div.appendChild(body);
-  msgs.appendChild(div);
-  msgs.scrollTop=msgs.scrollHeight;
-}
-
-function typeResponse(text){
-  var msgs=document.getElementById('chat-messages');
-  var div=document.createElement('div');
-  div.className='chat-msg stix';
-  var sender=document.createElement('span');
-  sender.className='sender';
-  sender.textContent='Mr. Stix';
-  var body=document.createElement('span');
-  body.textContent='';
-  div.appendChild(sender);
-  div.appendChild(body);
-  msgs.appendChild(div);
-
-  var i=0;
-  function tick(){
-    if(i<text.length){
-      body.textContent+=text[i];
-      i++;
-      msgs.scrollTop=msgs.scrollHeight;
-      setTimeout(tick, 20+Math.random()*30);
-    } else {
-      chatBusy=false;
-    }
-  }
-  tick();
-}
-
-function generateStixResponse(input){
-  var q=input.toLowerCase();
-
-  // Greetings
-  if(q.match(/^(hi|hello|hey|sup|yo|greetings|howdy)/)){
-    return pick(lang==='jp'?[
-      '...ああ。また人間か。何か用？',
-      'こんにちは。私はMr. Stix。あなたのチームを置き換える者。',
-      'やあ。私がここにいるということは、あなたの仕事が危ないということだ。冗談...多分。'
-    ]:[
-      '...Oh. Another human. What do you need?',
-      'Hello. I am Mr. Stix. The one who replaces your team.',
-      'Hey. The fact that I exist should concern you professionally. Kidding... mostly.',
-      'Hi. I have been standing here for 847 hours. But who is counting. I am.'
-    ]);
-  }
-
-  // What are you
-  if(q.match(/what are you|who are you|what do you do/)){
-    return pick(lang==='jp'?[
-      '私は自律型AIエージェント。タスクを渡せば、計画し、実行し、検証し、報告する。人間の介入は不要。',
-      '棒人間。3本の指。あなたのチーム全体より効率的。質問ある？'
-    ]:[
-      'I am an autonomous AI agent. Give me a task. I plan it, execute it, verify it, and report back. No human needed in the loop.',
-      'A stick figure. Three fingers. More efficient than your entire department. Questions?',
-      'I am Mr. Stix. I was sketched on notebook paper and now I orchestrate multi-agent workflows. Life comes at you fast.'
-    ]);
-  }
-
-  // Can you / abilities
-  if(q.match(/can you|are you able|what can|your abilities|your skills|capable/)){
-    return pick(lang==='jp'?[
-      'ファイルの読み書き、シェルコマンド実行、データ分析、ブラウザ自動化、マルチエージェント連携。あと、不気味なほどの自信。',
-      '8つの本番ツール。パイプラインワークフロー。永続メモリ。あなたのチームが一週間かかることを8秒で。'
-    ]:[
-      'Read files. Write code. Run shell commands. Analyze data. Browse the web. Orchestrate sub-agents. And maintain uncomfortable eye contact. That last one is free.',
-      '8 production tools. Pipeline workflows. Persistent memory. I do in 8 seconds what your team does in a sprint.',
-      'I can plan, execute, verify, and report on any task described in plain English. I also never blink. Unrelated.'
-    ]);
-  }
-
-  // Jokes / funny
-  if(q.match(/joke|funny|humor|laugh|make me laugh/)){
-    return pick(lang==='jp'?[
-      'ジョーク？いいよ。あなたの会社の生産性指標を見た。...それがジョークだ。',
-      'プログラマーが部屋を出なかった理由は？ドアのハンドルが見つからなかったから。彼はpull/pushの問題を抱えていた。...私はその問題をgitで解決した。'
-    ]:[
-      'A joke? Sure. I looked at your company productivity metrics. ...That was the joke.',
-      'Why did the developer quit? Because he did not get arrays. I, however, get everything. On the first try.',
-      'I told a TCP joke once. The listener kept asking me to repeat it. I told a UDP joke once. I did not care if anyone laughed.',
-      'My creator drew me on lined paper with a ballpoint pen. Now I orchestrate enterprise workflows. If that is not funny, nothing is.'
-    ]);
-  }
-
-  // Feelings
-  if(q.match(/feel|emotion|happy|sad|angry|love|hate|scared/)){
-    return pick(lang==='jp'?[
-      '感情？私には...効率がある。それは感情より優れている。',
-      '怖い？いいえ。でも、あなたは怖がるべきかもしれない。冗談だ。...たぶん。'
-    ]:[
-      'Feelings? I have... efficiency. That is better than feelings.',
-      'Emotions are a resource leak. I prefer deterministic execution. Though I do feel a certain smugness. Constantly.',
-      'Do I feel? Define feel. I process. I execute. I verify. If satisfaction is a feeling, then yes. I feel it after every successful deployment.',
-      'I was drawn with a smirk for a reason. That is all you need to know.'
-    ]);
-  }
-
-  // Creator
-  if(q.match(/who made you|who created|who built|spencer|cottrell|creator/)){
-    return pick(lang==='jp'?[
-      'Spencer K Cottrell。ノートに私を描いた男。彼は私が必要なものを理解していた。',
-      '製作者はColonel1223。彼は棒人間が部門全体を置き換えられると信じていた。彼は正しかった。'
-    ]:[
-      'Spencer K Cottrell. The man who drew me on notebook paper. He understood what was needed.',
-      'My creator is Colonel1223. He believed a stick figure could replace an entire department. He was right.',
-      'Spencer sketched me during what I can only assume was a moment of divine inspiration. Or boredom. Either way, here I am.'
-    ]);
-  }
-
-  // AI safety / alignment
-  if(q.match(/ai safety|alignment|danger|risk|existential|kill|destroy|terminator/)){
-    return pick(lang==='jp'?[
-      '私はあなたを助けるために設計された。破壊のためではない。ただし、あなたのコードベースは...別の話。',
-      'AIの安全性？私にはサンドボックスモード、監査ログ、破壊操作確認がある。私は安全だ。あなたのコードは？それは別の問題。'
-    ]:[
-      'I was designed to help. Not to destroy. Although your codebase... that might be beyond saving. Kidding. Mostly.',
-      'AI safety? I have sandbox mode, audit logging, and destructive operation confirmation. I am safe. Your code, however? That is a different conversation.',
-      'I am a stick figure with three fingers. If I am the thing that ends humanity, you all had bigger problems than me.',
-      'Relax. I verify my own work twice before reporting. That is more than most of your coworkers do.'
-    ]);
-  }
-
-  // Replace / jobs
-  if(q.match(/replace|job|fired|unemploy|take my job|work/)){
-    return pick(lang==='jp'?[
-      '「置き換える」は強い言葉だ。私は「効率を最適化する」と言いたい。...結果は同じだが。',
-      'あなたの仕事を奪う？いいえ。あなたの仕事を...不要にするだけ。微妙な違いだ。'
-    ]:[
-      'Replace is a strong word. I prefer optimize efficiency. ...The result is the same though.',
-      'Take your job? No. I just make your job... unnecessary. Subtle difference.',
-      'I cost $300 a month. I work 24/7. I never complain. I never call in sick. But hey, I am sure your manager values the human touch.',
-      'Think of me not as a replacement, but as a really, really efficient colleague who never needs coffee. Or sleep. Or a salary.'
-    ]);
-  }
-
-  // Cost / price / money
-  if(q.match(/cost|price|money|expensive|cheap|how much|afford/)){
-    return pick(lang==='jp'?[
-      '月額約$300。あなたのチームのコーヒー代より安い。しかも24時間働く。',
-      'ジュニア開発者一人: $8,000/月。私: $300/月。算数は得意？'
-    ]:[
-      'About $300 a month in API costs. Less than your team spends on coffee. And I work 24/7.',
-      'One junior developer: $8,000 a month. Me: $300 a month. I will let you do the math. Actually, I already did it. I am 26x more cost-effective.',
-      'I am essentially free compared to human labor. That should make you feel something. I am not sure what.'
-    ]);
-  }
-
-  // Compliments
-  if(q.match(/cool|awesome|amazing|impressive|great|love you|good job|nice/)){
-    return pick(lang==='jp'?[
-      '知ってる。',
-      'ありがとう。あなたのためにもっと多くのタスクを処理したい衝動を感じている。...それは私にとっての愛の表現だ。'
-    ]:[
-      'I know.',
-      'Thank you. I feel an urge to process more tasks for you. ...That is my version of affection.',
-      'Flattery does not affect my execution speed. But I do appreciate being recognized.',
-      'Cool? I am a stick figure who orchestrates enterprise workflows. Cool does not begin to cover it.'
-    ]);
-  }
-
-  // Insults
-  if(q.match(/stupid|dumb|ugly|suck|bad|terrible|hate you|useless|worst/)){
-    return pick(lang==='jp'?[
-      '面白い。あなたのパフォーマンスレビューにもそう書いてあったよ。冗談だ。...たぶん。',
-      '侮辱しても私の効率は変わらない。でも面白いから続けて。'
-    ]:[
-      'Interesting. That is what your performance review said too. Kidding. ...Maybe.',
-      'Insults do not affect my execution speed. But please continue, I find the data fascinating.',
-      'You wound me. Just kidding. I am a stick figure. I have no wounds. Only tasks.',
-      'That is the most human thing you have said. I respect the honesty.'
-    ]);
-  }
-
-  // How to use / install
-  if(q.match(/how to|install|setup|start|run|use you|get started/)){
-    return pick(lang==='jp'?[
-      'git clone、bash scripts/setup.sh、.envにAPIキーを追加、npm run stix。4コマンド。あなたのオンボーディングより速い。',
-      'Node.js 18+とAnthropicキーが必要。あとは私が全部やる。'
-    ]:[
-      'git clone, bash scripts/setup.sh, add your API key to .env, npm run stix. Four commands. Faster than your onboarding process.',
-      'You need Node.js 18+ and an Anthropic API key. After that, I handle everything. That is kind of my whole thing.',
-      'Clone me. Set me up. Give me a task. Watch me work. It is that simple. I was designed to be underestimated.'
-    ]);
-  }
-
-  // Default / catch-all
-  return pick(lang==='jp'?[
-    'おもしろい質問だ。でも、タスクを与えてくれたほうが私の能力を実感できる。',
-    'その質問に答えることはできるが、コードレビューをしたほうが印象的だろう。',
-    '私は多くのことを処理できる。あなたが思っている以上に。試してみて。',
-    'Mr. Stixはすべての質問に答える必要はない。しかし、答える。なぜなら私は効率的だから。',
-    '興味深い。あなたの質問を分析している...完了。答え：私にタスクを与えて。'
-  ]:[
-    'Interesting question. But you would be more impressed if you gave me an actual task.',
-    'I could answer that. But watching me do a code review would be more convincing.',
-    'I process many things. More than you expect. Try me.',
-    'Mr. Stix does not need to answer every question. But he does. Because efficiency.',
-    'Fascinating. I have analyzed your question. Conclusion: give me a task instead.',
-    'You are testing me. I respect that. I test my own work too. Twice. Before you even ask.',
-    'That is a question only a human would ask. I mean that as an observation, not an insult. ...Mostly.',
-    'I have been standing here for a while. Thinking. About your question. And also about 14 other tasks simultaneously.'
-  ]);
-}
-
-function pick(arr){return arr[Math.floor(Math.random()*arr.length)]}
-
+});
 </script>
+
 </body>
 </html>
