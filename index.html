@@ -2,29 +2,57 @@
 <html lang="en">
 <head>
 <style>
-  /* Linux accents — KDE circa 2002 */
-  .sec-num { font-family: "Courier New", monospace !important; text-shadow: 0 0 10px rgba(0,255,65,0.25); color: #00cc55 !important; }
-  .sec-label { font-family: "Courier New", monospace !important; letter-spacing: 2px; text-transform: uppercase; color: #00aa44 !important; font-size: 11px !important; }
-  .sec-title { font-family: "Courier New", monospace !important; letter-spacing: 3px; text-transform: uppercase; border-bottom: 1px dashed rgba(0,255,65,0.15) !important; padding-bottom: 8px !important; }
-  .sec-desc { font-family: "Courier New", monospace !important; font-size: 12px !important; color: #8a9a8a !important; }
-  nav a, .nav-links a { font-family: "Courier New", monospace !important; letter-spacing: 1.5px; font-size: 11px !important; text-transform: uppercase; }
-  .btn { font-family: "Courier New", monospace !important; letter-spacing: 1.5px; border: 1px solid rgba(0,255,65,0.2) !important; }
-  .btn:hover { border-color: rgba(0,255,65,0.5) !important; text-shadow: 0 0 6px rgba(0,255,65,0.3); }
-  .demo { border: 1px solid rgba(0,255,65,0.08) !important; transition: all 0.3s !important; }
-  .demo:hover { border-color: rgba(0,255,65,0.25) !important; box-shadow: 0 0 15px rgba(0,255,65,0.06), inset 0 0 30px rgba(0,255,65,0.02) !important; }
-  .demo h4 { font-family: "Courier New", monospace !important; letter-spacing: 1px; }
+  /* Linux accents — KDE circa 2002 — ENHANCED */
+
+  /* === GLOBAL TERMINAL FEEL === */
+  body::after { content: ''; position: fixed; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.008) 2px, rgba(0,255,65,0.008) 4px); pointer-events: none; z-index: 9999; }
+  ::selection { background: rgba(0,255,65,0.25) !important; color: #fff !important; }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #0a0a0a; border-left: 1px solid rgba(0,255,65,0.1); }
+  ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(0,255,65,0.2), rgba(0,255,65,0.08)); border-radius: 0; border: 1px solid rgba(0,255,65,0.15); }
+  ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, rgba(0,255,65,0.35), rgba(0,255,65,0.15)); }
+
+  /* === NAV === */
+  nav, nav * { font-family: "Courier New", monospace !important; }
+  nav a { letter-spacing: 2px !important; font-size: 11px !important; text-transform: uppercase !important; transition: text-shadow 0.3s, color 0.3s !important; }
+  nav a:hover { text-shadow: 0 0 8px rgba(0,255,65,0.4) !important; color: #00ff41 !important; }
+
+  /* === SECTION HEADERS === */
+  .sec-num { font-family: "Courier New", monospace !important; text-shadow: 0 0 12px rgba(0,255,65,0.35); color: #00ff41 !important; font-weight: bold !important; }
+  .sec-label { font-family: "Courier New", monospace !important; letter-spacing: 3px; text-transform: uppercase; color: #00cc44 !important; font-size: 10px !important; border-left: 3px solid #00ff41 !important; padding-left: 8px !important; }
+  .sec-title { font-family: "Courier New", monospace !important; letter-spacing: 3px; text-transform: uppercase; border-bottom: 1px solid rgba(0,255,65,0.2) !important; padding-bottom: 10px !important; text-shadow: 0 0 20px rgba(0,255,65,0.06) !important; }
+  .sec-desc { font-family: "Courier New", monospace !important; font-size: 12px !important; color: #6a8a6a !important; line-height: 1.8 !important; }
+
+  /* === HERO === */
+  h1 { text-shadow: 0 0 60px rgba(0,255,65,0.1), 0 0 120px rgba(0,255,65,0.03) !important; }
+
+  /* === BUTTONS === */
+  .btn { font-family: "Courier New", monospace !important; letter-spacing: 2px; border: 1px solid rgba(0,255,65,0.25) !important; text-transform: uppercase !important; font-size: 10px !important; transition: all 0.3s !important; }
+  .btn:hover { border-color: #00ff41 !important; text-shadow: 0 0 8px rgba(0,255,65,0.5); box-shadow: 0 0 15px rgba(0,255,65,0.1), inset 0 0 15px rgba(0,255,65,0.03) !important; color: #00ff41 !important; }
+
+  /* === DEMO CARDS === */
+  .demo { border: 1px solid rgba(0,255,65,0.1) !important; transition: all 0.3s !important; position: relative !important; }
+  .demo::before { content: '> '; color: #00ff41; font-family: "Courier New", monospace; opacity: 0; transition: opacity 0.3s; position: absolute; left: 8px; top: 8px; font-size: 10px; }
+  .demo:hover { border-color: rgba(0,255,65,0.35) !important; box-shadow: 0 0 20px rgba(0,255,65,0.08), inset 0 0 40px rgba(0,255,65,0.02) !important; background: rgba(0,255,65,0.02) !important; }
+  .demo:hover::before { opacity: 1; }
+  .demo h4 { font-family: "Courier New", monospace !important; letter-spacing: 1.5px; }
+  .demo span { font-family: "Courier New", monospace !important; font-size: 10px !important; letter-spacing: 0.5px; }
   .demo.feat { border-left: 3px solid #00ff41 !important; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 2px 0 rgba(0,0,0,0.4) !important; }
-  .demo.feat:hover { box-shadow: 0 0 20px rgba(0,255,65,0.1), inset 0 0 40px rgba(0,255,65,0.03) !important; }
-  .card { border: 1px solid rgba(0,255,65,0.06) !important; transition: border-color 0.3s, box-shadow 0.3s !important; }
-  .card:hover { border-color: rgba(0,255,65,0.25) !important; box-shadow: 0 0 25px rgba(0,255,65,0.06) !important; }
-  .card h3 { font-family: "Courier New", monospace !important; letter-spacing: 1px; }
-  .tag { font-family: "Courier New", monospace !important; letter-spacing: 2px; border: 1px solid rgba(0,255,65,0.15) !important; }
-  h1 { text-shadow: 0 0 40px rgba(0,255,65,0.08) !important; }
-  ::selection { background: rgba(0,255,65,0.2) !important; color: #fff !important; }
-  ::-webkit-scrollbar { width: 8px; }
-  ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
-  ::-webkit-scrollbar-thumb { background: rgba(0,255,65,0.15); border-radius: 4px; }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(0,255,65,0.3); }
+  .demo.feat:hover { box-shadow: 0 0 25px rgba(0,255,65,0.12), inset 0 0 50px rgba(0,255,65,0.03) !important; border-color: #00ff41 !important; }
+
+  /* === PROJECT CARDS === */
+  .card { border: 1px solid rgba(0,255,65,0.08) !important; transition: all 0.3s !important; }
+  .card:hover { border-color: rgba(0,255,65,0.3) !important; box-shadow: 0 0 30px rgba(0,255,65,0.08) !important; background: rgba(0,255,65,0.015) !important; }
+  .card h3 { font-family: "Courier New", monospace !important; letter-spacing: 1.5px; }
+  .card p { font-size: 12px !important; }
+
+  /* === TAGS === */
+  .tag { font-family: "Courier New", monospace !important; letter-spacing: 2px; border: 1px solid rgba(0,255,65,0.2) !important; font-size: 9px !important; }
+
+  /* === FOOTER / SECTION BORDERS === */
+  section { border-bottom: 1px solid rgba(0,255,65,0.04) !important; }
+  footer, .footer { font-family: "Courier New", monospace !important; }
+
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
