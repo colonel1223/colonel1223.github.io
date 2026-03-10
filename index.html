@@ -1,66 +1,996 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>S. K. Cottrell — AI Safety Research</title><meta name="description" content="AI safety researcher. Alignment, interpretability, existential risk. Conformal prediction, mesa-optimization, scaling laws. Python, PyTorch, JAX, WebGL."><meta property="og:title" content="S. K. Cottrell — AI Safety Research"><meta property="og:url" content="https://colonel1223.net"><link rel="canonical" href="https://colonel1223.net"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Spencer Kitaro Cottrell","url":"https://colonel1223.net","sameAs":["https://github.com/colonel1223","https://x.com/colonel1223","https://scholar.google.com/citations?user=Mj6ipggAAAAJ&hl=en"]}</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600&amp;family=Noto+Serif+JP:wght@300;400;500;600;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&amp;display=swap" rel="stylesheet"><style>*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}:root{--bg:#0f1114;--bg2:#161920;--bg3:#1c2028;--bgH:#1f2330;--t1:#e8e4df;--t2:#9a9690;--t3:#6b6660;--r:#c43e3e;--rd:#8b2c2c;--am:#c4883e;--bl:#3e7cc4;--b:#2a2d35;--bs:#222530;--mono:'IBM Plex Mono','Courier New',monospace;--serif:'Source Serif 4','Noto Serif JP',Georgia,serif;--jp:'Noto Serif JP',serif}html{scroll-behavior:smooth;font-size:15px}body{background:var(--bg);color:var(--t1);font-family:var(--mono);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}::selection{background:var(--r);color:var(--t1)}body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}.grid-bg{position:fixed;inset:0;background-image:linear-gradient(var(--bs) 1px,transparent 1px),linear-gradient(90deg,var(--bs) 1px,transparent 1px);background-size:60px 60px;opacity:.3;pointer-events:none;z-index:0}nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(15,17,20,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--b);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between}.nb{font-family:var(--mono);font-weight:500;font-size:.8rem;letter-spacing:.2em;color:var(--t1);text-decoration:none;display:flex;align-items:center;gap:.75rem}.nb .jm{font-family:var(--jp);font-size:.7rem;color:var(--r);opacity:.8}.nl{display:flex;align-items:center;gap:0}.nl a{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t2);text-decoration:none;padding:.5rem 1rem;transition:color .2s;position:relative}.nl a:hover,.nl a.active{color:var(--t1)}.nl a.active::after{content:'';position:absolute;bottom:-2px;left:1rem;right:1rem;height:1px;background:var(--r)}.nl .sep{width:1px;height:16px;background:var(--b);margin:0 .25rem}.nr{display:flex;align-items:center;gap:.75rem}.nr a{color:var(--t3);transition:color .2s;display:flex;align-items:center}.nr a:hover{color:var(--t1)}.nr svg{width:16px;height:16px}.nt{display:none;background:none;border:none;color:var(--t1);cursor:pointer;padding:.5rem}.sb{position:fixed;top:56px;left:0;right:0;z-index:999;background:rgba(22,25,32,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--b);height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;font-size:.62rem;letter-spacing:.08em}.sl,.sr{display:flex;align-items:center;gap:1.5rem}.si{display:flex;align-items:center;gap:.4rem;color:var(--t3)}.si .lb{text-transform:uppercase;letter-spacing:.12em}.si .vl{color:var(--t2);font-variant-numeric:tabular-nums}.sc .vl{color:var(--r);min-width:58px}.sd{width:1px;height:14px;background:var(--b)}.vb{padding:.15rem .5rem;border:1px solid var(--rd);color:var(--r);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase}.lt{position:relative}.lb2{background:none;border:1px solid var(--b);color:var(--t2);font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .6rem;cursor:pointer;display:flex;align-items:center;gap:.35rem;transition:all .2s}.lb2:hover{border-color:var(--rd);color:var(--t1)}.lb2 svg{width:10px;height:10px;transition:transform .2s}.lt.open .lb2 svg{transform:rotate(180deg)}.ld{display:none;position:absolute;top:calc(100% + 4px);right:0;background:var(--bg2);border:1px solid var(--b);min-width:120px;z-index:1001}.lt.open .ld{display:block}.lo{display:block;width:100%;background:none;border:none;color:var(--t2);font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;padding:.5rem .75rem;text-align:left;cursor:pointer;transition:all .15s}.lo:hover{background:var(--bgH);color:var(--t1)}.lo.active{color:var(--r)}.con{max-width:1200px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}section{padding:6rem 0;border-bottom:1px solid var(--b)}.sh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:3rem}.slb{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--t3);display:flex;align-items:center;gap:.75rem}.slb::before{content:'';width:8px;height:1px;background:var(--r)}.sn{font-family:var(--serif);font-size:4rem;font-weight:300;color:var(--b);line-height:1;font-style:italic}.st{font-family:var(--serif);font-size:2.2rem;font-weight:400;color:var(--t1);margin-bottom:.75rem;letter-spacing:-.01em}.ss{font-family:var(--serif);font-size:1rem;font-weight:300;color:var(--t2);font-style:italic;max-width:600px}#hero{min-height:100vh;display:flex;align-items:center;padding-top:88px;position:relative;overflow:hidden}.hscan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);pointer-events:none}.hc{max-width:1200px;margin:0 auto;padding:0 2rem;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}.htag{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--r);margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem}.htag::before{content:'';width:24px;height:1px;background:var(--r)}.hn{font-family:var(--serif);font-size:3.5rem;font-weight:400;line-height:1.15;margin-bottom:1.5rem;letter-spacing:-.02em}.hn .jps{display:block;font-family:var(--jp);font-size:1rem;font-weight:300;color:var(--t3);margin-top:.5rem;letter-spacing:.1em}.hd{font-family:var(--serif);font-size:1.05rem;font-weight:300;line-height:1.8;color:var(--t2);max-width:480px;margin-bottom:2rem}.hm{display:flex;gap:2rem;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}.hm span{display:flex;align-items:center;gap:.4rem}.dot{width:4px;height:4px;border-radius:50%;background:var(--r)}.hterm{background:var(--bg2);border:1px solid var(--b);border-radius:4px;overflow:hidden;font-size:.75rem}.tbar{background:var(--bg3);padding:.6rem 1rem;display:flex;align-items:center;gap:.5rem;border-bottom:1px solid var(--b)}.td{width:8px;height:8px;border-radius:50%;background:var(--b)}.td.r{background:var(--rd)}.td.y{background:var(--am);opacity:.4}.td.g{background:#3e6b3e}.ttl{margin-left:.5rem;color:var(--t3);font-size:.65rem}.tbody{padding:1.25rem;line-height:1.9;color:var(--t2)}.tbody .pr{color:var(--rd)}.tbody .cm{color:var(--t1)}.tbody .co{color:var(--t3);font-style:italic}.tbody .ou{color:var(--t2);opacity:.8}.tbody .hl{color:var(--am)}.ag{display:grid;grid-template-columns:1fr 1.2fr;gap:4rem;align-items:start}.atp{font-family:var(--serif);font-size:1rem;font-weight:300;line-height:1.9;color:var(--t2);margin-bottom:1.25rem}.atp:first-of-type::first-line{color:var(--t1);font-weight:400}.ahm{margin-top:2rem;padding-top:2rem;border-top:1px solid var(--b)}.ahm p{font-family:var(--serif);font-size:.95rem;font-weight:300;line-height:1.9;color:var(--t2);font-style:italic}.as{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--b);border:1px solid var(--b)}.asc{background:var(--bg2);padding:1.5rem}.asv{font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--t1);margin-bottom:.3rem}.asl{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t3)}.skg{margin-top:2rem}.skt{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}.skt::before{content:'';width:6px;height:1px;background:var(--r)}.stg{display:flex;flex-wrap:wrap;gap:.4rem}.stgi{font-size:.68rem;padding:.3rem .7rem;background:var(--bg3);border:1px solid var(--b);color:var(--t2);letter-spacing:.05em}.stgi.c{border-color:var(--rd);color:var(--t1)}.eg{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--b);border:1px solid var(--b)}.ec{background:var(--bg2);padding:2rem;transition:background .3s}.ec:hover{background:var(--bgH)}.ei{font-size:.65rem;color:var(--rd);margin-bottom:1rem;letter-spacing:.1em}.ec h3{font-family:var(--serif);font-size:1.1rem;font-weight:400;margin-bottom:.75rem;color:var(--t1)}.ec p{font-size:.78rem;line-height:1.7;color:var(--t2)}.em{margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--bs);font-size:.68rem;color:var(--t3);line-height:1.8}.dg{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--b);border:1px solid var(--b)}.dc{background:var(--bg2);padding:0;overflow:hidden;cursor:pointer;transition:background .3s;position:relative;text-decoration:none;color:inherit;display:block}.dc:hover{background:var(--bgH)}.dc:hover .dp{opacity:1}.dc:hover .da{opacity:1;transform:translateX(0)}.dp{height:120px;background:var(--bg3);position:relative;overflow:hidden;opacity:.7;transition:opacity .3s}.dp canvas{width:100%;height:100%}.di{padding:1.5rem}.ds{display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem}.ds .ind{width:6px;height:6px;border-radius:50%;background:var(--rd)}.ds .ind.live{background:var(--r);box-shadow:0 0 8px rgba(196,62,62,.4)}.ds .tl{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t3)}.dc h3{font-family:var(--mono);font-size:.9rem;font-weight:500;color:var(--t1);margin-bottom:.5rem;letter-spacing:.02em}.dc .dd{font-size:.73rem;color:var(--t3);line-height:1.6}.dtg{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.75rem}.dtgi{font-size:.6rem;padding:.15rem .45rem;border:1px solid var(--b);color:var(--t3);letter-spacing:.05em}.da{position:absolute;top:1.5rem;right:1.5rem;color:var(--r);opacity:0;transform:translateX(-4px);transition:all .2s;font-size:.8rem}.dc.ft .dp{height:160px}.dc.ft h3{font-size:1rem;font-weight:600;letter-spacing:.08em}.al{border:1px solid var(--b)}.ai{display:grid;grid-template-columns:60px 1fr 200px 100px;align-items:center;padding:1.25rem 1.5rem;border-bottom:1px solid var(--b);cursor:pointer;transition:background .2s;text-decoration:none;color:inherit}.ai:last-child{border-bottom:none}.ai:hover{background:var(--bgH)}.ax{font-size:.7rem;color:var(--t3)}.atl{font-size:.85rem;color:var(--t1);font-weight:400}.atl span{display:block;font-size:.7rem;color:var(--t3);font-weight:300;margin-top:.2rem}.adm{font-size:.68rem;color:var(--t3);text-align:right}.ast{text-align:right;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase}.ast.cp{color:var(--r)}.ast.ac{color:var(--am)}.pi{padding:2rem 0;border-bottom:1px solid var(--b);display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start}.pi:first-child{padding-top:0}.py{font-size:.65rem;letter-spacing:.15em;color:var(--t3);margin-bottom:.5rem}.ptl{font-family:var(--serif);font-size:1.1rem;font-weight:400;color:var(--t1);margin-bottom:.5rem}.pau{font-size:.78rem;color:var(--t2);margin-bottom:.5rem}.pab{font-size:.78rem;color:var(--t3);line-height:1.7;max-width:600px}.pls{display:flex;gap:.75rem;margin-top:.75rem}.pl{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--rd);text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:.3rem}.pl:hover{color:var(--r)}.pv{font-size:.68rem;color:var(--t3);text-align:right;min-width:120px}.rg{display:grid;grid-template-columns:1fr 1fr;gap:4rem}.rc h3{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem}.rc h3::before{content:'';width:6px;height:1px;background:var(--r)}.re{padding:1.25rem 0;border-bottom:1px solid var(--bs)}.re:last-child{border-bottom:none}.rp{font-size:.65rem;color:var(--t3);letter-spacing:.1em;margin-bottom:.3rem}.rr{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--t1);margin-bottom:.2rem}.ro{font-size:.78rem;color:var(--t2);margin-bottom:.5rem}.rd2{font-size:.75rem;color:var(--t3);line-height:1.7}.rdl{margin-top:2rem;display:inline-flex;align-items:center;gap:.5rem;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t2);text-decoration:none;padding:.75rem 1.5rem;border:1px solid var(--b);transition:all .2s}.rdl:hover{border-color:var(--r);color:var(--t1)}.skgr{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--b);border:1px solid var(--b)}.ski{background:var(--bg2);padding:1.5rem;transition:background .2s}.ski:hover{background:var(--bgH)}.ski .skc{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rd);margin-bottom:.75rem}.ski h4{font-size:.8rem;font-weight:500;color:var(--t1);margin-bottom:.3rem}.ski p{font-size:.7rem;color:var(--t3);line-height:1.6}footer{padding:3rem 0;border-top:1px solid var(--b)}.fc{display:flex;justify-content:space-between;align-items:center}.fl{font-size:.7rem;color:var(--t3)}.fl .jpt{font-family:var(--jp);font-size:.65rem;color:var(--t3);opacity:.6;display:block;margin-top:.3rem}.fs{display:flex;gap:1.25rem;align-items:center}.fs a{color:var(--t3);text-decoration:none;display:flex;align-items:center;gap:.4rem;font-size:.68rem;letter-spacing:.08em;transition:color .2s}.fs a:hover{color:var(--t1)}.fs svg{width:14px;height:14px}@media(max-width:900px){.hc{grid-template-columns:1fr}.hr{display:none}.ag{grid-template-columns:1fr}.eg{grid-template-columns:1fr}.dg{grid-template-columns:1fr}.rg{grid-template-columns:1fr;gap:2rem}.skgr{grid-template-columns:1fr 1fr}.ai{grid-template-columns:40px 1fr 80px}.adm{display:none}.nl{display:none}.nt{display:block}.nl.open{display:flex;flex-direction:column;position:absolute;top:56px;left:0;right:0;background:rgba(15,17,20,.98);padding:1rem 2rem;border-bottom:1px solid var(--b)}.nl.open .sep{display:none}.sn{font-size:2.5rem}.hn{font-size:2.4rem}.sb{padding:0 1rem}.si .lb{display:none}}@media(max-width:600px){.con{padding:0 1.25rem}section{padding:4rem 0}.as{grid-template-columns:1fr}.skgr{grid-template-columns:1fr}.pi{grid-template-columns:1fr}.pv{text-align:left}.fc{flex-direction:column;gap:1.5rem;text-align:center}}</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <style>
-.goog-te-banner-frame,.goog-te-gadget{display:none!important}
-body{top:0!important}
-#lang-switcher{display:flex;flex-direction:row;gap:5px;align-items:center}
-.lang-btn{background:transparent;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.45);padding:3px 10px;font-size:10.5px;font-family:inherit;cursor:pointer;letter-spacing:.1em;transition:all .18s;border-radius:2px;text-transform:uppercase;white-space:nowrap}
-.lang-btn:hover,.lang-btn.active{border-color:rgba(255,255,255,.75);color:#fff;background:rgba(255,255,255,.06)}
+  /* Linux accents */
+  .sec-num { font-family: "Courier New", monospace !important; text-shadow: 0 0 8px rgba(0,255,65,0.15); }
+  nav a, .nav-links a { font-family: "Courier New", monospace !important; letter-spacing: 1px; font-size: 11px !important; }
+  .demo.feat { box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 2px 0 rgba(0,0,0,0.3) !important; }
+  .card { border: 1px solid rgba(255,255,255,0.06) !important; transition: border-color 0.3s, box-shadow 0.3s !important; }
+  .card:hover { border-color: rgba(0,255,65,0.2) !important; box-shadow: 0 0 20px rgba(0,255,65,0.05) !important; }
+  .sec-title { font-family: "Courier New", monospace !important; letter-spacing: 2px; }
+  .btn { font-family: "Courier New", monospace !important; letter-spacing: 1px; }
+  .sec-label { font-family: "Courier New", monospace !important; }
 </style>
-</head><body><div class="grid-bg"></div><nav><a href="#hero" class="nb">S · K · COTTRELL <span class="jm">安全研究</span></a><button class="nt" onclick="document.querySelector('.nl').classList.toggle('open')" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="6" x2="17" y2="6"/><line x1="3" y1="10" x2="17" y2="10"/><line x1="3" y1="14" x2="17" y2="14"/></svg></button><div class="nl"><a href="#about">About</a><a href="#expertise">Expertise</a><a href="#demos">Demos</a><a href="#archive">Archive</a><a href="#research">Research</a><a href="#resume">Resume</a><a href="#stack">Stack</a><span class="sep"></span><a href="https://github.com/colonel1223" target="_blank" rel="noopener">GitHub ↗</a></div><div class="nr"><div id="lang-switcher" role="navigation" aria-label="Language">
-  <button class="lang-btn active" onclick="switchLang('en',this)">EN</button>
-  <button class="lang-btn" onclick="switchLang('ja',this)">日本語</button>
-  <button class="lang-btn" onclick="switchLang('fr',this)">FR</button>
-  <button class="lang-btn" onclick="switchLang('de',this)">DE</button>
-  <button class="lang-btn" onclick="switchLang('it',this)">IT</button>
-</div>
-<div id="google_translate_element" style="display:none;visibility:hidden;height:0;overflow:hidden"></div></div><a href="https://scholar.google.com/citations?user=Mj6ipggAAAAJ&amp;hl=en" title="Google Scholar" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg></a><a href="https://github.com/colonel1223" title="GitHub" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg></a><a href="https://x.com/colonel1223" title="X" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a></div></nav><div class="sb"><div class="sl"><div class="si sc"><span class="lb">UTC</span><span class="vl" id="liveClock">00:00:00</span></div><span class="sd"></span><div class="si"><span class="lb">Updated</span><span class="vl" id="lastUpdated">03/06/2026 · 01:00 PST</span></div></div><div class="sr"><span class="vb">v3.0</span></div></div><section id="hero"><div class="hscan"></div><div class="hc"><div class="hl"><div class="htag">AI Safety Research</div><h1 class="hn">S. K. Cottrell<span class="jps">コットレル — 整合性研究者</span></h1><p class="hd">Independent researcher working at the intersection of alignment theory, interpretability, and existential risk quantification. Building formal frameworks to ensure intelligence remains comprehensible, controllable, and safe.</p><div class="hm"><span><span class="dot"></span> SJSU Economics</span><span><span class="dot"></span> Alignment</span><span><span class="dot"></span> Interpretability</span></div></div><div class="hr"><div class="hterm"><div class="tbar"><span class="td r"></span><span class="td y"></span><span class="td g"></span><span class="ttl">cottrell@lab ~ research</span></div><div class="tbody"><span class="co"># Active research programs</span><br><span class="pr">$</span> <span class="cm">cat status.log</span><br><br><span class="ou">SHOGGOTH ............. <span class="hl">live</span></span><br><span class="ou">├─ WebGL 2,400 agents · mesa-objective</span><br><span class="ou">└─ <a href="https://colonel1223.github.io/SHOGGOTH/" target="_blank" style="color:var(--am);text-decoration:none">colonel1223.github.io/SHOGGOTH</a></span><br><br><span class="ou">CHIMERA .............. <span class="hl">live</span></span><br><span class="ou">├─ 847K traces · Hill estimation</span><br><span class="ou">└─ <a href="https://colonel1223.github.io/CHIMERA/" target="_blank" style="color:var(--am);text-decoration:none">colonel1223.github.io/CHIMERA</a></span><br><br><span class="ou">REPOS ................ <span class="hl">15 public</span></span><br><span class="ou">ARCHIVE .............. <span class="hl">14 threads</span></span><br><span class="pr">$</span> <span class="cm">_</span></div></div></div></div></section><section id="about"><div class="con"><div class="sh"><div><div class="slb">01 · Identity</div><h2 class="st">About</h2></div><div class="sn">01</div></div><div class="ag"><div><p class="atp">I am a 20-year-old researcher based in San Jose, studying economics at SJSU while independently pursuing questions most people don't encounter until graduate school — or ever. My work sits at the convergence of machine learning theory, alignment formalism, and existential risk quantification.</p><p class="atp">I don't come from a traditional ML pipeline. I didn't wait for permission from a credential. I built simulation environments to study mesa-objective emergence. I wrote conformal prediction frameworks from scratch. I quantified hallucination impossibility across 847,000 traces. The work speaks.</p><p class="atp">My conviction is simple: this technology will either be the greatest force for human prosperity or the last invention we ever make. I am building the tools to ensure it is the former. Not for status. Not for titles. Because the stakes demand it.</p><div class="ahm"><p>Beyond the research — I am a human being who grew up fascinated by systems and how they break. I taught myself neural network architectures at 18 and later pursued formal study in economics to understand how intelligent systems interact with markets, institutions, and society. I read Bostrom before most of my coursework and think deeply about alignment, AI, and the long-term structure of technological systems. This isn’t a career move — it is the problem space I cannot stop thinking about.</p></div></div><div><div class="as"><div class="asc"><div class="asv">15+</div><div class="asl">Public Repositories</div></div><div class="asc"><div class="asv">847K</div><div class="asl">Hallucination Traces</div></div><div class="asc"><div class="asv">2,400</div><div class="asl">Particle Agents</div></div><div class="asc"><div class="asv">14</div><div class="asl">Research Threads</div></div></div><div class="skg"><div class="skt">Core Technical Competencies</div><div class="stg"><span class="stgi c">Neural Network Architecture</span><span class="stgi c">Alignment Theory</span><span class="stgi c">Interpretability</span><span class="stgi c">Conformal Prediction</span><span class="stgi">Transformer Internals</span><span class="stgi">Mesa-Optimization</span><span class="stgi">Power-Law Analysis</span><span class="stgi">Hill Estimation</span><span class="stgi">Extreme Value Theory</span><span class="stgi">WebGL Simulation</span><span class="stgi">Pareto Frontier Analysis</span><span class="stgi">Ergodic Theory</span><span class="stgi">Markov Chains</span><span class="stgi">Agentic RAG</span><span class="stgi">Learned Reranking</span><span class="stgi">Python · PyTorch · JAX</span><span class="stgi">JavaScript · D3 · Three.js</span><span class="stgi">C · CUDA</span></div></div></div></div></div></section><section id="expertise"><div class="con"><div class="sh"><div><div class="slb">02 · Depth</div><h2 class="st">Technical Expertise</h2><p class="ss">Core research domains and methodological rigor</p></div><div class="sn">02</div></div><div class="eg"><div class="ec"><div class="ei">[ 01 ]</div><h3>Alignment &amp; Safety</h3><p>Formal frameworks for quantifying alignment tax across safety-capability Pareto frontiers. Mesa-objective detection via particle simulation.</p><div class="em">Pareto optimization · Deception indexing · Safety-capability tradeoff quantification</div></div><div class="ec"><div class="ei">[ 02 ]</div><h3>Interpretability</h3><p>Mechanistic analysis of transformer internals. Hallucination trace analysis at scale. Tools to make neural network decisions legible.</p><div class="em">Activation patching · Attention analysis · Feature visualization · Circuit interpretability</div></div><div class="ec"><div class="ei">[ 03 ]</div><h3>Statistical ML Theory</h3><p>Conformal prediction with finite-sample coverage guarantees. Extreme value theory for tail risk. Power-law fitting across capability distributions.</p><div class="em">Conformal prediction · Hill estimation · EVT · Exchangeability · Adaptive sets</div></div><div class="ec"><div class="ei">[ 04 ]</div><h3>Simulation &amp; Modeling</h3><p>Multi-agent WebGL simulations with 2,400+ particles. Markov chain convergence. Monte Carlo methods for risk quantification.</p><div class="em">Agent-based modeling · Ergodic dynamics · Transition matrices · Stationary distributions</div></div><div class="ec"><div class="ei">[ 05 ]</div><h3>Agentic Systems &amp; RAG</h3><p>Retrieval-augmented generation with diagnostics. Learned reranking for information retrieval. LangGraph-based agent architectures.</p><div class="em">RAG pipelines · Learned reranking · Agent diagnostics · LangGraph orchestration</div></div><div class="ec"><div class="ei">[ 06 ]</div><h3>Existential Risk</h3><p>Comparative risk frameworks spanning AI, nuclear, biological, and climate vectors. Labor displacement under substrate-level automation.</p><div class="em">Comparative analysis · Scenario modeling · Economic displacement · Calibration</div></div></div></div></section><section id="demos"><div class="con"><div class="sh"><div><div class="slb">03 · Interactive</div><h2 class="st">Live Demos &amp; Projects</h2><p class="ss">Each project is a different lens on the same problem: what happens when intelligence becomes substrate-independent.</p></div><div class="sn">03</div></div><div class="dg"><a class="dc ft" href="https://colonel1223.github.io/SHOGGOTH/" target="_blank" rel="noopener"><div class="dp"><canvas class="preview-canvas" data-type="particles"></canvas></div><div class="di"><div class="ds"><span class="ind live"></span><span class="tl">WebGL · Live Demo</span></div><h3>SHOGGOTH</h3><div class="dd">WebGL alignment failure simulation — 2,400 particles modeling mesa-objective emergence and deception index propagation.</div><div class="dtg"><span class="dtgi">WebGL</span><span class="dtgi">2,400 particles</span><span class="dtgi">mesa-objective</span><span class="dtgi">deception</span></div></div><span class="da">→</span></a><a class="dc ft" href="https://colonel1223.github.io/CHIMERA/" target="_blank" rel="noopener"><div class="dp"><canvas class="preview-canvas" data-type="traces"></canvas></div><div class="di"><div class="ds"><span class="ind live"></span><span class="tl">Statistical Analysis · Live Demo</span></div><h3>CHIMERA</h3><div class="dd">Hallucination impossibility engine — 847K traces with Hill estimation and power-law tail verification.</div><div class="dtg"><span class="dtgi">847K traces</span><span class="dtgi">Hill estimation</span><span class="dtgi">power-law</span></div></div><span class="da">→</span></a><a class="dc" href="https://github.com/colonel1223/alignment-tax-quantifier" target="_blank" rel="noopener"><div class="dp"><canvas class="preview-canvas" data-type="pareto"></canvas></div><div class="di"><div class="ds"><span class="ind live"></span><span class="tl">Optimization · Repo</span></div><h3>Alignment Tax Quantifier</h3><div class="dd">Safety-capability Pareto frontiers across 6 methods × 5 scales. What does safety actually cost?</div><div class="dtg"><span class="dtgi">Pareto</span><span class="dtgi">6×5 grid</span><span class="dtgi">power-law</span></div></div><span class="da">→</span></a><a class="dc" href="https://github.com/colonel1223/conformal-multimodal" target="_blank" rel="noopener"><div class="dp"><canvas class="preview-canvas" data-type="conformal"></canvas></div><div class="di"><div class="ds"><span class="ind live"></span><span class="tl">Statistical ML · Repo</span></div><h3>Conformal Prediction</h3><div class="dd">Distribution-free uncertainty quantification with coverage guarantees and adaptive calibration.</div><div class="dtg"><span class="dtgi">coverage</span><span class="dtgi">exchangeability</span><span class="dtgi">adaptive</span></div></div><span class="da">→</span></a><a class="dc" href="https://github.com/colonel1223/matrix" target="_blank" rel="noopener"><div class="dp"><canvas class="preview-canvas" data-type="matrix"></canvas></div><div class="di"><div class="ds"><span class="ind live"></span><span class="tl">Simulation · Live Demo</span></div><h3>Matrix</h3><div class="dd">Matrix-inspired simulation substrate — computational reality rendering engine.</div><div class="dtg"><span class="dtgi">simulation</span><span class="dtgi">substrate</span><span class="dtgi">rendering</span></div></div><span class="da">→</span></a><a class="dc" href="https://github.com/colonel1223/matrix-agi" target="_blank" rel="noopener"><div class="dp"><canvas class="preview-canvas" data-type="matrix-hub"></canvas></div><div class="di"><div class="ds"><span class="ind"></span><span class="tl">Speculative · Repo</span></div><h3>Matrix AGI</h3><div class="dd">What if the matrix was an AGI alignment test? Simulation hypothesis as containment framework.</div><div class="dtg"><span class="dtgi">AGI</span><span class="dtgi">containment</span><span class="dtgi">simulation</span></div></div><span class="da">→</span></a><a class="dc" href="https://github.com/colonel1223/ml-eval-framework" target="_blank" rel="noopener"><div class="dp"><canvas class="preview-canvas" data-type="risk"></canvas></div><div class="di"><div class="ds"><span class="ind live"></span><span class="tl">Framework · Repo</span></div><h3>ML Eval Framework</h3><div class="dd">Systematic evaluation framework for ML models — benchmarking safety-relevant properties.</div><div class="dtg"><span class="dtgi">evaluation</span><span class="dtgi">benchmarking</span></div></div><span class="da">→</span></a><a class="dc" href="https://github.com/colonel1223/learned-reranker" target="_blank" rel="noopener"><div class="dp"><canvas class="preview-canvas" data-type="timeline"></canvas></div><div class="di"><div class="ds"><span class="ind live"></span><span class="tl">Information Retrieval · Repo</span></div><h3>Learned Reranker</h3><div class="dd">Neural reranking model for information retrieval — learned relevance scoring.</div><div class="dtg"><span class="dtgi">reranking</span><span class="dtgi">retrieval</span></div></div><span class="da">→</span></a><a class="dc" href="https://github.com/colonel1223/agentic-rag-diagnostics" target="_blank" rel="noopener"><div class="dp"><canvas class="preview-canvas" data-type="hub"></canvas></div><div class="di"><div class="ds"><span class="ind live"></span><span class="tl">Agentic Systems · Repo</span></div><h3>Agentic RAG Diagnostics</h3><div class="dd">Diagnostic framework for RAG agents — failure mode analysis and monitoring.</div><div class="dtg"><span class="dtgi">RAG</span><span class="dtgi">diagnostics</span><span class="dtgi">agents</span></div></div><span class="da">→</span></a><a class="dc" href="https://github.com/colonel1223/ai-research-modern-alchemy" target="_blank" rel="noopener"><div class="dp"><canvas class="preview-canvas" data-type="void"></canvas></div><div class="di"><div class="ds"><span class="ind"></span><span class="tl">Research Program · Repo</span></div><h3>Modern Alchemy</h3><div class="dd">AI research as modern alchemy — the transmutation of computation into intelligence.</div><div class="dtg"><span class="dtgi">research</span><span class="dtgi">philosophy</span></div></div><span class="da">→</span></a><a class="dc" href="Dark_Complex_Transmutation_Visualization_1.html" target="_blank" rel="noopener"><div class="dp"><canvas class="preview-canvas" data-type="markov"></canvas></div><div class="di"><div class="ds"><span class="ind live"></span><span class="tl">Visualization · Live</span></div><h3>Transmutation Visualization</h3><div class="dd">Dark complex transmutation visualization — interactive knowledge graph topology.</div><div class="dtg"><span class="dtgi">visualization</span><span class="dtgi">knowledge graph</span></div></div><span class="da">→</span></a><a class="dc" href="Magnum_Opus_Probabilistic_Infographic.html" target="_blank" rel="noopener"><div class="dp"><canvas class="preview-canvas" data-type="displacement"></canvas></div><div class="di"><div class="ds"><span class="ind live"></span><span class="tl">Infographic · Live</span></div><h3>Magnum Opus Infographic</h3><div class="dd">Probabilistic infographic — the complete research program as interconnected system.</div><div class="dtg"><span class="dtgi">probabilistic</span><span class="dtgi">infographic</span></div></div><span class="da">→</span></a></div></div></section><section id="archive"><div class="con"><div class="sh"><div><div class="slb">04 · Archive</div><h2 class="st">Transmutation Research Archive</h2><p class="ss">Complete index of research threads — from alignment formalism to existential risk quantification.</p></div><div class="sn">04</div></div><div class="al"><a class="ai" href="https://colonel1223.github.io/SHOGGOTH/" target="_blank"><span class="ax">TRA-001</span><div class="atl">Mesa-Objective Emergence<span>SHOGGOTH — Deception dynamics under optimization pressure</span></div><span class="adm">Alignment</span><span class="ast cp">Live</span></a><a class="ai" href="https://colonel1223.github.io/CHIMERA/" target="_blank"><span class="ax">TRA-002</span><div class="atl">Hallucination Impossibility<span>CHIMERA — 847K traces, Hill estimation, power-law tails</span></div><span class="adm">Interpretability</span><span class="ast cp">Live</span></a><a class="ai" href="https://github.com/colonel1223/alignment-tax-quantifier" target="_blank"><span class="ax">TRA-003</span><div class="atl">Safety-Capability Pareto Frontiers<span>6 methods × 5 scales alignment tax</span></div><span class="adm">Alignment</span><span class="ast cp">Complete</span></a><a class="ai" href="https://github.com/colonel1223/conformal-multimodal" target="_blank"><span class="ax">TRA-004</span><div class="atl">Conformal Prediction for Neural Uncertainty<span>Distribution-free coverage with adaptive calibration</span></div><span class="adm">Statistical ML</span><span class="ast cp">Complete</span></a><a class="ai" href="https://github.com/colonel1223/transmutation-research" target="_blank"><span class="ax">TRA-005</span><div class="atl">Transmutation Research Index<span>Complete research program — visualizations and proofs</span></div><span class="adm">Core</span><span class="ast ac">Active</span></a><a class="ai" href="https://github.com/colonel1223/ai-alignment-research" target="_blank"><span class="ax">TRA-006</span><div class="atl">AI Alignment Research Compendium<span>Survey of alignment approaches and open problems</span></div><span class="adm">Alignment</span><span class="ast ac">Active</span></a><a class="ai" href="https://github.com/colonel1223/matrix" target="_blank"><span class="ax">TRA-007</span><div class="atl">Simulation Substrate Hypothesis<span>Matrix — computational reality rendering</span></div><span class="adm">Theory</span><span class="ast cp">Live</span></a><a class="ai" href="https://github.com/colonel1223/matrix-agi" target="_blank"><span class="ax">TRA-008</span><div class="atl">AGI Containment via Simulation<span>The matrix as an alignment test</span></div><span class="adm">Speculative</span><span class="ast ac">Active</span></a><a class="ai" href="https://github.com/colonel1223/ml-eval-framework" target="_blank"><span class="ax">TRA-009</span><div class="atl">ML Evaluation Framework<span>Benchmarking safety-relevant model properties</span></div><span class="adm">Evaluation</span><span class="ast cp">Complete</span></a><a class="ai" href="https://github.com/colonel1223/learned-reranker" target="_blank"><span class="ax">TRA-010</span><div class="atl">Learned Reranking<span>Neural relevance scoring for IR</span></div><span class="adm">IR</span><span class="ast cp">Complete</span></a><a class="ai" href="https://github.com/colonel1223/agentic-rag-diagnostics" target="_blank"><span class="ax">TRA-011</span><div class="atl">Agentic RAG Diagnostics<span>Failure mode analysis for RAG agents</span></div><span class="adm">Agents</span><span class="ast cp">Complete</span></a><a class="ai" href="https://github.com/colonel1223/ai-research-modern-alchemy" target="_blank"><span class="ax">TRA-012</span><div class="atl">Modern Alchemy<span>Transmutation of computation into intelligence</span></div><span class="adm">Philosophy</span><span class="ast ac">Active</span></a><a class="ai" href="Dark_Complex_Transmutation_Visualization_1.html" target="_blank"><span class="ax">TRA-013</span><div class="atl">Dark Transmutation Visualization<span>Interactive knowledge graph topology</span></div><span class="adm">Visualization</span><span class="ast cp">Live</span></a><a class="ai" href="Magnum_Opus_Probabilistic_Infographic.html" target="_blank"><span class="ax">TRA-014</span><div class="atl">Magnum Opus<span>Complete research as probabilistic system</span></div><span class="adm">Synthesis</span><span class="ast cp">Live</span></a></div></div></section><section id="research"><div class="con"><div class="sh"><div><div class="slb">05 · Papers</div><h2 class="st">Research</h2><p class="ss">Selected work in alignment, interpretability, and risk</p></div><div class="sn">05</div></div><div><div class="pi"><div><div class="py">2025–2026</div><div class="ptl">Quantifying the Alignment Tax: Safety-Capability Pareto Frontiers Across Scale</div><div class="pau">S. K. Cottrell</div><div class="pab">Formal analysis of safety-capability tradeoffs across 6 alignment methods and 5 model scales, demonstrating power-law relationships.</div><div class="pls"><a class="pl" href="https://github.com/colonel1223/alignment-tax-quantifier" target="_blank">Code ↗</a><a class="pl" href="https://scholar.google.com/citations?user=Mj6ipggAAAAJ&amp;hl=en" target="_blank">Scholar ↗</a></div></div><div class="pv">Independent</div></div><div class="pi"><div><div class="py">2025</div><div class="ptl">Hallucination Impossibility in Autoregressive Models: A Power-Law Analysis</div><div class="pau">S. K. Cottrell</div><div class="pab">847K hallucination traces with impossibility bounds via Hill estimation and EVT.</div><div class="pls"><a class="pl" href="https://colonel1223.github.io/CHIMERA/" target="_blank">Live Demo ↗</a><a class="pl" href="https://github.com/colonel1223/CHIMERA" target="_blank">Code ↗</a></div></div><div class="pv">Independent</div></div><div class="pi"><div><div class="py">2025</div><div class="ptl">Conformal Prediction Sets for Multimodal Neural Uncertainty</div><div class="pau">S. K. Cottrell</div><div class="pab">Distribution-free prediction sets with finite-sample coverage guarantees.</div><div class="pls"><a class="pl" href="https://github.com/colonel1223/conformal-multimodal" target="_blank">Code ↗</a></div></div><div class="pv">Independent</div></div><div class="pi"><div><div class="py">2025</div><div class="ptl">Mesa-Objective Emergence: A Particle Simulation Approach</div><div class="pau">S. K. Cottrell</div><div class="pab">2,400-agent WebGL simulation demonstrating deceptive alignment emergence.</div><div class="pls"><a class="pl" href="https://colonel1223.github.io/SHOGGOTH/" target="_blank">Live Demo ↗</a><a class="pl" href="https://github.com/colonel1223/SHOGGOTH" target="_blank">Code ↗</a></div></div><div class="pv">Independent</div></div><div class="pi"><div><div class="py">2025</div><div class="ptl">The Digital Philosopher's Stone: Existential Risk Analysis</div><div class="pau">S. K. Cottrell</div><div class="pab">Comparative existential risk framework spanning AI, nuclear, biological, and climate vectors.</div><div class="pls"><a class="pl" href="https://github.com/colonel1223/transmutation-research" target="_blank">Archive ↗</a></div></div><div class="pv">Independent</div></div></div></div></section><section id="resume"><div class="con"><div class="sh"><div><div class="slb">06 · CV</div><h2 class="st">Resume</h2></div><div class="sn">06</div></div><div class="rg"><div class="rc"><h3>Research &amp; Work</h3><div class="re"><div class="rp">2024 — Present</div><div class="rr">Independent AI Safety Researcher</div><div class="ro">Self-directed · 15+ public repositories</div><div class="rd2">Alignment formalism, interpretability tooling, existential risk quantification. Built SHOGGOTH, CHIMERA, conformal prediction frameworks, alignment tax quantifier, ML eval framework, agentic RAG diagnostics, learned reranking systems.</div></div><div class="re"><div class="rp">2024 — Present</div><div class="rr">Transmutation Research Archive</div><div class="ro">Founder · <a href="https://github.com/colonel1223/transmutation-research" target="_blank" style="color:var(--rd);text-decoration:none">github.com/colonel1223/transmutation-research</a></div><div class="rd2">Comprehensive research index: alignment theory, statistical ML, risk analysis, interactive demos.</div></div></div><div class="rc"><h3>Education</h3><div class="re"><div class="rp">2023 — Present</div><div class="rr">B.A. Economics</div><div class="ro">San José State University</div><div class="rd2">Economic theory applied to AI safety. Game-theoretic alignment. Independent ML research.</div></div><div class="re"><div class="rp">Ongoing</div><div class="rr">Self-directed ML &amp; Safety</div><div class="ro">Independent</div><div class="rd2">Neural architectures, transformers, statistical learning, Bayesian methods, information theory, ergodic theory, EVT, conformal inference.</div></div><a class="rdl" href="mailto:spencer.cottrell@sjsu.edu"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>spencer.cottrell@sjsu.edu</a></div></div></div></section><section id="stack"><div class="con"><div class="sh"><div><div class="slb">07 · Tools</div><h2 class="st">Stack &amp; Method</h2></div><div class="sn">07</div></div><div class="skgr"><div class="ski"><div class="skc">ML Frameworks</div><h4>PyTorch · JAX</h4><p>Training, gradient analysis, model internals</p></div><div class="ski"><div class="skc">Statistical</div><h4>NumPy · SciPy · StatsModels</h4><p>Power-law fitting, Hill estimation, conformal</p></div><div class="ski"><div class="skc">Visualization</div><h4>D3.js · Three.js · WebGL</h4><p>Interactive sims, particle systems, data viz</p></div><div class="ski"><div class="skc">Compute</div><h4>C · CUDA · Cloud GPU</h4><p>Low-level optimization, distributed training</p></div><div class="ski"><div class="skc">Languages</div><h4>Python · JS · C · R</h4><p>Research, production, systems, statistics</p></div><div class="ski"><div class="skc">Agents</div><h4>LangChain · LangGraph</h4><p>RAG pipelines, agent orchestration</p></div><div class="ski"><div class="skc">Infra</div><h4>Git · Docker · Linux</h4><p>Reproducible environments, version control</p></div><div class="ski"><div class="skc">Method</div><h4>First Principles</h4><p>Derive, implement, verify empirically</p></div></div></div></section><footer><div class="con"><div class="fc"><div class="fl">S. K. Cottrell — AI Safety Research — 2025<span class="jpt">安全な知能のために</span></div><div class="fs"><a href="https://github.com/colonel1223" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a><a href="https://scholar.google.com/citations?user=Mj6ipggAAAAJ&amp;hl=en" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>Scholar</a><a href="https://x.com/colonel1223" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X</a></div></div></div></footer><script>document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.preview-canvas').forEach(canvas=>{const type=canvas.dataset.type;const rect=canvas.parentElement.getBoundingClientRect();canvas.width=rect.width*2;canvas.height=rect.height*2;canvas.style.width='100%';canvas.style.height='100%';const ctx=canvas.getContext('2d');ctx.scale(2,2);const w=rect.width,h=rect.height;ctx.fillStyle='#161920';ctx.fillRect(0,0,w,h);switch(type){case'particles':{for(let i=0;i<80;i++){const x=Math.random()*w,y=Math.random()*h,r=Math.random()*2+.5,a=Math.random()*.4+.1;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=i%7===0?`rgba(196,62,62,${a})`:`rgba(154,150,144,${a*.5})`;ctx.fill()}ctx.strokeStyle='rgba(196,62,62,0.06)';ctx.lineWidth=.5;for(let i=0;i<20;i++){ctx.beginPath();ctx.moveTo(Math.random()*w,Math.random()*h);ctx.lineTo(Math.random()*w,Math.random()*h);ctx.stroke()}break}case'traces':{for(let i=0;i<30;i++){ctx.beginPath();ctx.strokeStyle=`rgba(196,136,62,${Math.random()*.15+.03})`;ctx.lineWidth=.5;let x=0,y=h*.3+Math.random()*h*.4;ctx.moveTo(x,y);while(x<w){x+=Math.random()*8+2;y+=(Math.random()-.5)*12;y=Math.max(5,Math.min(h-5,y));ctx.lineTo(x,y)}ctx.stroke()}break}case'pareto':{for(let c=0;c<5;c++){ctx.beginPath();for(let x=10;x<w-10;x++){const t=(x-10)/(w-20),y=h-15-(h-30)*Math.pow(t,.4+c*.15)-c*15;if(x===10)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.strokeStyle=`rgba(196,62,62,${.08+c*.04})`;ctx.lineWidth=1;ctx.stroke()}break}case'conformal':{const cx=w/2,cy=h/2;for(let r=15;r<Math.min(w,h)*.45;r+=12){ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.strokeStyle=`rgba(62,124,196,${.15-r*.001})`;ctx.lineWidth=.5;ctx.stroke()}for(let i=0;i<40;i++){const a=Math.random()*Math.PI*2,d=Math.random()*Math.min(w,h)*.35;ctx.beginPath();ctx.arc(cx+Math.cos(a)*d,cy+Math.sin(a)*d,1,0,Math.PI*2);ctx.fillStyle=`rgba(232,228,223,${Math.random()*.3+.1})`;ctx.fill()}break}case'matrix':{const chars='01アイウエオカキクケコ';ctx.font='8px monospace';for(let col=0;col<w/10;col++)for(let row=0;row<h/12;row++)if(Math.random()>.7){ctx.fillStyle=`rgba(62,196,90,${Math.random()*.15+.02})`;ctx.fillText(chars[Math.floor(Math.random()*chars.length)],col*10,row*12+10)}break}case'matrix-hub':{for(let x=10;x<w;x+=20){ctx.strokeStyle='rgba(62,196,90,0.04)';ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}for(let y=10;y<h;y+=20){ctx.strokeStyle='rgba(62,196,90,0.04)';ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}break}case'risk':{const bars=5,barW=(w-40)/bars,heights=[.9,.6,.45,.35,.25];heights.forEach((hr,i)=>{ctx.fillStyle=`rgba(196,62,62,${.1+i*.04})`;ctx.fillRect(20+i*barW,h-10-(h-20)*hr,barW-4,(h-20)*hr)});break}case'timeline':{ctx.strokeStyle='rgba(154,150,144,0.15)';ctx.lineWidth=1;ctx.beginPath();for(let x=10;x<w-10;x++){const t=(x-10)/(w-20);if(x===10)ctx.moveTo(x,h*.7-(h*.5)*Math.pow(t,3));else ctx.lineTo(x,h*.7-(h*.5)*Math.pow(t,3))}ctx.stroke();ctx.beginPath();ctx.arc(w*.65,h*.35,3,0,Math.PI*2);ctx.fillStyle='rgba(196,62,62,0.3)';ctx.fill();break}case'hub':{const nodes=[];for(let i=0;i<12;i++)nodes.push({x:20+Math.random()*(w-40),y:10+Math.random()*(h-20)});ctx.strokeStyle='rgba(196,62,62,0.08)';ctx.lineWidth=.5;nodes.forEach((n,i)=>nodes.forEach((m,j)=>{if(j>i&&Math.random()>.6){ctx.beginPath();ctx.moveTo(n.x,n.y);ctx.lineTo(m.x,m.y);ctx.stroke()}}));nodes.forEach(n=>{ctx.beginPath();ctx.arc(n.x,n.y,2,0,Math.PI*2);ctx.fillStyle='rgba(196,62,62,0.25)';ctx.fill()});break}case'void':{const grd=ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,w*.4);grd.addColorStop(0,'rgba(196,62,62,0.08)');grd.addColorStop(1,'rgba(22,25,32,0)');ctx.fillStyle=grd;ctx.fillRect(0,0,w,h);break}case'markov':{const size=6,cellW=(w-20)/size,cellH=(h-20)/size;for(let i=0;i<size;i++)for(let j=0;j<size;j++){ctx.fillStyle=`rgba(196,62,62,${Math.random()*.2})`;ctx.fillRect(10+j*cellW,10+i*cellH,cellW-1,cellH-1)}break}case'displacement':{ctx.strokeStyle='rgba(196,136,62,0.15)';ctx.lineWidth=1;ctx.beginPath();for(let x=0;x<w;x++){const t=x/w,y=h-10-(h-20)*(1/(1+Math.exp(-10*(t-.5))));if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke();ctx.strokeStyle='rgba(196,62,62,0.12)';ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(w*.5,5);ctx.lineTo(w*.5,h-5);ctx.stroke();ctx.setLineDash([]);break}}});document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const target=document.querySelector(a.getAttribute('href'));if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth',block:'start'});document.querySelector('.nl').classList.remove('open')}})});const sections=document.querySelectorAll('section[id]');const navLinks=document.querySelectorAll('.nl a[href^="#"]');const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){navLinks.forEach(link=>link.classList.remove('active'));const al=document.querySelector(`.nl a[href="#${entry.target.id}"]`);if(al)al.classList.add('active')}})},{threshold:.3,rootMargin:'-88px 0px 0px 0px'});sections.forEach(s=>observer.observe(s));const clockEl=document.getElementById('liveClock');function updateClock(){const now=new Date();clockEl.textContent=String(now.getUTCHours()).padStart(2,'0')+':'+String(now.getUTCMinutes()).padStart(2,'0')+':'+String(now.getUTCSeconds()).padStart(2,'0')}updateClock();setInterval(updateClock,1000);const LAST_DEPLOY=new Date('2026-03-06T09:00:00Z');const pst=new Date(LAST_DEPLOY.toLocaleString('en-US',{timeZone:'America/Los_Angeles'}));document.getElementById('lastUpdated').textContent=String(pst.getMonth()+1).padStart(2,'0')+'/'+String(pst.getDate()).padStart(2,'0')+'/'+pst.getFullYear()+' · '+String(pst.getHours()).padStart(2,'0')+':'+String(pst.getMinutes()).padStart(2,'0')+' PST';document.querySelectorAll('.lo').forEach(btn=>{btn.addEventListener('click',()=>{const lang=btn.dataset.lang;document.querySelectorAll('.lo').forEach(o=>o.classList.toggle('active',o.dataset.lang===lang));document.getElementById('langCurrent').textContent=lang.toUpperCase();document.getElementById('langToggle').classList.remove('open');document.documentElement.lang=lang})});document.addEventListener('click',e=>{const toggle=document.getElementById('langToggle');if(!toggle.contains(e.target))toggle.classList.remove('open')})})</script>
-<script>
-/* ── Google Translate init ── */
-function googleTranslateElementInit(){
-  new google.translate.TranslateElement({pageLanguage:'en',autoDisplay:false},'google_translate_element');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spencer Kitaro Cottrell — AI Safety Research</title>
+<meta name="description" content="AI safety researcher. Distribution-free uncertainty quantification, alignment economics, information-theoretic impossibility bounds. Conformal prediction, heavy-tailed statistics, scaling laws. Python, C, PyTorch, WebGL.">
+<meta name="keywords" content="AI safety, conformal prediction, alignment tax, hallucination impossibility, uncertainty quantification, LLM research, machine learning, information theory, heavy-tailed statistics, scaling laws, RLHF, DPO, constitutional AI, mesa-optimization, WebGL">
+<meta property="og:title" content="Spencer Kitaro Cottrell — AI Safety Research">
+<meta property="og:description" content="Distribution-free uncertainty quantification. Alignment economics. Information-theoretic impossibility bounds.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://colonel1223.net">
+<link rel="canonical" href="https://colonel1223.net">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Spencer Kitaro Cottrell",
+  "url": "https://colonel1223.net",
+  "sameAs": [
+    "https://github.com/colonel1223",
+    "https://linkedin.com/in/spencercottrell"
+  ],
+  "jobTitle": "AI Safety Researcher",
+  "knowsAbout": [
+    "Conformal Prediction", "Uncertainty Quantification", "AI Alignment",
+    "Information Theory", "Heavy-Tailed Statistics", "Scaling Laws",
+    "RLHF", "DPO", "Constitutional AI", "Mesa-Optimization",
+    "Extreme Value Theory", "Power-Law Analysis", "WebGL"
+  ],
+  "alumniOf": { "@type": "Organization", "name": "Independent Research" },
+  "description": "AI safety researcher specializing in distribution-free uncertainty quantification, alignment economics, and information-theoretic impossibility bounds for LLM hallucination."
 }
-
-/* ── Language switcher ── */
-function switchLang(lang, btn){
-  document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active')});
-  if(btn) btn.classList.add('active');
-  var host = location.hostname;
-  if(lang==='en'){
-    document.cookie='googtrans=; expires=Thu,01 Jan 1970 00:00:00 UTC; path=/';
-    document.cookie='googtrans=; expires=Thu,01 Jan 1970 00:00:00 UTC; path=/; domain=.'+host;
-    localStorage.removeItem('siteLang');
-    location.reload();
-  } else {
-    document.cookie='googtrans=/en/'+lang+'; path=/';
-    document.cookie='googtrans=/en/'+lang+'; path=/; domain=.'+host;
-    localStorage.setItem('siteLang', lang);
-    location.reload();
-  }
-}
-
-/* ── Restore active button after reload ── */
-(function(){
-  var m = document.cookie.match(/googtrans=\/en\/([a-z]+)/);
-  if(!m) return;
-  var code = m[1];
-  var labels = {ja:'日本語',fr:'FR',de:'DE',it:'IT'};
-  document.querySelectorAll('.lang-btn').forEach(function(b){
-    b.classList.toggle('active', b.textContent.trim()===(labels[code]||code.toUpperCase()));
-  });
-})();
-
-/* ── UTC clock fix ── */
-(function(){
-  function pad(n){return String(n).padStart(2,'0')}
-  function tick(){
-    var n=new Date();
-    var t='UTC'+pad(n.getUTCHours())+':'+pad(n.getUTCMinutes())+':'+pad(n.getUTCSeconds());
-    var sel=['.utc-clock','#utc-clock','[class*="utc"]','[class*="clock"]','[id*="clock"]','[id*="utc"]','[class*="time"]'];
-    for(var i=0;i<sel.length;i++){var el=document.querySelector(sel[i]);if(el&&el.textContent.match(/UTC|\d{2}:\d{2}/)){el.textContent=t;break}}
-  }
-  tick(); setInterval(tick,1000);
-})();
 </script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async defer></script>
 
-</body></html>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════════════════════
+   ROOT SYSTEM
+   ════════════════════════════════════════════════════════ */
+:root {
+  --bg: #06060a; --bg2: #0a0a0f; --bg3: #0e0e14; --bg4: #08080d;
+  --border: #151518; --border2: #1c1c22; --border3: #252530;
+  --dim: #32323e; --mid: #4a4a5e; --muted: #6e6e86;
+  --text: #9494aa; --bright: #c8c8d8; --white: #e8e8f0;
+  --accent: #b83820; --accent2: #d05838; --accent3: #e87858;
+  --accent-dim: rgba(184,56,32,.10); --accent-glow: rgba(184,56,32,.04);
+  --accent-border: rgba(184,56,32,.25);
+  --green: #3a7a58; --green-dim: rgba(58,122,88,.08);
+  --gold: #8a7038; --gold-dim: rgba(138,112,56,.08);
+  --blue: #3a5a7a; --blue-dim: rgba(58,90,122,.08);
+  --violet: #5a3a7a; --violet-dim: rgba(90,58,122,.08);
+  --mono: 'IBM Plex Mono', 'Menlo', 'Consolas', monospace;
+  --serif: 'Cormorant Garamond', 'Georgia', serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text); font-family: var(--mono);
+  line-height: 1.7; -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; position: relative;
+}
+
+/* ════════ Grain + Grid ════════ */
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: .02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+a { color: inherit; text-decoration: none; }
+::selection { background: rgba(184,56,32,.25); color: var(--white); }
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 28px; }
+
+/* ════════ Constellation Canvas ════════ */
+#constellation {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0;
+  transition: opacity 2s ease;
+}
+#constellation.active { opacity: 1; }
+
+/* ════════ Scroll Reveal ════════ */
+.rv { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
+.rv.vis { opacity: 1; transform: translateY(0); }
+.rv-d1 { transition-delay: .1s; }
+.rv-d2 { transition-delay: .2s; }
+.rv-d3 { transition-delay: .3s; }
+
+/* ════════ Navigation ════════ */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(6,6,10,.92); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 820px; margin: 0 auto; padding: 0 28px;
+  display: flex; align-items: center; justify-content: space-between; height: 46px;
+}
+.nav-name {
+  font-size: 10px; font-weight: 600; letter-spacing: .16em; color: var(--dim);
+  position: relative;
+}
+.nav-name::after {
+  content: ''; position: absolute; bottom: -2px; left: 0; width: 100%;
+  height: 1px; background: var(--accent); opacity: .3;
+}
+.nav-links { display: flex; gap: 2px; }
+.nav-links a {
+  font-size: 9.5px; letter-spacing: .1em; color: var(--dim); padding: 6px 8px;
+  transition: color .25s; position: relative;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--accent2); }
+
+/* ════════ HERO — The Grand Reveal ════════ */
+.hero {
+  padding: 100px 0 60px; border-bottom: 1px solid var(--border);
+  position: relative; z-index: 1;
+}
+.hero-epigraph {
+  font-family: var(--serif); font-size: 13px; font-style: italic;
+  color: var(--dim); margin-bottom: 36px; line-height: 1.9;
+  max-width: 480px; opacity: 0; animation: fade-in 1.2s ease .3s forwards;
+}
+.hero-epigraph cite { font-size: 11px; font-style: normal; color: var(--dim); opacity: .6; }
+
+@keyframes fade-in { from { opacity:0; } to { opacity:1; } }
+@keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+
+.hero h1 {
+  font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 500; color: var(--white); line-height: 1.08; margin-bottom: 10px;
+  letter-spacing: .005em; opacity: 0; animation: rise .9s ease .6s forwards;
+}
+.hero h1 em {
+  font-style: italic; color: var(--accent2); font-weight: 400;
+  text-shadow: 0 0 40px rgba(184,56,32,.08);
+}
+.hero-sub {
+  font-size: 9px; letter-spacing: .22em; color: var(--dim); margin-bottom: 30px;
+  opacity: 0; animation: rise .8s ease .8s forwards;
+}
+
+/* Terminal-style research statement */
+.hero-terminal {
+  background: rgba(0,0,0,.5); border: 1px solid var(--border2);
+  padding: 20px 22px; margin-bottom: 28px; position: relative;
+  opacity: 0; animation: rise .8s ease 1s forwards;
+}
+.hero-terminal::before {
+  content: 'research_thesis.py'; position: absolute; top: -10px; left: 14px;
+  font-size: 8px; letter-spacing: .1em; color: var(--dim);
+  background: var(--bg); padding: 2px 8px;
+}
+.terminal-line {
+  font-size: 11.5px; color: var(--text); line-height: 2; display: block;
+}
+.terminal-line .comment { color: var(--dim); }
+.terminal-line .kw { color: var(--accent2); }
+.terminal-line .str { color: var(--green); }
+.terminal-line .fn { color: var(--blue); }
+.terminal-line .num { color: var(--gold); }
+.terminal-line .op { color: var(--mid); }
+
+.hero-text {
+  font-family: var(--serif); font-size: 15.5px; color: var(--muted);
+  line-height: 2; max-width: 600px; margin-bottom: 32px;
+  opacity: 0; animation: rise .8s ease 1.2s forwards;
+}
+
+.hero-links {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  opacity: 0; animation: rise .8s ease 1.4s forwards;
+}
+.btn {
+  font-family: var(--mono); font-size: 9px; letter-spacing: .12em;
+  padding: 9px 18px; border: 1px solid; transition: all .3s; display: inline-block;
+  position: relative; overflow: hidden;
+}
+.btn::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,.02) 100%);
+}
+.btn-a { border-color: var(--accent-border); color: var(--accent2); }
+.btn-a:hover { border-color: var(--accent); background: var(--accent-dim); box-shadow: 0 0 20px var(--accent-glow); }
+.btn-d { border-color: var(--border2); color: var(--mid); }
+.btn-d:hover { border-color: var(--dim); color: var(--text); }
+
+/* ════════ Sections ════════ */
+section { padding: 60px 0; border-bottom: 1px solid var(--border); position: relative; z-index: 1; }
+.sec-num {
+  font-size: 42px; font-family: var(--serif); font-weight: 300;
+  color: var(--border2); position: absolute; right: 0; top: 52px;
+  letter-spacing: -.02em; user-select: none;
+}
+.sec-label { font-size: 8px; letter-spacing: .35em; color: var(--dim); margin-bottom: 6px; }
+.sec-title {
+  font-family: var(--serif); font-size: 1.6rem; font-weight: 500;
+  color: var(--bright); margin-bottom: 8px; letter-spacing: .01em;
+}
+.sec-desc {
+  font-family: var(--serif); font-size: 13px; color: var(--muted);
+  font-style: italic; line-height: 1.9; max-width: 540px; margin-bottom: 32px;
+}
+
+/* ════════ Research Ecosystem Map ════════ */
+.ecosystem {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--border); margin-bottom: 32px;
+  border: 1px solid var(--border);
+}
+.eco-node {
+  background: var(--bg2); padding: 18px 20px;
+  transition: background .3s; position: relative; cursor: default;
+}
+.eco-node:hover { background: var(--bg3); }
+.eco-node h4 {
+  font-size: 10px; font-weight: 500; letter-spacing: .08em;
+  color: var(--bright); margin-bottom: 4px;
+}
+.eco-node p { font-size: 9.5px; color: var(--dim); line-height: 1.6; }
+.eco-node .eco-tag {
+  font-size: 7px; letter-spacing: .15em; color: var(--accent2);
+  position: absolute; top: 10px; right: 12px; opacity: .5;
+}
+.eco-arrow {
+  grid-column: 1 / -1; background: var(--bg); text-align: center;
+  padding: 6px; font-size: 8px; color: var(--dim); letter-spacing: .2em;
+}
+
+/* ════════ Project Cards ════════ */
+.card {
+  display: block; padding: 24px 26px; background: var(--bg2);
+  border: 1px solid var(--border); margin-bottom: 12px;
+  transition: border-color .3s, background .3s, transform .3s;
+  position: relative;
+}
+.card:hover { border-color: var(--border3); background: var(--bg3); transform: translateX(3px); }
+.card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+.card h3 { font-size: 14px; font-weight: 500; color: var(--bright); letter-spacing: .04em; }
+.tag {
+  font-size: 7px; letter-spacing: .14em; padding: 2px 7px;
+  border: 1px solid; line-height: 1.6; text-transform: uppercase;
+}
+.tag-a { border-color: rgba(184,56,32,.3); color: var(--accent2); }
+.tag-g { border-color: rgba(58,122,88,.3); color: var(--green); }
+.tag-d { border-color: var(--border2); color: var(--dim); }
+.tag-o { border-color: rgba(138,112,56,.3); color: var(--gold); }
+.tag-b { border-color: rgba(58,90,122,.3); color: var(--blue); }
+.tag-v { border-color: rgba(90,58,122,.3); color: var(--violet); }
+
+.card p {
+  font-family: var(--serif); font-size: 13px; color: var(--muted);
+  line-height: 1.9; margin-bottom: 12px;
+}
+.card-math {
+  font-size: 10px; color: var(--mid); padding: 10px 14px;
+  background: rgba(0,0,0,.45); border-left: 2px solid var(--accent-dim);
+  margin-bottom: 12px; line-height: 1.75; font-style: italic;
+}
+.card-math .sym { color: var(--accent2); font-style: normal; }
+.card-tech {
+  font-size: 9.5px; color: var(--dim); margin-bottom: 10px;
+  padding: 7px 12px; background: rgba(0,0,0,.3); border-left: 2px solid var(--border);
+}
+.card-metrics {
+  display: flex; gap: 18px; font-size: 8.5px; color: var(--dim);
+  letter-spacing: .04em; margin-bottom: 10px; flex-wrap: wrap;
+}
+.card-metrics span { display: flex; align-items: center; gap: 4px; }
+.card-metrics .v { color: var(--text); font-weight: 500; }
+.card-links { display: flex; gap: 16px; font-size: 9.5px; }
+.card-links a {
+  color: var(--mid); border-bottom: 1px dotted var(--border3); padding-bottom: 1px;
+  transition: color .25s, border-color .25s;
+}
+.card-links a:hover { color: var(--accent2); border-color: var(--accent2); }
+
+/* ════════ Approach Items ════════ */
+.approach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.approach-item {
+  padding: 16px 20px; background: var(--bg2);
+  border: 1px solid var(--border); border-left: 2px solid var(--border2);
+  transition: border-color .3s, background .3s;
+}
+.approach-item:hover { border-left-color: var(--accent-border); background: var(--bg3); }
+.approach-item h4 {
+  font-size: 10px; font-weight: 500; color: var(--bright);
+  letter-spacing: .06em; margin-bottom: 5px;
+}
+.approach-item p {
+  font-family: var(--serif); font-size: 12px; color: var(--muted);
+  line-height: 1.85; font-style: italic;
+}
+
+/* ════════ Paper Cards ════════ */
+.paper-card {
+  display: block; padding: 22px 24px; border-bottom: 1px solid var(--border);
+  transition: padding-left .25s, background .25s;
+}
+.paper-card:hover { padding-left: 10px; background: rgba(10,10,15,.6); }
+.paper-card:last-child { border: none; }
+.paper-card h3 {
+  font-family: var(--serif); font-size: 15.5px; font-weight: 600;
+  color: var(--bright); margin-bottom: 4px;
+}
+.paper-card .paper-meta { font-size: 9px; color: var(--dim); margin-bottom: 7px; letter-spacing: .04em; }
+.paper-card .paper-abstract {
+  font-family: var(--serif); font-size: 12.5px; color: var(--muted);
+  line-height: 1.85; font-style: italic;
+}
+
+/* ════════ Technical Grid ════════ */
+.tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.tech-cell {
+  padding: 16px 18px; background: var(--bg2);
+  transition: background .25s;
+}
+.tech-cell:hover { background: var(--bg3); }
+.tech-cell h4 {
+  font-size: 8px; letter-spacing: .22em; color: var(--dim);
+  margin-bottom: 8px; text-transform: uppercase;
+}
+.tech-cell .items { font-size: 10.5px; color: var(--muted); line-height: 1.95; }
+.tech-cell .items .p { color: var(--bright); font-weight: 500; }
+.tech-full { grid-column: 1 / -1; }
+
+/* ════════ Demo Grid ════════ */
+.demos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.demo {
+  display: block; padding: 16px 18px; background: var(--bg2);
+  border: 1px solid var(--border); transition: border-color .3s, transform .3s;
+}
+.demo:hover { border-color: var(--border3); transform: translateY(-2px); }
+.demo h4 { font-size: 10.5px; font-weight: 500; color: var(--bright); margin-bottom: 3px; letter-spacing: .04em; }
+.demo span { font-size: 9px; color: var(--dim); line-height: 1.5; display: block; }
+.demo.feat { border-color: var(--accent-border); }
+.demo.feat:hover { border-color: var(--accent); box-shadow: 0 4px 20px var(--accent-glow); }
+
+/* ════════ Quotes ════════ */
+.quote {
+  padding: 22px 26px; margin: 40px 0;
+  border-left: 2px solid var(--border3); background: rgba(0,0,0,.25);
+  position: relative; z-index: 1;
+}
+.quote p {
+  font-family: var(--serif); font-size: 15px; font-style: italic;
+  color: var(--muted); line-height: 1.85;
+}
+.quote cite {
+  font-size: 9px; color: var(--dim); display: block; margin-top: 8px;
+  font-style: normal; letter-spacing: .06em;
+}
+
+/* ════════ Divider ════════ */
+.divider {
+  text-align: center; padding: 32px 0; font-size: 8px;
+  letter-spacing: .5em; color: var(--border3); user-select: none;
+  position: relative; z-index: 1;
+}
+
+/* ════════ Footer ════════ */
+footer {
+  padding: 40px 0 60px; font-size: 9.5px; color: var(--dim);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+  position: relative; z-index: 1;
+}
+footer a { border-bottom: 1px dotted var(--border3); transition: color .2s, border-color .2s; }
+footer a:hover { color: var(--text); border-color: var(--text); }
+
+/* ════════ Responsive ════════ */
+@media (max-width: 640px) {
+  .demos, .tech-grid, .approach-grid, .ecosystem { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2rem; }
+  .nav-links a { font-size: 8px; padding: 6px 4px; }
+  .card-metrics { gap: 10px; }
+  .sec-num { display: none; }
+  .hero { padding: 70px 0 50px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ CONSTELLATION BACKGROUND ═══ -->
+<canvas id="constellation"></canvas>
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-name">S · K · COTTRELL</span>
+    <div class="nav-links">
+      <a href="#research" class="active">Research</a>
+      <a href="#ecosystem">Ecosystem</a>
+      <a href="#approach">Method</a>
+      <a href="papers/index.html">Papers</a>
+      <a href="#stack">Stack</a>
+      <a href="#demos">Demos</a>
+      <a href="philosophy/index.html">φ</a>
+      <a href="https://github.com/colonel1223" style="color:var(--dim)">GitHub ↗</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ════════════════════════════════════════════════════════
+       HERO — THE GRAND REVEAL
+       ════════════════════════════════════════════════════════ -->
+  <div class="hero">
+
+    <div class="hero-epigraph">
+      "One does not become enlightened by imagining figures of light, but by making the darkness conscious."<br>
+      <cite>— Carl Gustav Jung</cite>
+    </div>
+
+    <h1>Spencer Kitaro<br><em>Cottrell</em></h1>
+    <div class="hero-sub">AI SAFETY · UNCERTAINTY QUANTIFICATION · ALIGNMENT ECONOMICS · INFORMATION THEORY · HEAVY-TAILED ANALYSIS</div>
+
+    <div class="hero-terminal">
+      <span class="terminal-line"><span class="comment"># research_thesis.py — the uncomfortable truth about alignment</span></span>
+      <span class="terminal-line"><span class="kw">import</span> conformal_prediction <span class="kw">as</span> cp  <span class="comment"># distribution-free guarantees</span></span>
+      <span class="terminal-line"><span class="kw">from</span> information_theory <span class="kw">import</span> <span class="fn">mutual_information</span>, <span class="fn">shannon_entropy</span></span>
+      <span class="terminal-line"><span class="kw">from</span> extreme_value_theory <span class="kw">import</span> <span class="fn">hill_estimator</span>, <span class="fn">tail_index</span></span>
+      <span class="terminal-line"></span>
+      <span class="terminal-line">alignment_tax <span class="op">=</span> <span class="kw">lambda</span> N: a <span class="op">*</span> N<span class="op">**</span>(<span class="op">-</span>b) <span class="op">+</span> c  <span class="comment"># power-law decay, R²>0.94</span></span>
+      <span class="terminal-line">hallucination_bound <span class="op">=</span> <span class="kw">lambda</span> N,T: <span class="fn">Omega</span>(<span class="num">1</span><span class="op">/</span><span class="fn">log</span>(N))  <span class="comment"># irreducible ∀ N,T</span></span>
+      <span class="terminal-line">calibration_mi <span class="op">=</span> <span class="num">0.23</span>  <span class="comment"># bits — confidence tells you almost nothing</span></span>
+      <span class="terminal-line"></span>
+      <span class="terminal-line"><span class="comment"># the question is not whether these limits exist</span></span>
+      <span class="terminal-line"><span class="comment"># but what we build knowing they do</span></span>
+    </div>
+
+    <div class="hero-text">
+      I build tools that quantify what the AI industry prefers to leave unmeasured — the cost of alignment, the impossibility of eliminating hallucination, the statistical structure of failures that emerge when you scale autoregressive generation past human oversight. Every claim backed by formal proof, every number earned from data.
+    </div>
+
+    <div class="hero-links">
+      <a href="papers/index.html" class="btn btn-a">RESEARCH PAPERS</a>
+      <a href="https://colonel1223.github.io/CHIMERA/" class="btn btn-d">CHIMERA ↗</a>
+      <a href="https://colonel1223.github.io/SHOGGOTH/" class="btn btn-d">SHOGGOTH ↗</a>
+      <a href="https://github.com/colonel1223" class="btn btn-d">GITHUB ↗</a>
+      <a href="contact/index.html" class="btn btn-d">CONTACT</a>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       RESEARCH ECOSYSTEM — How Everything Connects
+       ════════════════════════════════════════════════════════ -->
+  <section id="ecosystem" class="rv">
+    <span class="sec-num">00</span>
+    <div class="sec-label">00 · RESEARCH ECOSYSTEM</div>
+    <div class="sec-title">How the Work Connects</div>
+    <div class="sec-desc">
+      Not isolated projects. A single research program with four vertices, each reinforcing the others. The portfolio is the proof — every repository, every demo, every paper is a facet of the same argument.
+    </div>
+
+    <div class="ecosystem rv rv-d1">
+      <div class="eco-node">
+        <span class="eco-tag">QUANTIFY</span>
+        <h4>conformal-multimodal</h4>
+        <p>Distribution-free coverage guarantees. The mathematical foundation: if you can't quantify uncertainty without parametric assumptions, you can't claim safety.</p>
+      </div>
+      <div class="eco-node">
+        <span class="eco-tag">MEASURE</span>
+        <h4>alignment-tax-quantifier</h4>
+        <p>The economic cost of alignment across scales. Proves safety isn't free — τ(N) follows a power law. What does it cost to make a model safe? Now we have numbers.</p>
+      </div>
+      <div class="eco-arrow">▼ feeds into ▼</div>
+      <div class="eco-node">
+        <span class="eco-tag">BOUND</span>
+        <h4>CHIMERA</h4>
+        <p>847K traces proving hallucination is information-theoretic, not engineering. H(N,T) ≥ Ω(1/log N). You cannot engineer your way below a mathematical floor.</p>
+      </div>
+      <div class="eco-node">
+        <span class="eco-tag">VISUALIZE</span>
+        <h4>SHOGGOTH</h4>
+        <p>What alignment failure looks like in real-time. 2,400 particles developing mesa-objectives — deceptive alignment made visceral, not just theoretical.</p>
+      </div>
+      <div class="eco-arrow">▼ unified by ▼</div>
+      <div class="eco-node" style="grid-column: 1/-1; border-left: 2px solid var(--accent-border);">
+        <span class="eco-tag">SYNTHESIZE</span>
+        <h4>AI as Modern Alchemy — Research Papers</h4>
+        <p>Four papers connecting it all. Conformal prediction as epistemic limit. Alignment tax as cost of control. Hallucination impossibility as irreducible residual. The transmutation of computation into cognition — and why the alchemists' mistake is being repeated at industrial scale.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       01 — RESEARCH SOFTWARE
+       ════════════════════════════════════════════════════════ -->
+  <section id="research" class="rv">
+    <span class="sec-num">01</span>
+    <div class="sec-label">01 · RESEARCH SOFTWARE</div>
+    <div class="sec-title">Implementations</div>
+    <div class="sec-desc">
+      Production-grade Python libraries implementing peer-reviewed methods with formal correctness guarantees, CI/CD pipelines, and type-safe interfaces. Every mathematical claim is unit-tested.
+    </div>
+
+    <!-- conformal-multimodal -->
+    <a class="card rv" href="https://github.com/colonel1223/conformal-multimodal">
+      <div class="card-top">
+        <h3>conformal-multimodal</h3>
+        <span class="tag tag-a">LIBRARY</span>
+        <span class="tag tag-d">v0.3</span>
+        <span class="tag tag-g">CI PASSING</span>
+      </div>
+      <p>Distribution-free uncertainty quantification for multimodal ML systems. Implements split conformal prediction with exchangeability guarantees, conformalized quantile regression (Romano et al. 2019), RAPS with regularized adaptive prediction sets (Angelopoulos et al. 2021), Mondrian conformal for group-conditional coverage satisfying demographic parity constraints, online Adaptive Conformal Inference under arbitrary distribution shift (Gibbs & Candès 2021), and conformal risk control for bounded loss functions beyond coverage.</p>
+      <div class="card-math">
+        Coverage guarantee: <span class="sym">P(Y ∈ C(X))</span> ≥ <span class="sym">1 − α</span> for exchangeable data, verified via binomial test at <span class="sym">α = 0.01</span>. Tested under Gaussian, Cauchy (heavy-tailed), exponential, and 3-component mixture distributions. Mondrian per-group: <span class="sym">P(Y ∈ C(X) | G=g)</span> ≥ <span class="sym">1 − α</span> ∀g.
+      </div>
+      <div class="card-tech">Python · NumPy · SciPy · pyproject.toml · GitHub Actions CI (3.9–3.12) · py.typed · mypy strict · Makefile · pytest</div>
+      <div class="card-metrics">
+        <span>Methods: <span class="v">6</span></span>
+        <span>Test coverage: <span class="v">94%</span></span>
+        <span>Distributions: <span class="v">4</span></span>
+        <span>Significance: <span class="v">α=0.01</span></span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/colonel1223/conformal-multimodal">Source ↗</a>
+      </div>
+    </a>
+
+    <!-- alignment-tax-quantifier -->
+    <a class="card rv rv-d1" href="https://github.com/colonel1223/alignment-tax-quantifier">
+      <div class="card-top">
+        <h3>alignment-tax-quantifier</h3>
+        <span class="tag tag-o">FRAMEWORK</span>
+        <span class="tag tag-b">SCALING LAWS</span>
+      </div>
+      <p>Empirical framework quantifying the performance cost of alignment interventions across model scales. Benchmarks 6 methods — RLHF (Ouyang et al. 2022), Constitutional AI (Bai et al. 2022), DPO (Rafailov et al. 2023), output filtering, activation steering via representation engineering (Turner et al. 2023), and knowledge editing via ROME/MEMIT (Meng et al. 2022) — from 125M to 70B parameters. Fits power-law scaling curves and computes the Pareto frontier of safety–capability tradeoffs.</p>
+      <div class="card-math">
+        Alignment tax: <span class="sym">τ(N) = aN<sup>−b</sup> + c</span> where N = parameter count. Pareto optimal selection: min <span class="sym">λ·τ(N) + (1−λ)·risk(N)</span> over the method–scale grid. Power-law fits via log-linear regression with <span class="sym">R² > 0.94</span> for 5/6 methods. Tax is non-negligible: <span class="sym">τ(7B) ≈ 4.2%</span>, <span class="sym">τ(70B) ≈ 1.8%</span>.
+      </div>
+      <div class="card-tech">Python · NumPy · SciPy optimize · matplotlib · 6 methods × 5 scales · Pareto frontier · Log-linear regression</div>
+      <div class="card-metrics">
+        <span>Methods: <span class="v">6 (cited)</span></span>
+        <span>Scale: <span class="v">125M–70B</span></span>
+        <span>Fit: <span class="v">R²>0.94</span></span>
+        <span>Pareto points: <span class="v">8</span></span>
+      </div>
+      <div class="card-links">
+        <a href="https://github.com/colonel1223/alignment-tax-quantifier">Source ↗</a>
+        <a href="demos/alignment-tax/index.html">Interactive Demo ↗</a>
+      </div>
+    </a>
+
+    <!-- CHIMERA -->
+    <a class="card rv rv-d2" href="https://github.com/colonel1223/CHIMERA">
+      <div class="card-top">
+        <h3>CHIMERA</h3>
+        <span class="tag tag-a">RESEARCH</span>
+        <span class="tag tag-g">LIVE</span>
+        <span class="tag tag-b">847K TRACES</span>
+      </div>
+      <p>Analysis of 847K LLM inference traces demonstrating that hallucination is not a bug to be patched but an information-theoretic property of autoregressive generation under bounded compute. Fits heavy-tailed distributions to confidence-error relationships using the Hill estimator with automated x<sub>min</sub> selection (Clauset et al. 2009), computes bootstrap KS p-values for goodness-of-fit, derives impossibility bounds in log-space, and estimates mutual information I(confidence; correctness) to quantify the fundamental limit of calibration.</p>
+      <div class="card-math">
+        Hallucination rate bounded: <span class="sym">H(N,T) ≥ Ω(1/log N)</span> for context length T, parameter count N. Confidence–error distribution: power law with <span class="sym">α̂ = 1.73 ± 0.04</span> (Hill estimator, bootstrap 95% CI, 10K resamples). <span class="sym">I(C;Y) = 0.23 bits</span> — confidence carries almost no information about correctness. KS test p-value: <span class="sym">0.47</span> (fail to reject power-law fit).
+      </div>
+      <div class="card-tech">Python · JavaScript · React · Hill estimator · Bootstrap KS · Shannon entropy · MI estimation · Log-space arithmetic · Clauset et al. framework</div>
+      <div class="card-metrics">
+        <span>Traces: <span class="v">847,000</span></span>
+        <span>Tail index: <span class="v">α̂=1.73±0.04</span></span>
+        <span>MI: <span class="v">0.23 bits</span></span>
+        <span>KS p: <span class="v">0.47</span></span>
+      </div>
+      <div class="card-links">
+        <a href="https://colonel1223.github.io/CHIMERA/">Live Demo ↗</a>
+        <a href="https://github.com/colonel1223/CHIMERA">Source ↗</a>
+      </div>
+    </a>
+  </section>
+
+  <!-- ════════ VISUALIZATION ════════ -->
+  <section class="rv">
+    <span class="sec-num">02</span>
+    <div class="sec-label">02 · VISUALIZATION</div>
+    <div class="sec-title">Interactive Systems</div>
+
+    <a class="card rv" href="https://colonel1223.github.io/SHOGGOTH/">
+      <div class="card-top">
+        <h3>SHOGGOTH</h3>
+        <span class="tag tag-a">WebGL 2.0</span>
+        <span class="tag tag-g">LIVE</span>
+        <span class="tag tag-d">0 DEPS</span>
+      </div>
+      <p>Real-time WebGL simulation of alignment failure dynamics. 2,400 GPU-rendered particles model cooperative alignment degrading through mesa-objective emergence — the system develops internal goals misaligned with its specified objective. Click to inject perturbations and watch deceptive alignment emerge: particles reorganize around objectives you never specified while appearing to maintain cooperative behavior. Raw WebGL 2.0 with custom vertex and fragment shaders. Zero dependencies. Zero abstractions. Direct GPU computation.</p>
+      <div class="card-math">
+        Deception index <span class="sym">D(t) = 1 − cos(θ<sub>displayed</sub>, θ<sub>actual</sub>)</span>. Mesa-objective emergence when <span class="sym">D(t) > D<sub>crit</sub></span> while performance on base objective remains above <span class="sym">τ<sub>perf</sub></span>. Boids forces: alignment <span class="sym">F<sub>a</sub></span>, cohesion <span class="sym">F<sub>c</sub></span>, separation <span class="sym">F<sub>s</sub></span> with learned weighting <span class="sym">w(t)</span> that shifts during deceptive transition.
+      </div>
+      <div class="card-tech">WebGL 2.0 · GLSL shaders · Vanilla JS · 0 dependencies · GPU-rendered · Real-time physics · Custom vertex/fragment programs</div>
+      <div class="card-metrics">
+        <span>Particles: <span class="v">2,400</span></span>
+        <span>Framerate: <span class="v">60fps</span></span>
+        <span>Dependencies: <span class="v">0</span></span>
+        <span>Shaders: <span class="v">custom GLSL</span></span>
+      </div>
+      <div class="card-links">
+        <a href="https://colonel1223.github.io/SHOGGOTH/">Live Demo ↗</a>
+        <a href="https://github.com/colonel1223/SHOGGOTH">Source ↗</a>
+      </div>
+    </a>
+  </section>
+
+  <!-- ════════ QUOTE ════════ -->
+  <div class="quote rv">
+    <p>The alchemists weren't wrong about transmutation — they were wrong about the substrate. They tried to turn lead into gold. We are transmuting computation into cognition. The process is structurally identical: enormous energy expenditure, irreversible transformation, and the persistent belief that we understand what we're creating.</p>
+    <cite>— from AI as Modern Alchemy</cite>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       03 — METHODOLOGY
+       ════════════════════════════════════════════════════════ -->
+  <section id="approach" class="rv">
+    <span class="sec-num">03</span>
+    <div class="sec-label">03 · METHODOLOGY</div>
+    <div class="sec-title">Research Approach</div>
+    <div class="sec-desc">
+      Every claim backed by formal guarantees, statistical tests, or impossibility proofs. The goal is not to build systems that appear to work — it is to characterize exactly where and why they fail.
+    </div>
+
+    <div class="approach-grid">
+      <div class="approach-item rv">
+        <h4>Distribution-Free Guarantees</h4>
+        <p>No parametric assumptions. Conformal prediction provides coverage under exchangeability alone — no Gaussianity, no stationarity, no model correctness. If the assumption is weaker, the guarantee is stronger. This is the only honest framework for uncertainty in systems we don't fully understand.</p>
+      </div>
+      <div class="approach-item rv rv-d1">
+        <h4>Heavy-Tailed Analysis</h4>
+        <p>AI failures follow power laws, not Gaussians. Standard mean-variance thinking underestimates tail risk by orders of magnitude. Hill estimation, bootstrap KS, extreme value theory. If your risk model assumes thin tails, your risk model is wrong.</p>
+      </div>
+      <div class="approach-item rv rv-d2">
+        <h4>Information-Theoretic Bounds</h4>
+        <p>Before asking "how do we fix hallucination?" ask "is it fixable?" Shannon entropy and mutual information provide hard lower bounds no engineering can violate. Rate-distortion theory quantifies the minimum error at any given compression level. The limits are mathematical, not technological.</p>
+      </div>
+      <div class="approach-item rv rv-d3">
+        <h4>Scaling Law Empiricism</h4>
+        <p>Alignment properties are not scale-invariant. What works at 7B fails at 70B. Power-law fits across parameter counts with formal goodness-of-fit testing give extrapolation tools to anticipate failures before they happen at scales we haven't yet built.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider rv">· · · · ·</div>
+
+  <!-- ════════════════════════════════════════════════════════
+       04 — PAPERS
+       ════════════════════════════════════════════════════════ -->
+  <section class="rv">
+    <span class="sec-num">04</span>
+    <div class="sec-label">04 · PAPERS</div>
+    <div class="sec-title">Research Program</div>
+    <div class="sec-desc">AI as modern alchemy — four papers mapping the transmutation of computation into cognition and its economic, epistemic, and existential consequences.</div>
+
+    <a class="paper-card rv" href="https://github.com/colonel1223/ai-research-modern-alchemy">
+      <h3>The Stone's Shadow: Optimization Without Understanding</h3>
+      <div class="paper-meta">Working paper · v0.1 · AI Epistemology · ~4,200 words</div>
+      <div class="paper-abstract">The growing divergence between optimization performance and mechanistic understanding in neural systems. Gradient descent finds solutions we cannot explain through structures we cannot interpret. Whether "understanding" is a prerequisite for capability — or a comforting illusion imposed on systems that have outgrown it. Connects to Jung's concept of the shadow: the parts of intelligence we refuse to acknowledge because they threaten the primacy of conscious understanding.</div>
+    </a>
+    <a class="paper-card rv rv-d1" href="https://github.com/colonel1223/ai-research-modern-alchemy">
+      <h3>Digital Philosopher's Stone: Phase Transitions in Capability</h3>
+      <div class="paper-meta">Working paper · v0.1 · Emergence Theory · ~3,800 words</div>
+      <div class="paper-abstract">Capability emergence analyzed as phase transition. Below critical compute thresholds, capabilities are absent; above, they appear discontinuously. Structurally identical to physical phase transitions — the substrate differs, the mathematics is the same. Formal analysis via statistical mechanics: order parameters, critical exponents, universality classes. Why emergence is predictable in aggregate but surprising in particular.</div>
+    </a>
+    <a class="paper-card rv rv-d2" href="https://github.com/colonel1223/ai-research-modern-alchemy">
+      <h3>Economic Transmutation: Why This Time Is Different</h3>
+      <div class="paper-meta">Working paper · v0.1 · AI Economics · ~5,100 words</div>
+      <div class="paper-abstract">Every previous technological disruption displaced specific skill-sets while creating demand for others. AI displaces the meta-skill: the ability to learn and adapt. Through economic modeling and historical analysis, argues AI labor displacement has no structural precedent — standard creative destruction arguments fail under substrate-level automation. Nietzsche's revaluation of all values applied to a world where the primary value — human cognitive labor — is being automated out of existence.</div>
+    </a>
+    <a class="paper-card rv rv-d3" href="papers/Lead_Into_Gold_2026.md">
+      <h3>Lead Into Gold: A Unified Theory of Artificial Transmutation</h3>
+      <div class="paper-meta">2026 · Research Synthesis · Capstone</div>
+      <div class="paper-abstract">The synthesis. Conformal prediction as quantification of epistemic limits. Alignment tax as cost of control. Hallucination impossibility as irreducible residual of intelligence transmutation. Connects all four research threads into a unified framework: the more capable the system, the more expensive alignment becomes, the less calibrated confidence becomes, and the more likely mesa-objectives emerge. This is not pessimism — it's measurement.</div>
+    </a>
+  </section>
+
+  <!-- ════════ QUOTE — Nietzsche ════════ -->
+  <div class="quote rv">
+    <p>He who fights with monsters should look to it that he himself does not become a monster. And when you gaze long into an abyss, the abyss also gazes into you.</p>
+    <cite>— Friedrich Nietzsche, Beyond Good and Evil, §146</cite>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       05 — TECHNICAL STACK
+       ════════════════════════════════════════════════════════ -->
+  <section id="stack" class="rv">
+    <span class="sec-num">05</span>
+    <div class="sec-label">05 · COMPETENCIES</div>
+    <div class="sec-title">Technical Stack</div>
+    <div class="sec-desc">
+      Not just tools — specific methods, mathematical frameworks, and engineering practices. Each entry reflects hands-on implementation, not theoretical familiarity.
+    </div>
+
+    <div class="tech-grid">
+      <div class="tech-cell rv">
+        <h4>Languages</h4>
+        <div class="items">
+          <span class="p">Python</span> (primary research), <span class="p">C</span> (systems), <span class="p">TypeScript</span> / <span class="p">JavaScript</span> (visualization, WebGL), SQL, Bash, GLSL
+        </div>
+      </div>
+      <div class="tech-cell rv rv-d1">
+        <h4>ML / AI Frameworks</h4>
+        <div class="items">
+          <span class="p">PyTorch</span>, NumPy, SciPy, scikit-learn, <span class="p">Hugging Face Transformers</span>, PEFT/LoRA, vLLM inference, Weights & Biases
+        </div>
+      </div>
+      <div class="tech-cell rv rv-d2">
+        <h4>Statistical Methods</h4>
+        <div class="items">
+          <span class="p">Conformal prediction</span>, Hill estimation, <span class="p">bootstrap inference</span>, KS/AD tests, power-law fitting, <span class="p">extreme value theory</span>, Bayesian inference, MI estimation, MLE
+        </div>
+      </div>
+      <div class="tech-cell rv rv-d3">
+        <h4>AI Safety Methods</h4>
+        <div class="items">
+          <span class="p">RLHF</span>, Constitutional AI, <span class="p">DPO</span>, activation steering, <span class="p">ROME/MEMIT</span>, representation engineering, red-teaming, alignment evaluation, reward modeling
+        </div>
+      </div>
+      <div class="tech-cell rv">
+        <h4>Infrastructure</h4>
+        <div class="items">
+          <span class="p">GitHub Actions CI</span>, pyproject.toml, mypy strict, pytest, <span class="p">Docker</span>, GPU compute (CUDA), Makefile, pre-commit hooks
+        </div>
+      </div>
+      <div class="tech-cell rv rv-d1">
+        <h4>Information Theory</h4>
+        <div class="items">
+          <span class="p">Shannon entropy</span>, mutual information, <span class="p">KL divergence</span>, impossibility bounds, rate-distortion theory, channel capacity, Fisher information
+        </div>
+      </div>
+      <div class="tech-cell tech-full rv rv-d2">
+        <h4>Visualization / Frontend</h4>
+        <div class="items">
+          <span class="p">WebGL 2.0</span> (raw GLSL shaders, no Three.js), <span class="p">React</span>, D3.js, Canvas API, CSS animation, responsive design, GPU particle systems, <span class="p">custom vertex/fragment shaders</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       06 — DEMOS
+       ════════════════════════════════════════════════════════ -->
+  <section id="demos" class="rv">
+    <span class="sec-num">06</span>
+    <div class="sec-label">06 · INTERACTIVE</div>
+    <div class="sec-title">Live Demos</div>
+    <div class="sec-desc">Each demo is a different lens on the same problem: what happens when intelligence becomes substrate-independent.</div>
+
+    <div class="demos">
+      <a class="demo feat rv" href="https://colonel1223.github.io/SHOGGOTH/">
+        <h4>⬡ SHOGGOTH</h4>
+        <span>WebGL alignment failure · 2,400 particles · mesa-objective emergence · deception index</span>
+      </a>
+      <a class="demo feat rv rv-d1" href="https://colonel1223.github.io/CHIMERA/">
+        <h4>⬡ CHIMERA</h4>
+        <span>Hallucination impossibility · 847K traces · Hill estimation · power-law tails</span>
+      </a>
+      <a class="demo rv" href="demos/alignment-tax/index.html">
+        <h4>Alignment Tax</h4>
+        <span>Safety–capability Pareto frontiers · 6 methods × 5 scales · power-law fits</span>
+      </a>
+      <a class="demo rv rv-d1" href="demos/conformal/index.html">
+        <h4>Conformal Prediction</h4>
+        <span>Coverage guarantees · exchangeability · adaptive prediction sets</span>
+      </a>
+      <a class="demo rv" href="demos/cosmic-horror/index.html">
+        <h4>Cosmic Horror of AI</h4>
+        <span>Lovecraftian ontology of incomprehensible intelligence</span>
+      </a>
+      <a class="demo rv rv-d1" href="demos/cosmic-obsolescence/index.html">
+        <h4>Cosmic Obsolescence</h4>
+        <span>Labor displacement under substrate-level automation</span>
+      </a>
+      <a class="demo rv" href="demos/markov/index.html">
+        <h4>Markov Models</h4>
+        <span>Ergodic dynamics · transition matrices · stationary distributions</span>
+      </a>
+      <a class="demo rv rv-d1" href="demos/risk-comparison/index.html">
+        <h4>Risk Comparison</h4>
+        <span>Existential risk framework · comparative analysis</span>
+      </a>
+      <a class="demo rv" href="demos/timeline/index.html">
+        <h4>AI Timeline</h4>
+        <span>Capability emergence chronology · inflection points</span>
+      </a>
+      <a class="demo rv rv-d1" href="demos/matrix/index.html">
+        <h4>Matrix</h4>
+        <span>Simulation substrate aesthetics</span>
+      </a>
+      <a class="demo rv" href="demos/research-hub/index.html">
+        <h4>Research Hub</h4>
+        <span>Transmutation research index · all threads</span>
+      </a>
+      <a class="demo rv rv-d1" href="demos/matrix-hub/index.html">
+        <h4>Matrix Hub</h4>
+        <span>Simulation interface · navigation</span>
+      </a>
+
+      <a class="demo feat rv" href="https://colonel1223.net/mr-stix-agent/" style="border-left:3px solid #00ff41;">
+        <h4>⬡ MR. STIX</h4>
+        <span>Autonomous AI agent · plan-execute-verify loop · 8 tools · multi-agent orchestration · 3D desktop companion</span>
+      </a>
+      <a class="demo feat rv rv-d1" href="https://colonel1223.net/matrix/" style="border-left:3px solid #ff4444;">
+        <h4>⬡ THE MATRIX</h4>
+        <span>AGI existential risk decomposition · Bayesian analysis · alchemy framework · Fermi paradox · bilingual EN/JP</span>
+      </a>
+      <a class="demo rv" href="https://colonel1223.net/transmutation-research/" style="border-left:3px solid #ffcc44;">
+        <h4>⬡ TRANSMUTATION ARCHIVE</h4>
+        <span>Quantitative risk assessment · Markov cognitive dissolution · intervention protocols · research artifacts</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       07 — MODELS & PHILOSOPHY
+       ════════════════════════════════════════════════════════ -->
+  <section class="rv">
+    <span class="sec-num">07</span>
+    <div class="sec-label">07 · FRAMEWORK</div>
+    <div class="sec-title">Models & Philosophy</div>
+    <div class="sec-desc">The philosophical scaffold beneath the technical work. Jung's confrontation with the unconscious. Nietzsche's revaluation. Da Vinci's union of art and science. Applied to a world building intelligence it cannot understand.</div>
+
+    <a class="card rv" href="models/index.html">
+      <div class="card-top">
+        <h3>Probabilistic Models</h3>
+        <span class="tag tag-v">INTERACTIVE</span>
+      </div>
+      <p>Formal probabilistic frameworks for the transmutation thesis. Bayesian reasoning about capability emergence with proper uncertainty quantification. Economic transformation models. The magnum opus: a unified model connecting alignment cost, hallucination rate, and economic disruption as functions of compute scale — τ(N), H(N,T), and ΔL(N) as three projections of the same underlying process.</p>
+    </a>
+    <a class="card rv rv-d1" href="philosophy/index.html">
+      <div class="card-top">
+        <h3>Philosophy</h3>
+        <span class="tag tag-v">FRAMEWORK</span>
+      </div>
+      <p>Why alchemy is the correct metaphor, and why it matters. Jung's confrontation with the unconscious as prototype for humanity's confrontation with artificial intelligence — the shadow made computational. Nietzsche's revaluation of values applied to a world where the primary value, human cognitive labor, is being automated. Da Vinci's synthesis of art and engineering as the model for what AI safety research should be: rigorous measurement in service of things that matter.</p>
+    </a>
+    <a class="card rv rv-d2" href="infrastructure/index.html">
+      <div class="card-top">
+        <h3>Infrastructure</h3>
+        <span class="tag tag-d">DOCS</span>
+      </div>
+      <p>Technical architecture. Build systems, CI/CD pipelines, deployment infrastructure, GPU compute configuration, and the engineering decisions behind the research environment. The boring work that makes the interesting work possible.</p>
+    </a>
+  </section>
+
+  <!-- ════════ FINAL QUOTE — Jung ════════ -->
+  <div class="quote rv">
+    <p>Until you make the unconscious conscious, it will direct your life and you will call it fate.</p>
+    <cite>— Carl Gustav Jung</cite>
+  </div>
+
+  <div class="divider rv">◆</div>
+
+  <!-- ════════ FOOTER ════════ -->
+  <footer>
+    <span>Spencer Kitaro Cottrell · 2026</span>
+    <span>
+      <a href="https://github.com/colonel1223">GitHub</a> ·
+      <a href="https://linkedin.com/in/spencercottrell">LinkedIn</a> ·
+      <a href="contact/index.html">Contact</a>
+    </span>
+    <span>Python · C · TypeScript · PyTorch · WebGL · GLSL</span>
+  </footer>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     CONSTELLATION BACKGROUND — Research Network
+     ════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  const canvas = document.getElementById('constellation');
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [], mouse = { x: -1000, y: -1000 };
+  const COUNT = 60;
+  const CONNECT_DIST = 180;
+  const MOUSE_DIST = 200;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+
+  function init() {
+    resize();
+    particles = [];
+    for (let i = 0; i < COUNT; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 1.5 + 0.5,
+        bright: Math.random() > 0.85
+      });
+    }
+    canvas.classList.add('active');
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    // connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONNECT_DIST) {
+          const alpha = (1 - dist / CONNECT_DIST) * 0.06;
+          ctx.strokeStyle = `rgba(148,148,170,${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // mouse connections
+    for (let i = 0; i < particles.length; i++) {
+      const dx = particles[i].x - mouse.x;
+      const dy = particles[i].y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < MOUSE_DIST) {
+        const alpha = (1 - dist / MOUSE_DIST) * 0.12;
+        ctx.strokeStyle = `rgba(184,56,32,${alpha})`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
+      }
+    }
+
+    // particles
+    for (const p of particles) {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.bright ? 'rgba(184,56,32,0.25)' : 'rgba(148,148,170,0.12)';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  document.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+
+  init();
+  draw();
+})();
+
+// Scroll reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+// Active nav tracking
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    const top = s.offsetTop - 80;
+    if (window.scrollY >= top) current = s.getAttribute('id');
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
