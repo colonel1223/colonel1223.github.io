@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dispatches — S. K. Cottrell</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --border: #1a1a1a;
+    --text: #e0e0e0;
+    --dim: #666;
+    --accent: #00ff88;
+    --warn: #ff4444;
+    --link: #88aaff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 3rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+  }
+
+  .nav a {
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav a:hover { color: var(--accent); }
+
+  .nav-left a {
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.15em;
+  }
+
+  .nav-right { display: flex; gap: 2rem; }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+
+  .section-tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--warn);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    color: var(--dim);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 4rem;
+  }
+
+  .dispatch-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .dispatch-entry {
+    background: var(--surface);
+    padding: 2rem 2.5rem;
+    text-decoration: none;
+    color: var(--text);
+    display: block;
+    transition: background 0.2s, border-left 0.2s;
+    border-left: 3px solid transparent;
+  }
+
+  .dispatch-entry:hover {
+    background: #161616;
+    border-left-color: var(--warn);
+  }
+
+  .dispatch-entry .entry-tag {
+    font-size: 0.55rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--warn);
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  .dispatch-entry h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+  }
+
+  .dispatch-entry .entry-sub {
+    font-size: 0.78rem;
+    color: var(--dim);
+    line-height: 1.6;
+    max-width: 520px;
+  }
+
+  .dispatch-entry .entry-meta {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: #444;
+    margin-top: 1rem;
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-top: 3rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .nav { padding: 1rem 1.5rem; }
+    .container { padding: 4rem 1.3rem; }
+    .dispatch-entry { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-left">
+    <a href="/">S·K·COTTRELL</a>
+  </div>
+  <div class="nav-right">
+    <a href="/">Research</a>
+    <a href="/papers/index.html">Papers</a>
+    <a href="/dispatches/">Dispatches</a>
+    <a href="https://github.com/colonel1223">GitHub ↗</a>
+  </div>
+</nav>
+
+<div class="container">
+  <span class="section-tag">Field Transmissions</span>
+  <h1>Dispatches</h1>
+  <p class="subtitle">Long-form analysis at the intersection of evolutionary biology, dark philosophy, and the AI reckoning. Not research papers. Not blog posts. Dispatches from the front lines of a species in transition.</p>
+
+  <div class="dispatch-list">
+    <a href="/dispatches/the-great-die-off.html" class="dispatch-entry">
+      <span class="entry-tag">Dispatch 001</span>
+      <h2>The Great Die-Off</h2>
+      <p class="entry-sub">On the extinction of those who refuse to adapt. 99% of all species that have ever existed are gone — not because they were weak, but because their strength was optimized for a world that no longer existed. The AI reckoning through the lens of evolutionary biology and Nietzsche.</p>
+      <div class="entry-meta">
+        <span>Evolutionary biology</span>
+        <span>Dark philosophy</span>
+        <span>The AI reckoning</span>
+      </div>
+    </a>
+    <a href="/dispatches/the-inversion.html" class="dispatch-entry">
+      <span class="entry-tag">Dispatch 002</span>
+      <h2>The Inversion</h2>
+      <p class="entry-sub">When the floor becomes the ceiling. A documentary-in-text following two organisms through the same economy — one drowning in a house with a pool, the other learning to swim in an apartment without a dishwasher. How inherited advantage became inherited liability.</p>
+      <div class="entry-meta">
+        <span>Evolutionary psychology</span>
+        <span>Western class collapse</span>
+        <span>The AI reckoning at home</span>
+      </div>
+    </a>
+  </div>
+
+  <a href="/" class="back-link">← back to research</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE GREAT DIE-OFF</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=JetBrains+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bone: #e8e0d4;
+    --ash: #1a1714;
+    --blood: #8b1a1a;
+    --rust: #6b3a2a;
+    --smoke: #3a3530;
+    --ember: #c44b2f;
+    --pale: #c9bfb0;
+    --void: #0d0b09;
+    --warning: #d4a017;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--void);
+    color: var(--bone);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--blood);
+    color: var(--bone);
+  }
+
+  /* --- HERO --- */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    background:
+      radial-gradient(ellipse at 30% 60%, rgba(139,26,26,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 30%, rgba(107,58,42,0.1) 0%, transparent 50%),
+      var(--void);
+    border-bottom: 1px solid rgba(139,26,26,0.3);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .hero-epigraph {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--pale);
+    opacity: 0.6;
+    max-width: 500px;
+    margin-bottom: 3rem;
+    letter-spacing: 0.02em;
+    animation: fadeIn 2s ease-out;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    color: var(--bone);
+    margin-bottom: 1.5rem;
+    animation: fadeIn 1.5s ease-out;
+  }
+
+  .hero h1 span {
+    display: block;
+    color: var(--blood);
+    font-style: italic;
+    font-size: 0.45em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+  }
+
+  .hero-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-top: 1rem;
+    animation: fadeIn 2.5s ease-out;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--pale);
+    opacity: 0.3;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  /* --- LAYOUT --- */
+  .content-wrapper {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  section {
+    padding: 5rem 0;
+    border-bottom: 1px solid rgba(139,26,26,0.12);
+  }
+
+  section:last-of-type { border-bottom: none; }
+
+  /* --- TYPOGRAPHY --- */
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 900;
+    color: var(--bone);
+    margin-bottom: 0.4rem;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  h2 .section-number {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--blood);
+    margin-bottom: 0.8rem;
+    font-weight: 400;
+  }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--pale);
+    margin: 2.5rem 0 1rem;
+  }
+
+  p {
+    margin-bottom: 1.4rem;
+    color: var(--pale);
+  }
+
+  p.lead {
+    font-size: 1.15rem;
+    color: var(--bone);
+    font-weight: 300;
+    line-height: 1.85;
+  }
+
+  strong { color: var(--bone); font-weight: 600; }
+  em { font-style: italic; }
+
+  /* --- SPECIAL BLOCKS --- */
+  .data-block {
+    background: rgba(139,26,26,0.08);
+    border-left: 3px solid var(--blood);
+    padding: 1.5rem 1.8rem;
+    margin: 2rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.8;
+    color: var(--pale);
+  }
+
+  .data-block .data-label {
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 0.6rem;
+  }
+
+  .data-block .stat {
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--bone);
+    display: block;
+    margin: 0.3rem 0;
+    line-height: 1.2;
+  }
+
+  .philosophy-quote {
+    padding: 2rem 0;
+    margin: 2.5rem 0;
+    border-top: 1px solid rgba(139,26,26,0.2);
+    border-bottom: 1px solid rgba(139,26,26,0.2);
+    text-align: center;
+  }
+
+  .philosophy-quote blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    color: var(--bone);
+    line-height: 1.6;
+    max-width: 580px;
+    margin: 0 auto 0.8rem;
+  }
+
+  .philosophy-quote cite {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rust);
+    font-style: normal;
+  }
+
+  .extinction-case {
+    background: rgba(58,53,48,0.4);
+    padding: 2rem;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .extinction-case::before {
+    content: 'CASE STUDY';
+    position: absolute;
+    top: 0.8rem;
+    right: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.4em;
+    color: var(--blood);
+    opacity: 0.6;
+  }
+
+  .extinction-case h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--bone);
+    margin-bottom: 0.8rem;
+  }
+
+  .extinction-case p {
+    font-size: 0.92rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .warning-block {
+    background: rgba(212,160,23,0.06);
+    border: 1px solid rgba(212,160,23,0.2);
+    padding: 1.5rem 1.8rem;
+    margin: 2rem 0;
+    position: relative;
+  }
+
+  .warning-block::before {
+    content: '⚠';
+    position: absolute;
+    top: -0.7rem;
+    left: 1.5rem;
+    font-size: 1.2rem;
+    background: var(--void);
+    padding: 0 0.5rem;
+  }
+
+  .warning-block p {
+    font-size: 0.95rem;
+    color: var(--warning);
+    margin-bottom: 0;
+  }
+
+  /* --- DARK TETRAD SIDEBAR --- */
+  .tetrad-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(139,26,26,0.15);
+    margin: 2rem 0;
+  }
+
+  .tetrad-item {
+    background: var(--void);
+    padding: 1.5rem;
+  }
+
+  .tetrad-item h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ember);
+    margin-bottom: 0.5rem;
+  }
+
+  .tetrad-item p {
+    font-size: 0.85rem;
+    margin-bottom: 0;
+    line-height: 1.6;
+  }
+
+  /* --- TIMELINE --- */
+  .extinction-timeline {
+    margin: 2.5rem 0;
+    padding-left: 2rem;
+    border-left: 2px solid var(--blood);
+  }
+
+  .timeline-entry {
+    position: relative;
+    padding-bottom: 2rem;
+  }
+
+  .timeline-entry::before {
+    content: '';
+    position: absolute;
+    left: -2.45rem;
+    top: 0.4rem;
+    width: 10px;
+    height: 10px;
+    background: var(--blood);
+    border-radius: 50%;
+  }
+
+  .timeline-entry .year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--ember);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .timeline-entry p {
+    font-size: 0.92rem;
+    margin-bottom: 0;
+  }
+
+  /* --- CLOSING --- */
+  .closing {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 6rem 2rem;
+    background:
+      radial-gradient(ellipse at 50% 80%, rgba(139,26,26,0.12) 0%, transparent 50%),
+      var(--void);
+  }
+
+  .closing h2 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .closing p {
+    max-width: 560px;
+    font-size: 1.1rem;
+    color: var(--pale);
+  }
+
+  .closing .final-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--blood);
+    margin-top: 3rem;
+  }
+
+  /* --- ANIMATIONS --- */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+  }
+
+  .fade-section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  .fade-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* --- RESPONSIVE --- */
+  @media (max-width: 600px) {
+    body { font-size: 17px; }
+    .content-wrapper { padding: 0 1.2rem; }
+    section { padding: 3.5rem 0; }
+    .tetrad-grid { grid-template-columns: 1fr; }
+    .data-block { padding: 1.2rem; }
+    .extinction-case { padding: 1.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== HERO ========== -->
+<div class="hero">
+  <div class="hero-epigraph">
+    "It is not the strongest of the species that survives, nor the most intelligent that survives. It is the one that is most adaptable to change."<br>— Misattributed to Darwin. Actually Leon C. Megginson, 1963.
+  </div>
+  <h1>
+    THE GREAT<br>DIE-OFF
+    <span>On the extinction of those who refuse to adapt</span>
+  </h1>
+  <div class="hero-subtitle">Evolutionary biology &bull; Dark philosophy &bull; The AI reckoning</div>
+  <div class="scroll-indicator">scroll to descend</div>
+</div>
+
+<!-- ========== I. THE FOSSIL RECORD DOESN'T LIE ========== -->
+<section>
+  <div class="content-wrapper fade-section">
+    <h2>
+      <span class="section-number">Part I — The Biological Precedent</span>
+      The Fossil Record Doesn't Lie
+    </h2>
+
+    <p class="lead">Ninety-nine percent of every species that has ever lived on this planet is now extinct. Not injured. Not struggling. <strong>Gone.</strong> Dissolved into sediment, compressed into stone, forgotten by everything except geology.</p>
+
+    <p>That number — 99% — is not a metaphor. It's the conclusion drawn from the paleontological record across 3.8 billion years of life on Earth. The overwhelming default of biological existence is not survival. It is annihilation. And the mechanism is almost always the same: <strong>an environment shifted, and the organism didn't.</strong></p>
+
+    <div class="data-block">
+      <span class="data-label">The extinction baseline</span>
+      <span class="stat">99.9%</span>
+      Of all species that have ever existed are now extinct.
+      Current estimates: ~5 billion species have existed. ~8.7 million remain.
+      Background extinction rate: 0.1–1 species per million per year.
+      We are currently losing species at 1,000x that baseline rate.
+    </div>
+
+    <p>The organisms that dominate the fossil record of failure share a disturbing pattern. They were not weak. Many were apex predators — massive, armored, resource-dominant. They didn't die because they were fragile. They died because their strength was hyper-optimized for a world that no longer existed.</p>
+
+    <div class="extinction-case">
+      <h4>The Irish Elk (Megaloceros giganteus)</h4>
+      <p>The largest deer that ever lived. Its antlers spanned 3.65 meters — wider than most rooms you've slept in. Those antlers were the product of runaway sexual selection: bigger antlers meant more mates, which meant bigger antlers in the next generation. A feedback loop of evolutionary "success."</p>
+      <p>Then the forests returned after the last glaciation. The very structures that had guaranteed reproductive dominance now snagged on every branch, trapped them in dense woodland, made them slow and visible. The thing that made them kings became the thing that killed them. <strong>Their greatest asset became their heaviest liability.</strong></p>
+    </div>
+
+    <p>Read that again. The trait that guaranteed dominance in one environment became a death sentence when the environment changed. This is not a fable. This is thermodynamics, game theory, and natural selection operating on timescales that don't care about your feelings.</p>
+
+    <div class="philosophy-quote">
+      <blockquote>"Whoever fights monsters should see to it that in the process he does not become a monster. And if you gaze long enough into an abyss, the abyss also gazes into you."</blockquote>
+      <cite>Friedrich Nietzsche — Beyond Good and Evil, §146</cite>
+    </div>
+
+    <p>Nietzsche was not writing about elk. But the principle is the same: the mechanisms you develop to dominate one game will devour you when the game changes. And the game always changes.</p>
+
+    <h3>The Koala Principle</h3>
+
+    <p>Consider the koala. It exclusively eats eucalyptus leaves — a food source so nutritionally barren, so packed with toxins, that virtually no other mammal will touch it. Over millions of years, koalas developed an enormously elongated cecum (up to 200 cm) to ferment and detoxify this garbage diet. Their brains actually shrank — one of the smallest brain-to-body ratios of any mammal — because neural tissue is metabolically expensive and eucalyptus provides almost nothing.</p>
+
+    <p>The koala traded intelligence for niche dominance. It is the reigning, unchallenged monarch of eating poison. And if eucalyptus disappears — which deforestation and climate change are making increasingly likely — the koala has <em>nothing</em>. No fallback diet. No behavioral flexibility. No cognitive capacity to learn. It optimized itself into a corner with no exit.</p>
+
+    <div class="data-block">
+      <span class="data-label">Specialist vs. Generalist Survival Rates</span>
+      Research published in <em>Science</em> (2015) found that specialist species are up to 10x more likely to go extinct during rapid environmental change than generalists. Niche breadth is the single strongest predictor of extinction resilience.
+    </div>
+
+    <p>The koala is not a tragedy of weakness. It is a tragedy of <em>over-optimization</em>. It became so perfectly adapted to one narrow ecological slot that it cannot function in any other. In evolutionary biology, this is called an <strong>evolutionary dead end</strong>.</p>
+
+    <p>Hold that term in your mind. We'll need it.</p>
+  </div>
+</section>
+
+<!-- ========== II. THE PSYCHOLOGY OF DENIAL ========== -->
+<section>
+  <div class="content-wrapper fade-section">
+    <h2>
+      <span class="section-number">Part II — The Psychology of Denial</span>
+      The Shadow Knows What You Won't Admit
+    </h2>
+
+    <p class="lead">Carl Jung spent a career studying the structures of self-deception. He called it the Shadow — the part of yourself you refuse to see, the truths about your own nature that you bury because they threaten the story you've built.</p>
+
+    <p>"People will do anything, no matter how absurd, to avoid facing their own souls," Jung wrote in <em>Psychology and Alchemy</em>. And he meant it clinically. Not as poetry. As diagnosis.</p>
+
+    <p>The refusal to adapt is, at its root, a psychological phenomenon before it is a strategic one. The organism that doesn't adapt is not always the organism that <em>can't</em> — it is often the organism that <em>won't</em>. Because adaptation requires a prerequisite that most psyches find unbearable: <strong>the admission that your current form is insufficient.</strong></p>
+
+    <div class="philosophy-quote">
+      <blockquote>"Until you make the unconscious conscious, it will direct your life and you will call it fate."</blockquote>
+      <cite>Carl Jung</cite>
+    </div>
+
+    <p>This is where the Dark Tetrad enters — the four personality traits that psychology identifies as the architecture of self-destructive dominance.</p>
+
+    <div class="tetrad-grid">
+      <div class="tetrad-item">
+        <h4>Narcissism</h4>
+        <p>"I am exceptional. The rules of change do not apply to me. My status is inherent, not earned, and therefore cannot be lost."</p>
+      </div>
+      <div class="tetrad-item">
+        <h4>Machiavellianism</h4>
+        <p>"I will manipulate the system to maintain my position rather than develop genuine capability. I'll game what I can't master."</p>
+      </div>
+      <div class="tetrad-item">
+        <h4>Psychopathy</h4>
+        <p>"I don't feel the distress signals. The alarm bells others hear — I am numb to them. I'll be charming while the ship sinks."</p>
+      </div>
+      <div class="tetrad-item">
+        <h4>Sadism</h4>
+        <p>"I derive satisfaction from the failure of others, which distracts me from confronting my own. Schadenfreude as survival strategy."</p>
+      </div>
+    </div>
+
+    <p>These are not just personality disorders. They are <em>adaptation-prevention mechanisms</em>. Every single one of these traits serves the same evolutionary function: <strong>protecting the ego from the pain of genuine transformation.</strong></p>
+
+    <p>Research from Paulhus and Williams (2002) demonstrated that Dark Tetrad traits correlate directly with <strong>low openness to experience</strong> in high-threat environments — precisely the psychological profile that extinction selects against. When the environment shifts, these individuals don't pivot. They double down. They fight reality itself rather than adjust to it.</p>
+
+    <div class="extinction-case">
+      <h4>The Saber-Toothed Cat (Smilodon fatalis)</h4>
+      <p>Apex predator for 2.5 million years. Canines up to 28 cm long. Bite force that could crush bone. It killed megafauna — giant sloths, mastodons, bison — with surgical violence. And when those megafauna disappeared at the end of the Pleistocene, Smilodon had so over-specialized its jaw mechanics for large prey that it could not hunt the smaller, faster animals that replaced them.</p>
+      <p>It had become so good at one type of killing that it literally could not eat. Its jaw structure — evolved for maximum force — couldn't execute the quick, snapping bite needed for rabbits and deer. <strong>The ultimate predator starved to death in a world full of food it couldn't access.</strong></p>
+    </div>
+
+    <p>This is the narcissistic trap in biological form. "I am the greatest predator alive" is true right up until the moment it kills you.</p>
+  </div>
+</section>
+
+<!-- ========== III. THE GREAT SHIFT ========== -->
+<section>
+  <div class="content-wrapper fade-section">
+    <h2>
+      <span class="section-number">Part III — The Great Shift</span>
+      AI as Asteroid
+    </h2>
+
+    <p class="lead">Every mass extinction in Earth's history was triggered by an environmental shift so rapid and so fundamental that the existing dominant organisms couldn't adapt in time. The Permian-Triassic event. The K-Pg boundary. The Great Oxygenation Event. Each one wiped the slate, and each one rewarded the organisms that were flexible, small, and willing to change — while annihilating the ones that were rigid, large, and committed to the old world.</p>
+
+    <p>We are now living through a shift of comparable magnitude. Not biological, but economic, cognitive, and professional. And the asteroid's name is artificial intelligence.</p>
+
+    <div class="data-block">
+      <span class="data-label">The velocity of displacement</span>
+      <span class="stat">300 million</span>
+      Goldman Sachs (2023): estimated full-time jobs exposed to AI automation globally.
+      McKinsey (2023): 30% of work hours in the US could be automated by 2030.
+      World Economic Forum (2023): 83 million jobs displaced vs. 69 million created — net loss of 14 million jobs in the next cycle.
+    </div>
+
+    <p>But job displacement is the <em>surface-level</em> reading. The deeper shift is cognitive. AI is not merely doing tasks faster. It is <strong>commoditizing the very skills that defined professional-class identity for the past fifty years</strong>: information synthesis, pattern recognition, written communication, analytical reasoning, code production, legal analysis, medical diagnostics.</p>
+
+    <p>These were the eucalyptus leaves of the knowledge economy. And an entire generation hyper-specialized in eating them.</p>
+
+    <div class="warning-block">
+      <p>A 2024 study from the National Bureau of Economic Research found that in fields where AI tools were introduced, workers in the top performance quartile saw a 2% productivity gain — while workers in the bottom quartile saw a 35% gain. AI compresses skill gaps. It does not reward existing mastery. It erodes the premium on it.</p>
+    </div>
+
+    <h3>The Privileged Specialist: A Profile</h3>
+
+    <p>Here is an organism optimized for a vanishing environment:</p>
+
+    <p>Age 22. Business degree from a university whose admissions letter arrived with the quiet assurance of a family donation. GPA maintained not through intellectual hunger but through a combination of tutoring services, strategic course selection, and the ambient social capital of knowing which professors golf with Dad. Internship secured through the same channels — not a meritocratic filter but an inheritance pipeline disguised as one.</p>
+
+    <p>This organism's competitive advantages were never <em>skills</em>. They were <strong>access</strong>. Network. Brand association. The ability to walk into rooms that others had to claw their way into. And for decades, that was enough. Because the professional environment rewarded presence, pedigree, and pattern-matching over genuine cognitive capability.</p>
+
+    <div class="data-block">
+      <span class="data-label">The anxiety beneath the surface</span>
+      <span class="stat">44%</span>
+      of college students reported "overwhelming anxiety" in the American College Health Association's 2023 national survey — the highest figure ever recorded.
+      Gen Z reports the highest rates of anxiety and depression of any generation measured (APA Stress in America, 2023).
+      70% of students at elite universities report impostor syndrome (International Journal of Behavioral Science).
+    </div>
+
+    <p>That anxiety is not random. It is the organism's nervous system registering what the conscious mind refuses to accept: <strong>the environment has already shifted, and they are not equipped for the new one.</strong></p>
+
+    <p>The anxiety is the body's fire alarm. And instead of evacuating, they're putting on noise-canceling headphones.</p>
+
+    <div class="philosophy-quote">
+      <blockquote>"The snake which cannot cast its skin has to die. As well the minds which are prevented from changing their opinions; they cease to be mind."</blockquote>
+      <cite>Friedrich Nietzsche — Daybreak, §573</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ========== IV. HISTORICAL PRECEDENTS ========== -->
+<section>
+  <div class="content-wrapper fade-section">
+    <h2>
+      <span class="section-number">Part IV — Historical Precedents</span>
+      The Dead Empires of Refusal
+    </h2>
+
+    <p class="lead">This pattern is not new. History is a graveyard of civilizations that chose comfort over transformation, identity over survival.</p>
+
+    <div class="extinction-timeline">
+      <div class="timeline-entry">
+        <span class="year">1839–1842 · The Qing Dynasty</span>
+        <p>The most powerful empire on Earth for centuries. When British industrial technology arrived — steam power, mechanized warfare, industrial chemistry — the Qing court dismissed it as "barbarian tricks." The Scholar-Official class had spent lifetimes mastering the Eight-Legged Essay, a hyper-specialized literary form required for civil service exams. When the environment shifted to one requiring industrial and military modernization, they had no transferable skills. The empire that had invented gunpowder was humiliated by those who had adapted it.</p>
+      </div>
+      <div class="timeline-entry">
+        <span class="year">1990s · Kodak</span>
+        <p>Kodak engineer Steve Sasson invented the digital camera in 1975 — <em>inside Kodak</em>. Management buried it. "Why would anyone want to look at pictures on a screen?" they asked. Kodak filed for bankruptcy in 2012. They didn't fail to innovate. They failed to accept that innovation would destroy the identity they'd built. Film was who they <em>were</em>. So they died as who they were.</p>
+      </div>
+      <div class="timeline-entry">
+        <span class="year">2007 · Nokia</span>
+        <p>50% global market share in mobile phones. When the iPhone arrived, Nokia's leadership reportedly laughed. Their internal R&D had touchscreen prototypes years earlier — but the organizational identity was "hardware engineering." Software was beneath them. Within six years, they sold their mobile division to Microsoft for a fraction of their peak value.</p>
+      </div>
+      <div class="timeline-entry">
+        <span class="year">2010s · The American Coal Industry</span>
+        <p>Rather than retrain workers for renewable energy — which required admitting coal was dying — political and corporate leaders promised a "coal renaissance." Workers were told to hold on. Entire communities organized their identity around the mine. Natural gas and renewables dropped in price regardless. Communities that had been promised resurrection got economic collapse instead.</p>
+      </div>
+      <div class="timeline-entry">
+        <span class="year">Now · The Knowledge-Worker Class</span>
+        <p>You are here.</p>
+      </div>
+    </div>
+
+    <p>In every case, the pattern is identical. The dominant class — the one with the most invested in the old system — is the last to adapt and the most devastated when the shift completes. Not because they lack resources. But because their resources are denominated in the old currency.</p>
+
+    <p>Da Vinci saw this with terrifying clarity five centuries ago. His notebooks are filled with designs for machines that didn't exist yet — flying machines, armored vehicles, automated looms — not because he was trying to be "innovative" in any modern corporate sense, but because he understood that <strong>the only stable position is the one that hasn't been built yet.</strong> Everything that currently exists is already dying.</p>
+
+    <div class="philosophy-quote">
+      <blockquote>"Iron rusts from disuse; stagnant water loses its purity and in cold weather becomes frozen; even so does inaction sap the vigor of the mind."</blockquote>
+      <cite>Leonardo da Vinci — Notebooks</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ========== V. THE UNCOMFORTABLE DATA ========== -->
+<section>
+  <div class="content-wrapper fade-section">
+    <h2>
+      <span class="section-number">Part V — The Uncomfortable Data</span>
+      What the Numbers Actually Say
+    </h2>
+
+    <p class="lead">Here is where denial becomes statistically indefensible.</p>
+
+    <div class="data-block">
+      <span class="data-label">Education ROI collapse</span>
+      The Federal Reserve Bank of New York (2024): 41% of recent college graduates are underemployed — working in jobs that do not require a bachelor's degree. This is the highest rate since tracking began. Median student loan debt: $28,950. Average time to repayment: 20 years.
+    </div>
+
+    <div class="data-block">
+      <span class="data-label">The AI adoption curve</span>
+      McKinsey Global Survey (2024): 72% of organizations have adopted AI in at least one business function. Enterprise AI adoption grew more in 2023 alone than in the previous five years combined. Companies using AI report 20–30% reductions in headcount in automated functions.
+    </div>
+
+    <div class="data-block">
+      <span class="data-label">The skill half-life</span>
+      IBM estimates the half-life of a professional skill has dropped from 30 years (1980s) to approximately 5 years. World Economic Forum (2023): 44% of workers' core skills will be disrupted in the next five years. By 2027, employers estimate that 6 in 10 workers will require retraining.
+    </div>
+
+    <p>Now map these numbers onto the profile of the person who coasted through a four-year degree on the back of family connections, who never built a genuine skill stack, whose primary competitive advantage was <em>access to rooms</em> rather than <em>ability to produce value in them</em>.</p>
+
+    <p>What happens when AI can produce the same deliverable as a first-year analyst in twelve seconds? When a CEO can query a model instead of asking the VP's son to compile a report? When the network advantage collapses because the work that justified the hire no longer requires a human?</p>
+
+    <p>The answer is what always happens in a mass extinction: <strong>the niche closes, and everything occupying it dies with it.</strong></p>
+
+    <div class="extinction-case">
+      <h4>The Dodo (Raphus cucullatus)</h4>
+      <p>The dodo had no natural predators on Mauritius for millions of years. It lost the ability to fly. It lost fear. It walked up to Dutch sailors with something resembling curiosity. It was clubbed to death in less than a century.</p>
+      <p>The dodo's mistake was not stupidity. It was trust in an environment that had always been safe. <strong>The most dangerous belief an organism can hold is that the current environment is permanent.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== VI. THE ADAPTATION ========== -->
+<section>
+  <div class="content-wrapper fade-section">
+    <h2>
+      <span class="section-number">Part VI — The Narrow Path</span>
+      What Survivors Actually Look Like
+    </h2>
+
+    <p class="lead">Not everything dies in a mass extinction. Something always survives. And the survivors share traits that are identifiable, replicable, and — critically — available to anyone willing to endure the pain of transformation.</p>
+
+    <p>After the K-Pg asteroid wiped out 75% of all species 66 million years ago, the organisms that survived and eventually dominated were not the largest, the strongest, or the most resource-rich. They were <strong>small, metabolically flexible, nocturnal, omnivorous generalists</strong> — the early mammals. Creatures that could eat anything, live anywhere, and change behavior rapidly.</p>
+
+    <p>Translated to the current environment, the survivors of the AI shift will share these traits:</p>
+
+    <h3>1. Cognitive Generalism</h3>
+    <p>The ability to operate across domains rather than within one. To synthesize knowledge from multiple fields — technology, psychology, design, biology, economics — into novel combinations that no single specialist (and no current AI) can replicate. Da Vinci was an artist, anatomist, engineer, and military architect. He survived five centuries of relevance because his skill set had no single point of failure.</p>
+
+    <h3>2. Radical Honesty About Deficiency</h3>
+    <p>Jung's entire therapeutic framework rested on one premise: you cannot integrate what you refuse to see. Shadow work — the deliberate, painful confrontation with your own weaknesses, delusions, and inherited advantages that you mistake for earned capability — is the psychological equivalent of an organism shedding a maladaptive trait. It hurts. It's supposed to.</p>
+
+    <h3>3. Tool Fluency, Not Tool Fear</h3>
+    <p>The organisms that survived the Great Oxygenation Event 2.4 billion years ago didn't defeat oxygen. They <em>incorporated it</em>. They evolved aerobic respiration — turning the very thing that was killing anaerobic life into their primary energy source. The survivors of AI disruption will not be those who resist the technology. They will be those who metabolize it — who integrate AI into their cognitive and professional processes so deeply that the boundary between human capability and machine capability becomes a competitive advantage rather than a threat.</p>
+
+    <h3>4. Comfort With Perpetual Discomfort</h3>
+    <p>Nietzsche's concept of <em>amor fati</em> — the love of fate, including its cruelest aspects — is not masochism. It is the recognition that growth is inseparable from suffering. The organism that avoids all discomfort is the organism that never adapts. Comfort is a cage that you furnish so beautifully you forget it has bars.</p>
+
+    <div class="philosophy-quote">
+      <blockquote>"Man cannot remake himself without suffering, for he is both the marble and the sculptor."</blockquote>
+      <cite>Alexis Carrel</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CLOSING ========== -->
+<div class="closing">
+  <h2>The Environment Has<br>Already Changed.</h2>
+  <p>The question is not whether you will be affected. The asteroid has already hit. The temperature is already shifting. The megafauna are already struggling to breathe.</p>
+  <p style="margin-top: 1.5rem;">The only question left is whether you are the Irish Elk — standing in the forest with antlers too wide to move — or the small, hungry mammal in the dark, learning to eat whatever the new world offers.</p>
+  <p style="margin-top: 1.5rem; color: var(--bone);"><strong>The fossil record is patient. It has room for you either way.</strong></p>
+  <div class="final-line">Adapt or become sediment.</div>
+</div>
+
+<script>
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
